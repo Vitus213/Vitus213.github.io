@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Vitus</title>
+  <title>Vitus213 Blog</title>
   
-  
+  <subtitle>回收站</subtitle>
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
@@ -10,7 +10,7 @@
   <id>http://example.com/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>Vitus</name>
     
   </author>
   
@@ -79,9 +79,9 @@
     <category term="PASTFUTURE" scheme="http://example.com/categories/PASTFUTURE/"/>
     
     
-    <category term="矛盾" scheme="http://example.com/tags/%E7%9F%9B%E7%9B%BE/"/>
-    
     <category term="镜花水月" scheme="http://example.com/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
+    
+    <category term="矛盾" scheme="http://example.com/tags/%E7%9F%9B%E7%9B%BE/"/>
     
   </entry>
   
