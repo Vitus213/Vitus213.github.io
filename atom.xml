@@ -79,9 +79,9 @@
     <category term="PASTFUTURE" scheme="http://example.com/categories/PASTFUTURE/"/>
     
     
-    <category term="镜花水月" scheme="http://example.com/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
-    
     <category term="矛盾" scheme="http://example.com/tags/%E7%9F%9B%E7%9B%BE/"/>
+    
+    <category term="镜花水月" scheme="http://example.com/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
     
   </entry>
   
@@ -436,8 +436,8 @@
   
   <entry>
     <title>how to speak详解</title>
-    <link href="http://example.com/2024/02/01/TED/TED2_how%20to%20speak%20that%20others%20want%20to%20listen/"/>
-    <id>http://example.com/2024/02/01/TED/TED2_how%20to%20speak%20that%20others%20want%20to%20listen/</id>
+    <link href="http://example.com/2024/02/01/TED/TED2_how%20to%20speak%20that%20others%20want%20to%20listen-NSConflict-kiritoasuna-mac14.4.1/"/>
+    <id>http://example.com/2024/02/01/TED/TED2_how%20to%20speak%20that%20others%20want%20to%20listen-NSConflict-kiritoasuna-mac14.4.1/</id>
     <published>2024-02-01T12:37:00.000Z</published>
     <updated>2024-02-01T11:37:00.000Z</updated>
     
@@ -459,8 +459,8 @@
   
   <entry>
     <title>how to speak详解</title>
-    <link href="http://example.com/2024/02/01/TED/TED2_how%20to%20speak%20that%20others%20want%20to%20listen-NSConflict-kiritoasuna-mac14.4.1/"/>
-    <id>http://example.com/2024/02/01/TED/TED2_how%20to%20speak%20that%20others%20want%20to%20listen-NSConflict-kiritoasuna-mac14.4.1/</id>
+    <link href="http://example.com/2024/02/01/TED/TED2_how%20to%20speak%20that%20others%20want%20to%20listen/"/>
+    <id>http://example.com/2024/02/01/TED/TED2_how%20to%20speak%20that%20others%20want%20to%20listen/</id>
     <published>2024-02-01T12:37:00.000Z</published>
     <updated>2024-02-01T11:37:00.000Z</updated>
     
