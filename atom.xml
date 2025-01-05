@@ -6,7 +6,7 @@
   <link href="http://vitus213.github.io/atom.xml" rel="self"/>
   
   <link href="http://vitus213.github.io/"/>
-  <updated>2025-01-04T17:04:50.013Z</updated>
+  <updated>2025-01-05T18:51:28.640Z</updated>
   <id>http://vitus213.github.io/</id>
   
   <author>
@@ -17,16 +17,16 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>【镜花水月】2025规划</title>
-    <link href="http://vitus213.github.io/2025/01/04/plan/"/>
-    <id>http://vitus213.github.io/2025/01/04/plan/</id>
+    <title>2024年终总结</title>
+    <link href="http://vitus213.github.io/2025/01/04/2024/"/>
+    <id>http://vitus213.github.io/2025/01/04/2024/</id>
     <published>2025-01-03T16:00:00.000Z</published>
-    <updated>2025-01-04T17:04:50.013Z</updated>
+    <updated>2025-01-05T18:51:28.640Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h1><p>摇摇晃晃又是一年过去，每年初总会回顾这一年，回顾去年初的自己，好像年复一年的回顾，相同的叹息懊恼间歇性奋发图强已成为常态，发现自己总是活在自己的舒适圈中，无所谓外界的改变，纵使心中志向满满当当，充满了无限的憧憬和规划但好似总是停留在纸上，后悔慢慢成为了我的主旋律。一个囚笼。</p><p>年复一年，好似都会纳闷，好像这一年没有任何的改变，但肯定是有的，但感觉没有做什么值得让自己骄傲，在梦中都能笑醒的事情，大概是本我发现其实这一年都没有认真的<em>all in</em>一件事情吧，无论是学习还是<em>csapp</em>，还是<em>合约开发</em>，还是<em>acm</em>，都是在被时间消磨些许精力，怎么会打不破这般牢笼呢？或许人生本就该活在当下，认真的享受当下，我也同意，不该对过去有过多的抱怨，不该对未来有太过的期许，但这是我过去每一天的当下呀！在时间的积分下，我没有好好的对待我的生活，过去每一天我没有尽力的享受我的生活，束缚，跳脱！</p><blockquote><p>活像个孤独患者，自我拉扯</p></blockquote><p>生活要继续，既然过去以不满意，那就认真对待好当下的每一天，伤春悲秋是文人墨客的事，我等凡夫俗子过不满意的每一天都是对自我的践踏。</p><h1 id="重心"><a href="#重心" class="headerlink" title="重心"></a>重心</h1><p><strong>项目开发+国外高质量课程学习</strong></p><h2 id="项目开发"><a href="#项目开发" class="headerlink" title="项目开发"></a>项目开发</h2><p>恍然间发现，原来在github上多做贡献是会有评级的，今年的目标就浅浅在年底前达到<code>B+</code>吧，增加活跃度，即多提交代码，多做贡献，多提<code>issue</code>，一年的时间，去做不同的开源项目来谋取实习机会，刻不容缓，目前准备参与的是<code>DragonOS</code>大项目学习。</p><h2 id="国外高质量课程学习"><a href="#国外高质量课程学习" class="headerlink" title="国外高质量课程学习"></a>国外高质量课程学习</h2><p>在上次学习<code>csapp</code>后，感觉因为自己的效率低下和怠慢导致学习效果较差，还是得认真搞搞，国外的课程确实硬邦邦，目前正在参与的是<code>cmu15-213</code>,可能会参与<code>cs6.018</code>,认为自己学习太过怠慢，打apex的时间分出$\frac{1}{10}$都能学两遍<code>csapp</code>了，显得部分荒谬。更有些荒谬的是，没想到自己在<code>bilibili</code>上几乎全勤，终于知道自己的时间都去哪了，小乐。</p><h1 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h1><p>规划年年有，今年特别多，年过20，已经迈向三字头了，刚刚玩了一个小时帕鲁，愿每天都能去做前一天的规划，和大家共勉。</p><blockquote><p>心知无难事，搁置成难事。</p></blockquote>]]></content>
+    <content type="html"><![CDATA[<h1 id="试错"><a href="#试错" class="headerlink" title="试错"></a>试错</h1><p><strong>过去的一年是试错的一年，在尝试往外看，但频繁犯错，大错小错连串。</strong></p><p>好像犯错才是人生的常态。但不想这样，但试错才能摸清前进的道路。这一年的关键词就是试错。</p><h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>摇摇晃晃又是一年过去，每年初总会回顾这一年，回顾去年初的自己，好像年复一年的回顾，相同的叹息懊恼间歇性奋发图强已成为常态，发现自己总是活在自己的舒适圈中，无所谓外界的改变，纵使心中志向满满当当，充满了无限的憧憬和规划但好似总是停留在纸上，后悔慢慢成为了我的主旋律。一个囚笼。</p><p>年复一年，好似都会纳闷，好像这一年没有任何的改变，但肯定是有的，但感觉没有做什么值得让自己骄傲，在梦中都能笑醒的事情，大概是本我发现其实这一年都没有认真的<em>all in</em>一件事情吧，无论是学习还是<em>csapp</em>，还是<em>合约开发</em>，还是<em>acm</em>，都是在被时间消磨些许精力，怎么会打不破这般牢笼呢？或许人生本就该活在当下，认真的享受当下，我也同意，不该对过去有过多的抱怨，不该对未来有太过的期许，但这是我过去每一天的当下呀！在时间的积分下，我没有好好的对待我的生活，过去每一天我没有尽力的享受我的生活，束缚，跳脱！</p><h2 id="大事盘点"><a href="#大事盘点" class="headerlink" title="大事盘点"></a>大事盘点</h2><p>可能我在总结中总是对自己要求过高，自己做到的太少，所以总是充满了悲观和落寞。但这一年还是发生了不少有意思的，值得纪念的事情。</p><p>先说说一个小小的失败，在11月底的时候扛着七八百块进入合约市场，在开始的小挫折之后，做了四天的十倍合约将资产干到6700块钱，然后凭借着糟糕的仓位管理和对胜利的渴望将所有的钱都输了回去，一次极好的教训，只用800块钱就告诉我要怎样做人，让我懂得沉淀，还是多多了解市场，交了这笔学费还是吸取到了宝贵的经验，不错。再其次便是<code>ACM</code>拿了个省赛的银奖和区域赛的铜奖，虽然出力不多但至少蹭到了个奖。也仓促的完成了<code>csapp</code>的学习，产出了$8+1+1$篇博文，勉强算得上一些知识产出。</p><p>零星的看了些书，但都没看完，最近在看《当下的力量》，认为自己找到了本我，在尝试不被思维控制，对自己有了更深的体悟，更沉稳了，认为自己看书要写读书报告，《悉达多》，《吸引力法则》都要去看看!</p><p>在人际关系方面也收获了自己的爱情，并且坚信能走到最后，虽然在友情关系上因为选择不同失去了几个要好的朋友，和他们形同陌路。巨大的伤心之后也有了成长，接受一段又一段的友谊，增强自身的能量才是我要做的。不要被内耗，强大自己，去接受新的关系，培养新的技能，找到新的兴趣，自然会有新的朋友。</p><p>多尝试了新鲜东西，<code>java</code>，<code>python</code>,<code>javascript</code>,<code>ethers</code>,<code>uniswap</code>…，见识到了<code>web3</code>的广阔天地和惨烈市场，也见识到了代码里的奇思妙想，复杂框架，遗憾于没有学习<code>cs6.018</code>,几乎没学<code>cs61B</code>,<code>cmu15-445</code>，不够沉稳，缺少定力。我认为我会有所改变。</p><blockquote><p>活像个孤独患者，自我拉扯</p></blockquote><p>生活要继续，既然过去以不满意，那就认真对待好当下的每一天，伤春悲秋是文人墨客的事，我等凡夫俗子过不满意的每一天都是对自我的践踏。</p><h1 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h1><p>2025伊始，要有对自己的要求，认为这一年的我会有所改变的</p><h2 id="专业"><a href="#专业" class="headerlink" title="专业"></a>专业</h2><p><strong>项目开发+国外高质量课程学习</strong></p><h3 id="项目开发"><a href="#项目开发" class="headerlink" title="项目开发"></a>项目开发</h3><p>恍然间发现，原来在github上多做贡献是会有评级的，今年的目标就浅浅在年底前达到<code>B+</code>吧，增加活跃度，即多提交代码，多做贡献，多提<code>issue</code>，一年的时间，去做不同的开源项目来谋取实习机会，刻不容缓，目前准备参与的是<code>DragonOS</code>大项目学习。</p><h3 id="国外高质量课程学习"><a href="#国外高质量课程学习" class="headerlink" title="国外高质量课程学习"></a>国外高质量课程学习</h3><p>在上次学习<code>csapp</code>后，感觉因为自己的效率低下和怠慢导致学习效果较差，还是得认真搞搞，国外的课程确实硬邦邦，目前正在参与的是<code>cmu15-213</code>,可能会参与<code>cs6.018</code>,认为自己学习太过怠慢，打apex的时间分出$\frac{1}{10}$都能学两遍<code>csapp</code>了，显得部分荒谬。更有些荒谬的是，没想到自己在<code>bilibili</code>上几乎全勤，终于知道自己的时间都去哪了，小乐。</p><h2 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h2><p><strong>多读书，多弹吉他，多跑步，多骑车！</strong></p><p>四项事已经可以充满我的生活了，去年四项的热度都在短暂拉高然后阴跌，该有一个良好的生活习惯。<del>虽然这篇文章就是在凌晨2:33分写的</del></p><p>用书本看清自己，用音乐丰富生活，用跑步强壮自身，用骑车观察世界。</p><p>我有资格也有能力过好自己的生活，与诸君共勉。</p><h1 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h1><p>规划年年有，今年特别多，年过20，已经迈向三字头了，刚刚玩了一个小时帕鲁，愿每天都能去做前一天的规划，和大家共勉。</p><blockquote><p>心知无难事，搁置成难事。</p></blockquote>]]></content>
     
     
-    <summary type="html">做些2025的规划吧！</summary>
+    <summary type="html">2024已过，2025已来！</summary>
     
     
     
@@ -40,7 +40,7 @@
   </entry>
   
   <entry>
-    <title>【镜花水月】选择与后悔</title>
+    <title>选择与后悔</title>
     <link href="http://vitus213.github.io/2024/12/30/bad/"/>
     <id>http://vitus213.github.io/2024/12/30/bad/</id>
     <published>2024-12-29T16:00:00.000Z</published>
@@ -56,9 +56,9 @@
     <category term="PASTFUTURE" scheme="http://vitus213.github.io/categories/PASTFUTURE/"/>
     
     
-    <category term="镜花水月" scheme="http://vitus213.github.io/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
-    
     <category term="思考" scheme="http://vitus213.github.io/tags/%E6%80%9D%E8%80%83/"/>
+    
+    <category term="镜花水月" scheme="http://vitus213.github.io/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
     
     <category term="交往" scheme="http://vitus213.github.io/tags/%E4%BA%A4%E5%BE%80/"/>
     
@@ -86,7 +86,7 @@
   </entry>
   
   <entry>
-    <title>【镜花水月】事事压身_无所事事</title>
+    <title>事事压身_无所事事</title>
     <link href="http://vitus213.github.io/2024/10/02/want_do_dont_do/"/>
     <id>http://vitus213.github.io/2024/10/02/want_do_dont_do/</id>
     <published>2024-10-02T11:36:00.000Z</published>
@@ -201,7 +201,7 @@
   </entry>
   
   <entry>
-    <title>【镜花水月】人之惰性</title>
+    <title>人之惰性</title>
     <link href="http://vitus213.github.io/2024/06/19/relaxation/"/>
     <id>http://vitus213.github.io/2024/06/19/relaxation/</id>
     <published>2024-06-18T18:44:00.000Z</published>
@@ -217,9 +217,9 @@
     <category term="PASTFUTURE" scheme="http://vitus213.github.io/categories/PASTFUTURE/"/>
     
     
-    <category term="镜花水月" scheme="http://vitus213.github.io/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
-    
     <category term="思考" scheme="http://vitus213.github.io/tags/%E6%80%9D%E8%80%83/"/>
+    
+    <category term="镜花水月" scheme="http://vitus213.github.io/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
     
     <category term="自律" scheme="http://vitus213.github.io/tags/%E8%87%AA%E5%BE%8B/"/>
     
@@ -433,7 +433,7 @@
   </entry>
   
   <entry>
-    <title>【镜花水月】人际关系</title>
+    <title>人际关系</title>
     <link href="http://vitus213.github.io/2024/02/14/human/"/>
     <id>http://vitus213.github.io/2024/02/14/human/</id>
     <published>2024-02-14T11:33:00.000Z</published>
@@ -449,9 +449,9 @@
     <category term="PASTFUTURE" scheme="http://vitus213.github.io/categories/PASTFUTURE/"/>
     
     
-    <category term="镜花水月" scheme="http://vitus213.github.io/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
-    
     <category term="思考" scheme="http://vitus213.github.io/tags/%E6%80%9D%E8%80%83/"/>
+    
+    <category term="镜花水月" scheme="http://vitus213.github.io/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
     
     <category term="交往" scheme="http://vitus213.github.io/tags/%E4%BA%A4%E5%BE%80/"/>
     
