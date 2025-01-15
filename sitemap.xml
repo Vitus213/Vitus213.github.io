@@ -406,21 +406,7 @@
   </url>
   
   <url>
-    <loc>http://vitus213.github.io/tags/fluent/</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://vitus213.github.io/tags/shell/</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://vitus213.github.io/tags/gdb/</loc>
+    <loc>http://vitus213.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%8Cguitar/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -441,7 +427,7 @@
   </url>
   
   <url>
-    <loc>http://vitus213.github.io/tags/daily/</loc>
+    <loc>http://vitus213.github.io/tags/%E7%9F%9B%E7%9B%BE/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -449,13 +435,6 @@
   
   <url>
     <loc>http://vitus213.github.io/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/</loc>
-    <lastmod>2025-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://vitus213.github.io/tags/%E7%9F%9B%E7%9B%BE/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -470,6 +449,13 @@
   
   <url>
     <loc>http://vitus213.github.io/tags/%E4%BA%BA/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://vitus213.github.io/tags/daily/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -497,7 +483,7 @@
   </url>
   
   <url>
-    <loc>http://vitus213.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%8Cguitar/</loc>
+    <loc>http://vitus213.github.io/tags/TED/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -511,7 +497,21 @@
   </url>
   
   <url>
-    <loc>http://vitus213.github.io/tags/TED/</loc>
+    <loc>http://vitus213.github.io/tags/fluent/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://vitus213.github.io/tags/shell/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://vitus213.github.io/tags/gdb/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -520,14 +520,14 @@
 
   
   <url>
-    <loc>http://vitus213.github.io/categories/BLOCKCHAIN/</loc>
+    <loc>http://vitus213.github.io/categories/CS61B/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://vitus213.github.io/categories/CS61B/</loc>
+    <loc>http://vitus213.github.io/categories/BLOCKCHAIN/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -541,7 +541,7 @@
   </url>
   
   <url>
-    <loc>http://vitus213.github.io/categories/EATPOOP/</loc>
+    <loc>http://vitus213.github.io/categories/PLAY/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -555,7 +555,7 @@
   </url>
   
   <url>
-    <loc>http://vitus213.github.io/categories/PLAY/</loc>
+    <loc>http://vitus213.github.io/categories/TED/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -576,7 +576,7 @@
   </url>
   
   <url>
-    <loc>http://vitus213.github.io/categories/TED/</loc>
+    <loc>http://vitus213.github.io/categories/EATPOOP/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
