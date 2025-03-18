@@ -6,7 +6,7 @@
   <link href="http://vitus213.github.io/atom.xml" rel="self"/>
   
   <link href="http://vitus213.github.io/"/>
-  <updated>2025-01-19T13:07:00.000Z</updated>
+  <updated>2025-03-18T11:05:19.000Z</updated>
   <id>http://vitus213.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker-做实验的正确姿势</title>
+    <link href="http://vitus213.github.io/EATPOOP/Docker_Do_Lab/"/>
+    <id>http://vitus213.github.io/EATPOOP/Docker_Do_Lab/</id>
+    <published>2025-03-18T11:05:19.000Z</published>
+    <updated>2025-03-18T11:05:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>近几日在配MIT6.s081和CS15-445的环境，本来是想着所有的环境都配到实验室主机上面，然后发现这样子容易导致各种环境的混乱，突然间想到了之前就下载过别人的Docker Images来做实验，一键配置。想到了Docker可以快速的创建不同版本的Ubuntu容器，隔离不同的开发环境，还能轻松件简单的附加到VisualStudioCode上编辑，摸索了一阵子，发现还能在之后把环境直接打包发到DockerHub上给后人使用，也能训练自己对Docker命令的使用，一石N鸟，何乐而不为？</p></blockquote><h2 id="Docker安装"><a href="#Docker安装" class="headerlink" title="Docker安装"></a>Docker安装</h2><p>关于这个我在<a href="https://vitus213.github.io/EATPOOP/docker_use/">这里</a>写过一些，可以参考下，这里就不多赘述了。</p><h2 id="Docker创建"><a href="#Docker创建" class="headerlink" title="Docker创建"></a>Docker创建</h2><ul><li>拉取实验对应的系统镜像</li><li>创建容器</li><li>使用Docker attach命令附加容器</li><li>配置实验环境</li><li>映射到本地文件夹或者直接附加到VisualStudioCode上进行代码编写</li></ul><h2 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h2><p>主要是给大家提供一个做实验的新思路，过程就不多赘述了，认为配环境只是一个Lab最旁枝末节的东西，笔者曾经有段时间热衷于配置环境，现已幡然醒悟。在大家配环境配美化的时候请大家记住环境能用就行不要本末倒置！记住你打开电脑最开始是要干什么的！ </p>]]></content>
+    
+    
+    <summary type="html">最近做实验发现使用docker对每一个实验建立独立的环境特别优雅！</summary>
+    
+    
+    
+    <category term="EATPOOP" scheme="http://vitus213.github.io/categories/EATPOOP/"/>
+    
+    
+    <category term="学习笔记" scheme="http://vitus213.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>DragonOS寒训营lab1</title>
@@ -125,9 +146,9 @@
     <category term="PASTFUTURE" scheme="http://vitus213.github.io/categories/PASTFUTURE/"/>
     
     
-    <category term="矛盾" scheme="http://vitus213.github.io/tags/%E7%9F%9B%E7%9B%BE/"/>
-    
     <category term="镜花水月" scheme="http://vitus213.github.io/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
+    
+    <category term="矛盾" scheme="http://vitus213.github.io/tags/%E7%9F%9B%E7%9B%BE/"/>
     
   </entry>
   
@@ -452,31 +473,6 @@
     <category term="学习笔记" scheme="http://vitus213.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     
     <category term="VOA" scheme="http://vitus213.github.io/tags/VOA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>人际关系</title>
-    <link href="http://vitus213.github.io/PASTFUTURE/human/"/>
-    <id>http://vitus213.github.io/PASTFUTURE/human/</id>
-    <published>2024-02-14T11:33:00.000Z</published>
-    <updated>2024-02-26T11:33:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>人是社会性的动物,总需要群体的生活,自古以来都是这样,只不过是从一群大猩猩”进化”成为一群占地为王,占山为王,掠夺经济,资源,的新人类罢了,站上了食物链的顶端.对于社会的联系也在加强,联系的方式也在变化.</p></blockquote><h1 id="缘由"><a href="#缘由" class="headerlink" title="缘由"></a>缘由</h1><p>近几日过年自然走访亲戚,19,20岁的我还是何14,5岁没啥区别,认不清人,包括且不限于四五个姑姑,堂姐,表格,叔叔,伯伯,舅公.感觉他们之所以在年轻时能发展处如此紧密的关系网,主要是以地缘关系为桥梁,以血缘关系为紧密的纽带而联系起来,毕竟一个邻居家的爷爷就有三个儿子,每个儿子又有儿女开枝散叶,便形成了如此恐怖的关系网,我反正没理明白.</p><p>然后我便意识到,每个人都逃不掉走亲访友的局面<del>也可能有例外</del>,为了在几十年后我年老后或者说当我要作为主事人去发红包时,我应该要认得大家,于是我可以的留意了同辈,这是比较好接触的,至目前为止(初六),也算是结束过年,准备回广州</p><h1 id="终止-00后"><a href="#终止-00后" class="headerlink" title="终止?00后?"></a>终止?00后?</h1><p>会想,走亲访友这个习俗会不会在00后这里终结?</p><blockquote><p>个体更倾向于信任那些经常出现在自己生活中的人，常年不见的亲戚因时空疏离，又因城市化分工带来的差异，让价值观、态度立场难以重合，以至于“无法深聊”“共同话题不多”。</p><p align="right">摘自<<澎湃新闻网>></p></blockquote><p>熟悉的陌生人,地缘关系的隔离,因为父母而继承的关系私以为都会在这个网络快速发展之中被不在重视,不在特殊化,年轻一代因为网络能认识到更志同道合的朋友,但因父母而继承的关系能有共同话题的年轻一辈真是太少了,自然会以许多借口缘由而放弃社交,因为社交本身就是一件交易,付出你的价值,换取合理的利益,当交易双方不对等时,做不到一味的付出也就造成了交易的终止.</p><p>当然也不否认一种可能,就是多年后当年轻一辈变成了老一辈,可能会继承老一辈的思想,可能也会无聊,在不常生活的家乡去找寻昔日的年轻一辈主动进行社交,来抵消自己内心中的空虚和对过年走亲访友的一些道德感.</p><h1 id="传承"><a href="#传承" class="headerlink" title="传承?"></a>传承?</h1><p>以前的社会关系,社会环境恶劣,养育后代是为了家族的传承接替,需要时刻保证有壮丁能为了一整个部落抛头颅洒热血.但现在呢?似乎已经发生了根本性变化,平静的,发展的世界已经形成了太久太久,其实也没有很久,只需要两三代就可以淡掉一点战争的痛苦,抱着满怀的希望和信心开展新的生活.在平静的时代,传宗接代,血缘关系淡化,部分人开始思考多元的性,彩虹游行时长发生,可以预见,在没有外部压迫,对传承没有什么需求了,或者说哲学的进步,更多的人开始更加独立,思考的更为全面,有人是想摆烂,有人是就像<code>何以为家</code>中的那样不想让孩子生下来一起受罪.思想在当代更为跃动,颠覆了百年前,千年前的封建传统.</p><p>当然也不妨有一个猜测,个人的传承会被集体的传承所替代,有社会统一安排进行生育,以人造子宫,社会抚养中心的方式,中心化传承,不必做到像氪星人那样出生决定一切,那太逻辑了,违背了人性.如此的传承应该是会有更高的效率,更高的上限,或者说是一种容错方式</p><blockquote><p>以上内容纯属无稽之谈</p></blockquote><h3 id="Good-Luck"><a href="#Good-Luck" class="headerlink" title="Good Luck"></a>Good Luck</h3><blockquote><p>愿汝之体恒满精力，愿汝之心恒葆青春。</p></blockquote>]]></content>
-    
-    
-    <summary type="html">人生在世,人际关系是一大学问.</summary>
-    
-    
-    
-    <category term="PASTFUTURE" scheme="http://vitus213.github.io/categories/PASTFUTURE/"/>
-    
-    
-    <category term="思考" scheme="http://vitus213.github.io/tags/%E6%80%9D%E8%80%83/"/>
-    
-    <category term="镜花水月" scheme="http://vitus213.github.io/tags/%E9%95%9C%E8%8A%B1%E6%B0%B4%E6%9C%88/"/>
-    
-    <category term="交往" scheme="http://vitus213.github.io/tags/%E4%BA%A4%E5%BE%80/"/>
     
   </entry>
   
