@@ -1,0 +1,2465 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="CSAPP的lab8-proxylab, Apollo-213">
+    <meta name="description" content="
+这三章基础特别薄弱，对着答案做的lab，需要认真研究，花费更多时间思考！
+
+ProxyLab课本知识研读Chapter 10 System-Level I&amp;#x2F;O
+Unix I&amp;#x2F;O functions
+
+Standard ">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>CSAPP的lab8-proxylab | Apollo-213</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Apollo-213</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Apollo-213</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">CSAPP的lab8-proxylab</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                <span class="chip bg-color">学习笔记</span>
+                            </a>
+                        
+                            <a href="/tags/CSAPP/">
+                                <span class="chip bg-color">CSAPP</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/CS/" class="post-category">
+                                CS
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-03-10
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2024-08-19
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8.3k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    47 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p>这三章基础特别薄弱，对着答案做的lab，需要认真研究，花费更多时间思考！</p>
+</blockquote>
+<h1 id="ProxyLab"><a href="#ProxyLab" class="headerlink" title="ProxyLab"></a>ProxyLab</h1><h2 id="课本知识研读"><a href="#课本知识研读" class="headerlink" title="课本知识研读"></a>课本知识研读</h2><h3 id="Chapter-10-System-Level-I-O"><a href="#Chapter-10-System-Level-I-O" class="headerlink" title="Chapter 10 System-Level I&#x2F;O"></a>Chapter 10 System-Level I&#x2F;O</h3><ul>
+<li><p>Unix I&#x2F;O functions</p>
+</li>
+<li><p>Standard I&#x2F;O functions</p>
+</li>
+<li><p>Rio_functions</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202408191629012.png" alt="image-20240819162957109"></p>
+<p>Use the standard I&#x2F;O functions whenever possible</p>
+<p>Don’t use <code>scanf</code> or <code>rio_readlineb</code> to read binary files.— because many <code>0xa</code>bytes</p>
+<p>Use the Rio functions for I&#x2F;O on network sockets.—Application processes communicate with processes running on other computers on other computers by reading and writing socket descriptors.</p>
+<p><strong>Hints!: Use the <code>sprintf</code> function to format a string in memory and then send it to the socker using <code>rio_writen</code> .If you need formatted input ,use <code>rio_readlineb</code> to read an entire text line ,and then use <code>sscanf</code> to extract different fields from the text line.</strong></p>
+<p>Because of some incompatible restrictions on Standard I&#x2F;O and network files,Unix i&#x2F;o rather than standard I&#x2F;O should be used for network applications</p>
+<h3 id="Chapter-11-Network-Programming"><a href="#Chapter-11-Network-Programming" class="headerlink" title="Chapter 11 Network Programming"></a>Chapter 11 Network Programming</h3><p>Some Important Functions:</p>
+<blockquote>
+<p>The Client and Sever overview</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202408191737045.png" alt="image-20240819173003018"></p>
+<h4 id="Tiny-Sever测试"><a href="#Tiny-Sever测试" class="headerlink" title="Tiny Sever测试"></a>Tiny Sever测试</h4><p>我们打开Lab文件内容，cd到<code>tiny</code>文件夹，随便试一个端口，例如<code>./tiny 1435</code>,由于我是在docker中做实验，所以我直接访问<code>localhost：1435</code>就能得到如下界面</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202408191737587.png" alt="image-20240819173752780"></p>
+<p>输入以下网址能传入参数，调用<code>cgi-bin</code>中的文件<code>adder</code>执行加法并返回结果</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">http://localhost:1435/cgi-bin/adder?1243<span class="token operator">&amp;</span><span class="token number">342</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202408191741326.png" alt="image-20240819174121202"></p>
+<p>如果访问不存在的文件就会触发：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202408191743925.png" alt="image-20240819174320549"></p>
+<p>注意：在文件中储存语言txt类型文件以<code>html</code>的格式存储，故会有大量的<code>html</code>符号。</p>
+<p>然后可以用Telnet测试一下，之后再补充。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yfceshi/p/7401085.html">参考链接</a></p>
+<h4 id="Tiny源码分析"><a href="#Tiny源码分析" class="headerlink" title="Tiny源码分析"></a>Tiny源码分析</h4><p>所以我们就要分析一下在课本中最后给类tiny sever的每一个function，在这里会进行部分的注解便于我和读者理解</p>
+<p>输入:client-&gt;Sever</p>
+<p>example: </p>
+<pre class="line-numbers language-none"><code class="language-none">Host Port
+GET &#x2F;home.html HTTP&#x2F;1.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>解析请求头：</p>
+<pre class="line-numbers language-none"><code class="language-none">method： GET
+
+uri： &#x2F;home.html
+
+version: HTTP&#x2F;1.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>main程序</p>
+<p>control functions </p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int main(int argc, char **argv) 
+&#123;
+    int listenfd, connfd;
+    char hostname[MAXLINE], port[MAXLINE];
+    socklen_t clientlen;
+    struct sockaddr_storage clientaddr;
+
+    &#x2F;* Check command line args *&#x2F;
+    if (argc !&#x3D; 2) &#123;
+	fprintf(stderr, &quot;usage: %s &lt;port&gt;\n&quot;, argv[0]);
+	exit(1);
+    &#125;
+    listenfd &#x3D; Open_listenfd(argv[1]);
+    while (1) &#123;
+	clientlen &#x3D; sizeof(clientaddr);
+	connfd &#x3D; Accept(listenfd, (SA *)&amp;clientaddr, &amp;clientlen); &#x2F;&#x2F;line:netp:tiny:accept
+        Getnameinfo((SA *) &amp;clientaddr, clientlen, hostname, MAXLINE, 
+                    port, MAXLINE, 0);
+        printf(&quot;Accepted connection from (%s, %s)\n&quot;, hostname, port);
+	doit(connfd);                                             &#x2F;&#x2F;line:netp:tiny:doit
+	Close(connfd);                                            &#x2F;&#x2F;line:netp:tiny:close
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>doit </p>
+<p>handle one HTTP request&#x2F;response transaction</p>
+<p>连接成功后处理请求头，将请求分为method，uri，version,通过string函数寻找裁切存储。</p>
+<p>同时通过是否有<code>cgi-bin</code>这个参数来判断其是否是动态的。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;*
+ * doit - handle one HTTP request&#x2F;response transaction
+ *&#x2F;
+&#x2F;* $begin doit *&#x2F;
+void doit(int fd) 
+&#123;
+    int is_static;
+    struct stat sbuf;
+    char buf[MAXLINE], method[MAXLINE], uri[MAXLINE], version[MAXLINE];
+    char filename[MAXLINE], cgiargs[MAXLINE];
+    rio_t rio;
+
+    &#x2F;* Read request line and headers *&#x2F;
+    Rio_readinitb(&amp;rio, fd);
+    if (!Rio_readlineb(&amp;rio, buf, MAXLINE))  &#x2F;&#x2F;line:netp:doit:readrequest
+        return;
+    printf(&quot;%s&quot;, buf);
+    sscanf(buf, &quot;%s %s %s&quot;, method, uri, version);       &#x2F;&#x2F;line:netp:doit:parserequest
+    if (strcasecmp(method, &quot;GET&quot;)) &#123;                     &#x2F;&#x2F;line:netp:doit:beginrequesterr
+        clienterror(fd, method, &quot;501&quot;, &quot;Not Implemented&quot;,
+                    &quot;Tiny does not implement this method&quot;);
+        return;
+    &#125;                                                    &#x2F;&#x2F;line:netp:doit:endrequesterr
+    read_requesthdrs(&amp;rio);                              &#x2F;&#x2F;line:netp:doit:readrequesthdrs
+
+    &#x2F;* Parse URI from GET request *&#x2F;
+    is_static &#x3D; parse_uri(uri, filename, cgiargs);       &#x2F;&#x2F;line:netp:doit:staticcheck
+    if (stat(filename, &amp;sbuf) &lt; 0) &#123;                     &#x2F;&#x2F;line:netp:doit:beginnotfound
+	clienterror(fd, filename, &quot;404&quot;, &quot;Not found&quot;,
+		    &quot;Tiny couldn&#39;t find this file&quot;);
+	return;
+    &#125;                                                    &#x2F;&#x2F;line:netp:doit:endnotfound
+
+    if (is_static) &#123; &#x2F;* Serve static content *&#x2F;          
+	if (!(S_ISREG(sbuf.st_mode)) || !(S_IRUSR &amp; sbuf.st_mode)) &#123; &#x2F;&#x2F;line:netp:doit:readable
+	    clienterror(fd, filename, &quot;403&quot;, &quot;Forbidden&quot;,
+			&quot;Tiny couldn&#39;t read the file&quot;);
+	    return;
+	&#125;
+	serve_static(fd, filename, sbuf.st_size);        &#x2F;&#x2F;line:netp:doit:servestatic
+    &#125;
+    else &#123; &#x2F;* Serve dynamic content *&#x2F;
+	if (!(S_ISREG(sbuf.st_mode)) || !(S_IXUSR &amp; sbuf.st_mode)) &#123; &#x2F;&#x2F;line:netp:doit:executable
+	    clienterror(fd, filename, &quot;403&quot;, &quot;Forbidden&quot;,
+			&quot;Tiny couldn&#39;t run the CGI program&quot;);
+	    return;
+	&#125;
+	serve_dynamic(fd, filename, cgiargs);            &#x2F;&#x2F;line:netp:doit:servedynamic
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>read_requesthdrs：</p>
+<p>read HTTP request headers</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void read_requesthdrs(rio_t *rp) 
+&#123;
+    char buf[MAXLINE];
+
+    Rio_readlineb(rp, buf, MAXLINE);
+    printf(&quot;%s&quot;, buf);
+    while(strcmp(buf, &quot;\r\n&quot;)) &#123;          &#x2F;&#x2F;line:netp:readhdrs:checkterm
+	Rio_readlineb(rp, buf, MAXLINE);
+	printf(&quot;%s&quot;, buf);
+    &#125;
+    return;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>parse_uri</p>
+<p>分割uri到filename 和cgi信息即：cgi信息指的是?后面的参数例如前面举得adder函数的例子，<code>?</code>后面的两个参数，中间有<code>&amp;</code>号,filename指<code>./home.html</code></p>
+<p>parse URI into filename and CGI args return 0 if dynamic content, 1 if static</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">
+int parse_uri(char *uri, char *filename, char *cgiargs) 
+&#123;
+    char *ptr;
+    if (!strstr(uri, &quot;cgi-bin&quot;)) &#123;  &#x2F;* Static content *&#x2F; &#x2F;&#x2F;line:netp:parseuri:isstatic
+	strcpy(cgiargs, &quot;&quot;);                             &#x2F;&#x2F;line:netp:parseuri:clearcgi
+	strcpy(filename, &quot;.&quot;);                           &#x2F;&#x2F;line:netp:parseuri:beginconvert1
+	strcat(filename, uri);                           &#x2F;&#x2F;line:netp:parseuri:endconvert1
+	if (uri[strlen(uri)-1] &#x3D;&#x3D; &#39;&#x2F;&#39;)                   &#x2F;&#x2F;line:netp:parseuri:slashcheck
+	    strcat(filename, &quot;home.html&quot;);               &#x2F;&#x2F;line:netp:parseuri:appenddefault
+	return 1;
+    &#125;
+    else &#123;  &#x2F;* Dynamic content *&#x2F;                        &#x2F;&#x2F;line:netp:parseuri:isdynamic
+	ptr &#x3D; index(uri, &#39;?&#39;);                           &#x2F;&#x2F;line:netp:parseuri:beginextract
+	if (ptr) &#123;
+	    strcpy(cgiargs, ptr+1);
+	    *ptr &#x3D; &#39;\0&#39;;
+	&#125;
+	else 
+	    strcpy(cgiargs, &quot;&quot;);                         &#x2F;&#x2F;line:netp:parseuri:endextract
+	strcpy(filename, &quot;.&quot;);                           &#x2F;&#x2F;line:netp:parseuri:beginconvert2
+	strcat(filename, uri);                           &#x2F;&#x2F;line:netp:parseuri:endconvert2
+	return 0;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>serve_static</p>
+<p>静态内容直接访问输出即可</p>
+<p>copy a file back to the client </p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void serve_static(int fd, char *filename, int filesize)
+&#123;
+    int srcfd;
+    char *srcp, filetype[MAXLINE], buf[MAXBUF];
+
+    &#x2F;* Send response headers to client *&#x2F;
+    get_filetype(filename, filetype);    &#x2F;&#x2F;line:netp:servestatic:getfiletype
+    sprintf(buf, &quot;HTTP&#x2F;1.0 200 OK\r\n&quot;); &#x2F;&#x2F;line:netp:servestatic:beginserve
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;Server: Tiny Web Server\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;Content-length: %d\r\n&quot;, filesize);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;Content-type: %s\r\n\r\n&quot;, filetype);
+    Rio_writen(fd, buf, strlen(buf));    &#x2F;&#x2F;line:netp:servestatic:endserve
+
+    &#x2F;* Send response body to client *&#x2F;
+    srcfd &#x3D; Open(filename, O_RDONLY, 0); &#x2F;&#x2F;line:netp:servestatic:open
+    srcp &#x3D; Mmap(0, filesize, PROT_READ, MAP_PRIVATE, srcfd, 0); &#x2F;&#x2F;line:netp:servestatic:mmap
+    Close(srcfd);                       &#x2F;&#x2F;line:netp:servestatic:close
+    Rio_writen(fd, srcp, filesize);     &#x2F;&#x2F;line:netp:servestatic:write
+    Munmap(srcp, filesize);             &#x2F;&#x2F;line:netp:servestatic:munmap
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>get_filetype</p>
+<p>确定文件内容，函数再chapter 10中有出现</p>
+<p>derive file type from file name</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void get_filetype(char *filename, char *filetype) 
+&#123;
+    if (strstr(filename, &quot;.html&quot;))
+	strcpy(filetype, &quot;text&#x2F;html&quot;);
+    else if (strstr(filename, &quot;.gif&quot;))
+	strcpy(filetype, &quot;image&#x2F;gif&quot;);
+    else if (strstr(filename, &quot;.png&quot;))
+	strcpy(filetype, &quot;image&#x2F;png&quot;);
+    else if (strstr(filename, &quot;.jpg&quot;))
+	strcpy(filetype, &quot;image&#x2F;jpeg&quot;);
+    else
+	strcpy(filetype, &quot;text&#x2F;plain&quot;);
+&#125;  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>serve_dynamic</p>
+<p>run a CGI program on behalf of the client</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void serve_dynamic(int fd, char *filename, char *cgiargs) 
+&#123;
+    char buf[MAXLINE], *emptylist[] &#x3D; &#123; NULL &#125;;
+
+    &#x2F;* Return first part of HTTP response *&#x2F;
+    sprintf(buf, &quot;HTTP&#x2F;1.0 200 OK\r\n&quot;); 
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;Server: Tiny Web Server\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+  
+    if (Fork() &#x3D;&#x3D; 0) &#123; &#x2F;* Child *&#x2F; &#x2F;&#x2F;line:netp:servedynamic:fork
+	&#x2F;* Real server would set all CGI vars here *&#x2F;
+	setenv(&quot;QUERY_STRING&quot;, cgiargs, 1); &#x2F;&#x2F;line:netp:servedynamic:setenv
+	Dup2(fd, STDOUT_FILENO);         &#x2F;* Redirect stdout to client *&#x2F; &#x2F;&#x2F;line:netp:servedynamic:dup2
+	Execve(filename, emptylist, environ); &#x2F;* Run CGI program *&#x2F; &#x2F;&#x2F;line:netp:servedynamic:execve
+    &#125;
+    Wait(NULL); &#x2F;* Parent waits for and reaps child *&#x2F; &#x2F;&#x2F;line:netp:servedynamic:wait
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>clienterror</p>
+<p>报错信息，负责输出html报错语言，输出记得要用Rio_Writen函数</p>
+<p>returns an error message to the client</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void clienterror(int fd, char *cause, char *errnum, 
+		 char *shortmsg, char *longmsg) 
+&#123;
+    char buf[MAXLINE];
+
+    &#x2F;* Print the HTTP response headers *&#x2F;
+    sprintf(buf, &quot;HTTP&#x2F;1.0 %s %s\r\n&quot;, errnum, shortmsg);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;Content-type: text&#x2F;html\r\n\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+
+    &#x2F;* Print the HTTP response body *&#x2F;
+    sprintf(buf, &quot;&lt;html&gt;&lt;title&gt;Tiny Error&lt;&#x2F;title&gt;&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;&lt;body bgcolor&#x3D;&quot;&quot;ffffff&quot;&quot;&gt;\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;%s: %s\r\n&quot;, errnum, shortmsg);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;&lt;p&gt;%s: %s\r\n&quot;, longmsg, cause);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;&lt;hr&gt;&lt;em&gt;The Tiny Web server&lt;&#x2F;em&gt;\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="Chapter-12-Concurrent-Programming"><a href="#Chapter-12-Concurrent-Programming" class="headerlink" title="Chapter 12 Concurrent Programming"></a>Chapter 12 Concurrent Programming</h3><p>了解下锁和多线程，读者所，写者锁的内容即可。我还没读，只有浅显的了解。</p>
+<h2 id="Lab"><a href="#Lab" class="headerlink" title="Lab"></a>Lab</h2><h3 id="环境调试"><a href="#环境调试" class="headerlink" title="环境调试"></a>环境调试</h3><ol>
+<li>Docker 中容器开启多个终端会话</li>
+</ol>
+<p>[参考链接](<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/ask/sof/114053010">Docker :如何为一个正在运行的容器启动多个控制台&#x2F;终端？-腾讯云开发者社区-腾讯云 (tencent.com)</a>)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> <span class="token function">ps</span> <span class="token parameter variable">-a</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> <span class="token parameter variable">-it</span> ID <span class="token function">bash</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ol start="2">
+<li>Debug 工具</li>
+</ol>
+<p>curl</p>
+<p>ubuntu中需要提前安装： <code>sudo apt install curl</code></p>
+<blockquote>
+<p>You can use curl to generate HTTP requests to any server, including your own proxy. It is an extremely useful debugging tool. For example, if your proxy and Tiny are both running on the local machine, Tiny is listening on port 15213, and proxy is listening on port 15214, then you can request a page from Tiny via your proxy using the following curl command: linux&gt; curl-v–proxy <a target="_blank" rel="noopener" href="http://localhost:15214/">http://localhost:15214</a> <a target="_blank" rel="noopener" href="http://localhost:15213/home.html">http://localhost:15213/home.html</a></p>
+</blockquote>
+<p>Telnet:用法：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">Telnet localhost port
+GET /home.html HTTP <span class="token number">1.0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="目标总览"><a href="#目标总览" class="headerlink" title="目标总览"></a>目标总览</h3><blockquote>
+<p>In this lab, you will write a simple HTTP proxy that caches web objects. For the first part of the lab, you will set up the proxy to accept incoming connections, read and parse requests, forward requests to web servers, read the servers’ responses, and forward those responses to the corresponding clients. This first part will involve learning about basic HTTP operation and how to use sockets to write programs that communicate over network connections. In the second part, you will upgrade your proxy to deal with multiple concurrent connections. This will introduce you to dealing with concurrency, a crucial systems concept. In the third and last part, you will add caching to your proxy using a simple main memory cache of recently accessed web content.、</p>
+</blockquote>
+<p>这次要做的就是接受client的请求并分析转发后给sever，再把得到的数据转发个client。</p>
+<h3 id="Part1"><a href="#Part1" class="headerlink" title="Part1"></a>Part1</h3><p><strong>Implementing a sequential web proxy</strong></p>
+<p>这是在脚本中分别调用PROXY和TINY的命令。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202408191819502.png" alt="image-20240819181935660"></p>
+<p>实现顺序web代理</p>
+<p>1、在main()里面创建一个监听描述符listenfd，然后在while的循环体里不断尝试与客户端进行连接connfd&#x3D;Accept(listenfd)。连接成功后将connfd传入请求处理函数handleRequest()中。</p>
+<p>2、进入handRequest()后，分别创建好两个I&#x2F;O缓冲区rio_Proxy2Client和rio_Proxy2Server，Proxy可以利用这两个不同的缓冲区分别和Client与Server进行读写操作。</p>
+<p>3、利用rio_Proxy2Client读入http-request，并把这个请求分割成writeup要求的几部分，即method、uri、version；其中url又可以分割为hostName、port和fielName。</p>
+<p>4、处理完request的第一行后，开始处理后序的四个request header，少哪个header就自己补上哪个header。</p>
+<pre class="line-numbers language-none"><code class="language-none">Client-&gt; Proxy 	
+GET http:&#x2F;&#x2F;www.cmu.edu:8080&#x2F;hub&#x2F;index.html HTTP&#x2F;1.1
+
+Proxy Prase:
+GET &#x2F;hub&#x2F;index.html HTTP1.1
+Host: www.cmu.edu
+port: 8080
+
+User-Agent: Mozilla&#x2F;5.0 (X11; Linux x86_64; rv:10.0.3) Gecko&#x2F;20120305 Firefox&#x2F;10.0.3
+
+Connection: close
+
+Proxy-Connection: close
+
+Proxy-&gt;Tiny Sever
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>5、Proxy利用刚才得到的hostName和port，调用clientfd&#x3D;Open_clientfd()冒充一个Client与Server建立连接。</p>
+<p>6、Proxy利用clientfd和rio_Proxy2Server，先把从Client处得到的http-request发送给Server，然后不断读入Server回复的response。Proxy在读入response的同时，又利用connfd把它们发送给Client。</p>
+<p>7、还得加上一个如果method不是“GET”的错误处理函数，直接照着书上的敲一遍或者把tiny.c的那个clientError()复制过来就行。</p>
+<p><strong>Hints</strong></p>
+<blockquote>
+<p>• As discussed in Section 10.11 of your textbook, using standard I&#x2F;O functions for socket input and output is a problem. Instead, we recommend that you use the Robust I&#x2F;O (RIO) package, which is provided in the csapp.c file in the handout directory.<br>• The error-handling functions provide in csapp.c are not appropriate for your proxy because once a server begins accepting connections, it is not supposed to terminate. You’ll need to modify them or write your own.<br>• You are free to modify the files in the handout directory any way you like. For example, for the sake of good modularity, you might implement your cache functions as a library in files called cache.c and cache.h. Of course, adding new files will require you to update the provided Makefile.</p>
+<p>• As discussed in the Aside on page 964 of the CS:APP3e text, your proxy must ignore SIGPIPE signals and should deal gracefully with write operations that return EPIPE errors.<br>• Sometimes, calling read to receive bytes from a socket that has been prematurely closed will cause read to return -1 with errno set to ECONNRESET. Your proxy should not terminate due to this error either.<br>• Remember that not all content on the web is ASCII text. Much of the content on the web is binary data, such as images and video. Ensure that you account for binary data when selecting and using functions for network I&#x2F;O.<br>• Forward all requests as HTTP&#x2F;1.0 even if the original request was HTTP&#x2F;1.1.<br>Good luck!</p>
+</blockquote>
+<p>只用搞定HTTP&#x2F;1.0 GET请求</p>
+<p>将HTTP&#x2F;1.1的version信息换成HTTP&#x2F;1.0</p>
+<blockquote>
+<p>Note that all lines in an HTTP request end with a carriage return, ‘\r’, followed by a newline, ‘\n’. Also<br>important is that every HTTP request is terminated by an empty line: “\r\n”.</p>
+</blockquote>
+<h4 id="1-main"><a href="#1-main" class="headerlink" title="1. main"></a>1. <code>main</code></h4><p><strong>Purpose</strong>: The entry point of the program. It initializes the server, listens for incoming connections, and handles each request.</p>
+<p><strong>Implementation</strong>:</p>
+<ul>
+<li><p><strong>Command-Line Argument Check</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span><span class="token punctuation">(</span>argc <span class="token operator">!=</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"usage: %s &lt;port>\n"</span><span class="token punctuation">,</span> argv<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Ensures the user has provided exactly one argument (the port number). If not, it prints a usage message and exits the program.</p>
+</li>
+<li><p><strong>Open Listening Socket</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">listenfd <span class="token operator">=</span> <span class="token function">Open_listenfd</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Initializes a listening socket on the specified port.</p>
+</li>
+<li><p><strong>Main Loop</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    clientlen <span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>clientaddr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    connfd <span class="token operator">=</span> <span class="token function">Accept</span><span class="token punctuation">(</span>listenfd<span class="token punctuation">,</span> <span class="token punctuation">(</span>SA <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>clientaddr<span class="token punctuation">,</span> <span class="token operator">&amp;</span>clientlen<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Getnameinfo</span><span class="token punctuation">(</span><span class="token punctuation">(</span>SA <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>clientaddr<span class="token punctuation">,</span> clientlen<span class="token punctuation">,</span> hostname<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">,</span> port<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Accepted connection from (%s, %s)\n"</span><span class="token punctuation">,</span> hostname<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">handleRequest</span><span class="token punctuation">(</span>connfd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Close</span><span class="token punctuation">(</span>connfd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Continuously accepts connections from clients. For each accepted connection, it prints the client’s address, calls <code>handleRequest</code> to process the request, and then closes the connection.</p>
+</li>
+</ul>
+<h4 id="2-handleRequest"><a href="#2-handleRequest" class="headerlink" title="2. handleRequest"></a>2. <code>handleRequest</code></h4><p><strong>Purpose</strong>: Handles HTTP requests from clients, forwards them to the target server, and sends the response back to the client.</p>
+<p><strong>Implementation</strong>:</p>
+<ul>
+<li><p><strong>Initialize I&#x2F;O</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">Rio_readinitb</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rio<span class="token punctuation">,</span> fd<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Initializes the <code>rio</code> structure for reading from the client connection.</p>
+</li>
+<li><p><strong>Read Request Line</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">Rio_readlineb</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rio<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"empty request\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Reads the request line from the client into the <code>buf</code> buffer. If the request is empty, it prints a message and returns.</p>
+</li>
+<li><p><strong>Replace HTTP Version</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">replaceHTTPVersion</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>the function</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> <span class="token operator">*</span>pos <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>pos <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"HTTP/1.1"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    buf<span class="token punctuation">[</span>pos <span class="token operator">-</span> buf <span class="token operator">+</span> <span class="token function">strlen</span><span class="token punctuation">(</span><span class="token string">"HTTP/1.1"</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token char">'0'</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Converts the HTTP version from 1.1 to 1.0.</p>
+</li>
+<li><p><strong>Parse Request Line</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">parseLine</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> host<span class="token punctuation">,</span> port<span class="token punctuation">,</span> method<span class="token punctuation">,</span> uri<span class="token punctuation">,</span> version<span class="token punctuation">,</span> filename<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Parses the request line to extract HTTP method, URI, version, host, port, and filename.</p>
+</li>
+<li><p><strong>Check Method</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">strcasecmp</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> <span class="token string">"GET"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">clientError</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> method<span class="token punctuation">,</span> <span class="token string">"501"</span><span class="token punctuation">,</span> <span class="token string">"Not Implemented"</span><span class="token punctuation">,</span> <span class="token string">"Tiny does not implement this method"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Checks if the HTTP method is GET. If not, it sends a 501 Not Implemented error response and returns.</p>
+</li>
+<li><p><strong>Build and Send Request</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> rv <span class="token operator">=</span> <span class="token function">MakeClientRequest</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rio<span class="token punctuation">,</span> clientRequest<span class="token punctuation">,</span> host<span class="token punctuation">,</span> port<span class="token punctuation">,</span> method<span class="token punctuation">,</span> uri<span class="token punctuation">,</span> version<span class="token punctuation">,</span> filename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>rv <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>Calls <code>MakeClientRequest</code> to format the request for the target server. If formatting fails, it returns.</p>
+</li>
+<li><p><strong>Handle Server Response</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">int</span> clientfd <span class="token operator">=</span> <span class="token function">Open_clientfd</span><span class="token punctuation">(</span>hostName<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Rio_readinitb</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>riotiny<span class="token punctuation">,</span> clientfd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Rio_writen</span><span class="token punctuation">(</span>riotiny<span class="token punctuation">.</span>rio_fd<span class="token punctuation">,</span> clientRequest<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">char</span> tinyResponse<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> n<span class="token punctuation">;</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>n <span class="token operator">=</span> <span class="token function">Rio_readnb</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>riotiny<span class="token punctuation">,</span> tinyResponse<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> tinyResponse<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Opens a connection to the target server, sends the formatted request, and then reads the response from the server and writes it back to the client.</p>
+</li>
+</ul>
+<h4 id="3-MakeClientRequest"><a href="#3-MakeClientRequest" class="headerlink" title="3. MakeClientRequest"></a>3. <code>MakeClientRequest</code></h4><p><strong>Purpose</strong>: Constructs the HTTP request to be sent to the target server based on the client’s request.</p>
+<p><strong>Implementation</strong>:</p>
+<ul>
+<li><p><strong>Initialize Request</strong>:</p>
+</li>
+<li><p>注意换行符是<code>\r\n</code></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">sprintf</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> <span class="token string">"GET %s HTTP/1.0\r\n"</span><span class="token punctuation">,</span> fileName<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Initializes the request with the method (GET), the file name, and HTTP version 1.0.</p>
+</li>
+<li><p><strong>Read and Process Headers</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">n <span class="token operator">=</span> <span class="token function">Rio_readlineb</span><span class="token punctuation">(</span>rio<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">strcmp</span><span class="token punctuation">(</span><span class="token string">"\r\n"</span><span class="token punctuation">,</span> buf<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> n <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>findp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"User-Agent:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> UserAgent <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>findp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Proxy-Connection:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> ProxyConnection <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>findp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Connection:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> Connection <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>findp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Host:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> HostInfo <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    
+    n <span class="token operator">=</span> <span class="token function">Rio_readlineb</span><span class="token punctuation">(</span>rio<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Reads headers from the client request and appends them to <code>clientRequest</code>. It also checks for specific headers like <code>User-Agent</code>, <code>Proxy-Connection</code>, <code>Connection</code>, and <code>Host</code>.</p>
+</li>
+<li><p><strong>Add Missing Headers</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">if</span> <span class="token punctuation">(</span>HostInfo <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Host: %s\r\n"</span><span class="token punctuation">,</span> Host<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>UserAgent <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> user_agent_hdr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>Connection <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Connection: close\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>ProxyConnection <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Proxy-Connection: close\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Adds missing headers like <code>Host</code>, <code>User-Agent</code>, <code>Connection</code>, and <code>Proxy-Connection</code> if they were not provided by the client.</p>
+</li>
+<li><p><strong>Terminate Request</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> <span class="token string">"\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Adds a terminator for the HTTP request to indicate the end of the request headers.</p>
+</li>
+</ul>
+<h4 id="4-replaceHTTPVersion"><a href="#4-replaceHTTPVersion" class="headerlink" title="4. replaceHTTPVersion"></a>4. <code>replaceHTTPVersion</code></h4><p><strong>Purpose</strong>: Replaces HTTP version 1.1 with 1.0 in the request line.</p>
+<p><strong>Implementation</strong>:</p>
+<ul>
+<li><strong>Find and Replace</strong>:<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> <span class="token operator">*</span>pos <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>pos <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"HTTP/1.1"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    buf<span class="token punctuation">[</span>pos <span class="token operator">-</span> buf <span class="token operator">+</span> <span class="token function">strlen</span><span class="token punctuation">(</span><span class="token string">"HTTP/1.1"</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token char">'0'</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+Searches for “HTTP&#x2F;1.1” in the buffer and replaces it with “HTTP&#x2F;1.0”.</li>
+</ul>
+<h4 id="5-parseLine"><a href="#5-parseLine" class="headerlink" title="5. parseLine"></a>5. <code>parseLine</code></h4><p><strong>Purpose</strong>: Parses the request line to extract method, URI, version, host, port, and filename.</p>
+<p><strong>Implementation</strong>:</p>
+<ul>
+<li><p><strong>Parse Request Line</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">sscanf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"%s %s %s"</span><span class="token punctuation">,</span> method<span class="token punctuation">,</span> uri<span class="token punctuation">,</span> version<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>Uses <code>sscanf</code> to extract the HTTP method, URI, and version from the request line.</p>
+</li>
+<li><p><strong>Extract Host, Port, and Filename</strong>:</p>
+</li>
+<li><p><code>WEB_PREFIX=&quot;http://&quot;</code></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> <span class="token operator">*</span>hostp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>uri<span class="token punctuation">,</span> WEB_PREFIX<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">strlen</span><span class="token punctuation">(</span>WEB_PREFIX<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">char</span> <span class="token operator">*</span>slash <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>hostp<span class="token punctuation">,</span> <span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">char</span> <span class="token operator">*</span>colon <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>hostp<span class="token punctuation">,</span> <span class="token string">":"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">strncpy</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> hostp<span class="token punctuation">,</span> slash <span class="token operator">-</span> hostp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">strncpy</span><span class="token punctuation">(</span>port<span class="token punctuation">,</span> colon <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> slash <span class="token operator">-</span> colon <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">strcpy</span><span class="token punctuation">(</span>filename<span class="token punctuation">,</span> slash<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Extracts the host, port, and file path from the URI. </p>
+<p>the host include the port</p>
+</li>
+</ul>
+<h4 id="6-clientError"><a href="#6-clientError" class="headerlink" title="6. clientError"></a>6. <code>clientError</code></h4><p><strong>Purpose</strong>: Generates and sends an HTTP error response to the client.</p>
+<p><strong>Implementation</strong>:</p>
+<ul>
+<li><p><strong>Build and Send Response Headers</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"HTTP/1.0 %s %s\r\n"</span><span class="token punctuation">,</span> errnum<span class="token punctuation">,</span> shortmsg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Content-type: text/html\r\n\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Creates the HTTP status line and content type header, then sends them to the client.</p>
+</li>
+<li><p><strong>Build and Send Response Body</strong>:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"&lt;html>&lt;title>Tiny Error&lt;/title>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"&lt;body bgcolor=\"ffffff\">\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"%s: %s\r\n"</span><span class="token punctuation">,</span> errnum<span class="token punctuation">,</span> shortmsg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"&lt;p>%s: %s\r\n"</span><span class="token punctuation">,</span> longmsg<span class="token punctuation">,</span> cause<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"&lt;hr>&lt;em>The Tiny Web server&lt;/em>\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Creates and sends the HTML content of the error page, including the error number, short message, and detailed message.</p>
+</li>
+</ul>
+<h4 id="完整代码："><a href="#完整代码：" class="headerlink" title="完整代码："></a>完整代码：</h4><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &quot;csapp.h&quot;
+&#x2F;* Recommended max cache and object sizes *&#x2F;
+#define MAX_CACHE_SIZE 1049000
+#define MAX_OBJECT_SIZE 102400
+#define WEB_PREFIX &quot;http:&#x2F;&#x2F;&quot;
+&#x2F;* You won&#39;t lose style points for including this long line in your code *&#x2F;
+static const char *user_agent_hdr &#x3D; &quot;User-Agent: Mozilla&#x2F;5.0 (X11; Linux x86_64; rv:10.0.3) Gecko&#x2F;20120305 Firefox&#x2F;10.0.3\r\n&quot;;
+void handleRequest(int);
+void clientError(int , char* , char* , char* , char* );
+int MakeClientRequest(rio_t* , char* , char*, char* , char* , char* , char*, char*);
+int checkGetMethod(char* , char* , char* );
+void replaceHTTPVersion(char* );
+void parseLine(char* , char*, char* , char* , char* , char*, char*);
+int main(int argc,char **argv)
+&#123;
+    int listenfd,connfd;
+    char hostname[MAXLINE],port[MAXLINE];
+    socklen_t clientlen;
+    struct sockaddr_storage clientaddr;
+    &#x2F;&#x2F;判断是否是两个命令
+    if(argc!&#x3D;2)&#123;
+        fprintf(stderr,&quot;usage: Fuck ,can you input only two string ?\nsuch as%s &lt;port&gt;\n&quot;, argv[0]);
+       &#x2F;&#x2F; printf(&quot;Fuck ,input right message \n&quot;);
+        exit(1);
+    &#125;
+
+    listenfd &#x3D;Open_listenfd(argv[1]);   &#x2F;&#x2F;listen a port
+    while(1)&#123;
+        clientlen &#x3D;sizeof (clientaddr);
+        connfd &#x3D; Accept(listenfd ,(SA *)&amp;clientaddr, &amp;clientlen);
+        Getnameinfo((SA *)&amp;clientaddr ,clientlen,hostname ,MAXLINE,port,MAXLINE,0);
+        printf(&quot;Accepted connection from (%s , %s)\n&quot;, hostname ,port);&#x2F;&#x2F; accept了
+
+        &#x2F;&#x2F;Connection Succeed
+        handlerequest(connfd);
+        Close(connfd);
+    &#125;
+    return 0;
+&#125;
+void handlerequest(int fd)&#123;
+    int is_static;
+    struct stat sbuf;
+    char buf[MAXLINE],method[MAXLINE],uri[MAXLINE],version[MAXLINE];&#x2F;&#x2F; buf 
+    char filename[MAXLINE];
+    &#x2F;&#x2F;request header
+    char host[MAXLINE],port[MAXLINE];
+    char clientRequest[MAXLINE];
+    &#x2F;&#x2F; IO for proxy--client ,proxy--server
+    rio_t rio,riotiny;
+    &#x2F;&#x2F; Read request line and headers
+
+    &#x2F;&#x2F; step1: read request from client
+    Rio_readinitb(&amp;rio,fd);
+
+    if(!Rio_readlineb(&amp;rio ,buf, MAXLINE))&#x2F;&#x2F;把输入的命令给到buf缓冲区
+    &#123;
+        printf(&quot;empty request \n&quot;);
+        return ;&#x2F;&#x2F; empty-&gt; close
+    &#125;
+    &#x2F;&#x2F; # HTTP&#x2F;1.1 --&gt; HTTp&#x2F;1.0
+    replaceHTTPVersion(buf);
+   parseLine(buf,host,port,method,uri,version,filename);
+    if(strcasecmp(method, &quot;GET&quot;))&#123;
+        clienterror(fd, method, &quot;501&quot;, &quot;Not Implemented&quot;,
+                    &quot;Tiny does not implement this method&quot;);
+        return ;
+    &#125;
+    &#x2F;&#x2F; parse uri from GET request 
+
+    int rv&#x3D;MakeClientRequest(&amp;rio, clientRequest,host,port,method,uri,version,filename);
+    if(rv&#x3D;&#x3D;0)return ;
+
+    printf(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; we have formatted the reqeust into ---------\n&quot;);
+    printf(&quot;%s&quot;,clientRequest);
+
+    char hostName[100];
+    char* colon &#x3D; strstr(host, &quot;:&quot;);
+    strncpy(hostName, host, colon - host);
+    printf(&quot;host is %s\n&quot;, hostName);
+    printf(&quot;port is %s\n&quot;, port);
+    &#x2F;&#x2F;模拟一个clientfd
+    int clientfd &#x3D; Open_clientfd(hostName, port);
+
+    Rio_readinitb(&amp;riotiny, clientfd);
+    Rio_writen(riotiny.rio_fd, clientRequest, strlen(clientRequest));
+
+    &#x2F;** step4: read the response from tiny and send it to the client *&#x2F;
+    printf(&quot;---prepare to get the response---- \n&quot;);
+    char tinyResponse[MAXLINE];
+
+    int n;
+    
+    while( (n &#x3D; Rio_readnb(&amp;riotiny, tinyResponse, MAXLINE)) !&#x3D; 0)&#123;
+        Rio_writen(fd, tinyResponse, n);
+    &#125;
+    
+&#125;
+int MakeClientRequest(rio_t* rio, char* clientRequest, char* Host, char* port,
+                        char* method, char* uri, char* version, char* fileName)&#123;
+    int UserAgent &#x3D; 0, Connection &#x3D; 0, ProxyConnection &#x3D; 0, HostInfo &#x3D; 0;
+    char buf[MAXLINE &#x2F; 2];
+    int n;
+
+    &#x2F;* 1. add GET HOSTNAME HTTP&#x2F;1.0 to header &amp;&amp; Host Info *&#x2F;
+    sprintf(clientRequest, &quot;GET %s HTTP&#x2F;1.0\r\n&quot;, fileName);
+
+    n &#x3D; Rio_readlineb(rio, buf, MAXLINE);&#x2F;&#x2F; n是读取的字节数
+    printf(&quot;receive buf %s\n&quot;, buf);
+    printf(&quot;n &#x3D;&#x3D; %d\n&quot;, n);
+    char* findp;
+    while(strcmp(&quot;\r\n&quot;, buf) !&#x3D; 0 &amp;&amp; n !&#x3D; 0)&#123;
+        strcat(clientRequest, buf);
+        printf(&quot;receive buf %s\n&quot;, buf);
+
+        if( (findp &#x3D; strstr(buf, &quot;User-Agent:&quot;)) !&#x3D; NULL)&#123;
+            UserAgent &#x3D; 1;
+        &#125;else if( (findp &#x3D; strstr(buf, &quot;Proxy-Connection:&quot;)) !&#x3D; NULL)&#123;
+            ProxyConnection &#x3D; 1;
+        &#125;else if( (findp &#x3D; strstr(buf, &quot;Connection:&quot;)) !&#x3D; NULL)&#123;
+            Connection &#x3D; 1;
+        &#125;else if( (findp &#x3D; strstr(buf, &quot;Host:&quot;)) !&#x3D; NULL)&#123;
+            HostInfo &#x3D; 1;
+        &#125;
+        n &#x3D; Rio_readlineb(rio, buf, MAXLINE);
+    &#125;
+
+    if(n &#x3D;&#x3D; 0)&#123;
+        return 0;
+    &#125;
+
+    if(HostInfo &#x3D;&#x3D; 0)&#123;
+        sprintf(buf, &quot;Host: %s\r\n&quot;, Host);
+        strcat(clientRequest, buf);
+    &#125;
+
+    &#x2F;** append User-Agent *&#x2F;
+    if(UserAgent &#x3D;&#x3D; 0)&#123;
+        strcat(clientRequest, user_agent_hdr);
+    &#125;
+    
+    &#x2F;** append Connection *&#x2F;
+    if(Connection &#x3D;&#x3D; 0)&#123;
+        sprintf(buf, &quot;Connection: close\r\n&quot;);
+        strcat(clientRequest, buf);
+    &#125;
+    
+    &#x2F;** append Proxy-Connection *&#x2F;
+    if(ProxyConnection &#x3D;&#x3D; 0)&#123;
+        sprintf(buf, &quot;Proxy-Connection: close\r\n&quot;);
+        strcat(clientRequest, buf);
+    &#125;
+
+    &#x2F;* add terminator for request *&#x2F;
+    strcat(clientRequest, &quot;\r\n&quot;);
+    return 1;
+&#125;
+void replaceHTTPVersion(char *buf)&#123;
+    char *pos &#x3D;NULL;
+    if((pos&#x3D;strstr(buf,&quot;HTTP&#x2F;1.1&quot;))!&#x3D;NULL)&#123;
+        buf[pos-buf+strlen(&quot;HTTP&#x2F;1.1&quot;)-1]&#x3D;&#39;0&#39;;
+    &#125;
+&#125;
+
+void parseLine(char* buf, char* host, char* port, char* method, char* uri, char* version, char* filename)&#123;
+    sscanf(buf, &quot;%s %s %s&quot;,method,uri,version);
+    &#x2F;&#x2F;method &#x3D; &quot;GET&quot;, uri &#x3D; &quot;http:&#x2F;&#x2F;localhost:15213&#x2F;home.html&quot;, version &#x3D; &quot;HTTP1.0&quot;
+    char* hostp &#x3D; strstr(uri, WEB_PREFIX) + strlen(WEB_PREFIX);
+    char* slash &#x3D; strstr(hostp, &quot;&#x2F;&quot;);
+    char* colon &#x3D; strstr(hostp, &quot;:&quot;);
+    &#x2F;&#x2F;get host name
+    strncpy(host, hostp, slash - hostp);  
+    &#x2F;&#x2F;get port number
+    strncpy(port, colon + 1, slash - colon - 1);
+    &#x2F;&#x2F;get file name
+    strcpy(filename, slash);
+    &#x2F;*
+    host : localhost:15214
+    filename: &#x2F;home.html
+    *&#x2F;
+
+&#125;
+&#x2F;&#x2F; html headers and response body
+void clienterror(int fd,char *cause,char *errnum, char *shortmsg, char *longmsg)&#123;
+    char buf[MAXLINE];
+    &#x2F;* Print the HTTP response headers *&#x2F;
+    sprintf(buf, &quot;HTTP&#x2F;1.0 %s %s\r\n&quot;, errnum, shortmsg);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;Content-type: text&#x2F;html\r\n\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+
+    &#x2F;* Print the HTTP response body *&#x2F;
+    sprintf(buf, &quot;&lt;html&gt;&lt;title&gt;Tiny Error&lt;&#x2F;title&gt;&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;&lt;body bgcolor&#x3D;&quot;&quot;ffffff&quot;&quot;&gt;\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;%s: %s\r\n&quot;, errnum, shortmsg);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;&lt;p&gt;%s: %s\r\n&quot;, longmsg, cause);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;&lt;hr&gt;&lt;em&gt;The Tiny Web server&lt;&#x2F;em&gt;\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="PART-II"><a href="#PART-II" class="headerlink" title="PART II"></a>PART II</h3><h4 id="测试大坑："><a href="#测试大坑：" class="headerlink" title="测试大坑："></a>测试大坑：</h4><p>Driver.sh的301行左右，要修正</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202408180454911.png" alt="image-20240818044744099"></p>
+<p>要有python程序执行nop-sever.py的脚本，需要使用<code>python --version</code>命令看自己的python是什么版本</p>
+<h4 id="代码大纲"><a href="#代码大纲" class="headerlink" title="代码大纲"></a>代码大纲</h4><p><strong>主函数 (<code>main</code>)</strong>：</p>
+<ul>
+<li>初始化读写锁 (<code>rwlock_init</code>)，用于控制对共享资源的访问。</li>
+<li>监听指定端口的连接请求。</li>
+<li>接受客户端连接，并为每个连接创建一个新的线程进行处理 (<code>thread</code> 函数)。</li>
+</ul>
+<p><strong>读写锁 (<code>rwlock_init</code>)</strong>：</p>
+<ul>
+<li>初始化了读锁和写锁，用于同步读写操作。</li>
+</ul>
+<p><strong>线程处理函数 (<code>thread</code>)</strong>：</p>
+<ul>
+<li>分离当前线程，并调用 <code>handlerequest</code> 处理客户端请求。</li>
+</ul>
+<p><strong>请求处理函数 (<code>handlerequest</code>)</strong>：</p>
+<ul>
+<li>读取客户端请求，解析请求行和头部信息。</li>
+<li>调用 <code>MakeClientRequest</code> 构建发送到目标服务器的请求。</li>
+<li>将目标服务器的响应返回给客户端。</li>
+</ul>
+<p><strong>请求构建函数 (<code>MakeClientRequest</code>)</strong>：</p>
+<ul>
+<li>读取客户端请求头，处理必要的字段（如 User-Agent、Connection、Proxy-Connection 和 Host）。</li>
+<li>形成完整的请求并准备发送到目标服务器。</li>
+</ul>
+<p><strong>替换 HTTP 版本函数 (<code>replaceHTTPVersion</code>)</strong>：</p>
+<ul>
+<li>将 HTTP&#x2F;1.1 替换为 HTTP&#x2F;1.0，以兼容目标服务器。</li>
+</ul>
+<p><strong>解析请求行函数 (<code>parseLine</code>)</strong>：</p>
+<ul>
+<li>解析请求行，提取主机、端口、URI 和文件名等信息。</li>
+</ul>
+<p><strong>错误处理函数 (<code>Clienterror</code>)</strong>：</p>
+<ul>
+<li>构建并发送一个标准的 HTTP 错误响应给客户端。</li>
+</ul>
+<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码:"></a>完整代码:</h4><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &quot;csapp.h&quot;
+&#x2F;* Recommended max cache and object sizes *&#x2F;
+#define MAX_CACHE_SIZE 1049000
+#define MAX_OBJECT_SIZE 102400
+#define WEB_PREFIX &quot;http:&#x2F;&#x2F;&quot;
+&#x2F;* You won&#39;t lose style points for including this long line in your code *&#x2F;
+static const char *user_agent_hdr &#x3D; &quot;User-Agent: Mozilla&#x2F;5.0 (X11; Linux x86_64; rv:10.0.3) Gecko&#x2F;20120305 Firefox&#x2F;10.0.3\r\n&quot;;
+void handlerequest(int);
+void Clienterror(int , char* , char* , char* , char* );
+int MakeClientRequest(rio_t* , char* , char*, char* , char* , char* , char*, char*);
+int checkGetMethod(char* , char* , char* );
+void replaceHTTPVersion(char* );
+void parseLine(char* , char*, char* , char* , char* , char*, char*);
+void *thread(void *v);
+void rwlock_init();
+struct rwlock_t&#123;
+    sem_t lock;
+    sem_t writelock;
+    int readers;
+&#125;;
+int nowpointer;
+struct Cache cache[MAXLINE];
+struct rwlock_t *rw;
+int main(int argc,char **argv)
+&#123;
+    rw&#x3D; Malloc(sizeof(struct rwlock_t));
+    pthread_t tid;
+    int listenfd,connfd;
+    rwlock_init();
+    char hostname[MAXLINE],port[MAXLINE];
+    socklen_t clientlen;
+    struct sockaddr_storage clientaddr;
+    &#x2F;&#x2F;判断是否是两个命令
+    if(argc!&#x3D;2)&#123;
+        fprintf(stderr,&quot;usage: Fuck ,can you input only two string ?\nsuch as%s &lt;port&gt;\n&quot;, argv[0]);
+       &#x2F;&#x2F; printf(&quot;Fuck ,input right message \n&quot;);
+        exit(1);
+    &#125;
+
+    listenfd &#x3D;Open_listenfd(argv[1]);   &#x2F;&#x2F;listen a port
+    while(1)&#123;
+        clientlen &#x3D;sizeof (clientaddr);
+        connfd &#x3D; Accept(listenfd ,(SA *)&amp;clientaddr, &amp;clientlen);
+        Getnameinfo((SA *)&amp;clientaddr ,clientlen,hostname ,MAXLINE,port,MAXLINE,0);
+        printf(&quot;Accepted connection from (%s , %s)\n&quot;, hostname ,port);&#x2F;&#x2F; accept了
+        &#x2F;&#x2F;Connection Succeed
+       Pthread_create(&amp;tid,NULL,(void*) thread,(void*)&amp;connfd);
+    &#125;
+    return 0;
+&#125;
+void rwlock_init()&#123;
+    rw-&gt;readers&#x3D;0;
+    sem_init(&amp;rw-&gt;lock,0,1);
+    &#x2F;*
+    sem_init 是一个用于初始化信号量的函数。这里初始化了 rw-&gt;lock 信号量。
+    0 表示信号量用于线程间同步（而非进程间同步）。
+    1 表示信号量的初始值为 1，即该信号量是一个二值信号量，用于互斥访问。
+    *&#x2F;
+    sem_init(&amp;rw-&gt;writelock,0,1);
+&#125;
+void *thread(void *v)&#123;
+    int fd&#x3D;*(int*)v;
+    Pthread_detach(pthread_self());
+    handlerequest(fd);
+   &#x2F;&#x2F; Free(v);
+    Close(fd);
+    return ;
+&#125;
+void handlerequest(int fd)&#123;
+    char buf[MAXLINE],method[MAXLINE],uri[MAXLINE],version[MAXLINE];&#x2F;&#x2F; buf 
+    char filename[MAXLINE];
+    &#x2F;&#x2F;request header
+    char host[MAXLINE],port[MAXLINE];
+    char clientRequest[MAXLINE];
+    &#x2F;&#x2F; IO for proxy--client ,proxy--server
+    rio_t rio,riotiny;
+    &#x2F;&#x2F; Read request line and headers
+
+    &#x2F;&#x2F; step1: read request from client
+    Rio_readinitb(&amp;rio,fd);
+
+    if(!Rio_readlineb(&amp;rio ,buf, MAXLINE))&#x2F;&#x2F;把输入的命令给到buf缓冲区
+    &#123;
+        printf(&quot;empty request \n&quot;);
+        return ;&#x2F;&#x2F; empty-&gt; close
+    &#125;
+    &#x2F;&#x2F; # HTTP&#x2F;1.1 --&gt; HTTp&#x2F;1.0
+    replaceHTTPVersion(buf);
+   parseLine(buf,host,port,method,uri,version,filename);
+    if(strcasecmp(method, &quot;GET&quot;))&#123;
+        Clienterror(fd, method, &quot;501&quot;, &quot;Not Implemented&quot;,
+                    &quot;Tiny does not implement this method&quot;);
+        return ;
+    &#125;
+    &#x2F;&#x2F; parse uri from GET request 
+
+    int rv&#x3D;MakeClientRequest(&amp;rio, clientRequest,host,port,method,uri,version,filename);
+    if(rv&#x3D;&#x3D;0)return ;
+
+    printf(&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; we have formatted the reqeust into ---------\n&quot;);
+    printf(&quot;%s&quot;,clientRequest);
+    char hostName[100];
+    char* colon &#x3D; strstr(host, &quot;:&quot;);
+    strncpy(hostName, host, colon - host);
+    printf(&quot;host is %s\n&quot;, hostName);
+    printf(&quot;port is %s\n&quot;, port);
+    &#x2F;&#x2F;模拟一个clientfd
+    int clientfd &#x3D; Open_clientfd(hostName, port);
+
+    Rio_readinitb(&amp;riotiny, clientfd);
+    Rio_writen(riotiny.rio_fd, clientRequest, strlen(clientRequest));
+
+    &#x2F;** step4: read the response from tiny and send it to the client *&#x2F;
+
+    printf(&quot;---prepare to get the response---- \n&quot;);
+    char tinyResponse[MAXLINE];
+    int n; 
+    while( (n &#x3D; Rio_readlineb(&amp;riotiny, tinyResponse, MAXLINE)) !&#x3D; 0)&#123;
+        Rio_writen(fd, tinyResponse, n);
+    &#125;
+    close(clientfd);
+    return ;  
+&#125;
+
+int MakeClientRequest(rio_t* rio, char* clientRequest, char* Host, char* port,
+                        char* method, char* uri, char* version, char* fileName)&#123;
+    int UserAgent &#x3D; 0, Connection &#x3D; 0, ProxyConnection &#x3D; 0, HostInfo &#x3D; 0;
+    char buf[MAXLINE &#x2F; 2];
+    int n;
+    &#x2F;* 1. add GET HOSTNAME HTTP&#x2F;1.0 to header &amp;&amp; Host Info *&#x2F;
+    sprintf(clientRequest, &quot;GET %s HTTP&#x2F;1.0\r\n&quot;, fileName);
+
+    n &#x3D; Rio_readlineb(rio, buf, MAXLINE);&#x2F;&#x2F; n是读取的字节数
+    printf(&quot;receive buf %s\n&quot;, buf);
+    printf(&quot;n &#x3D;&#x3D; %d\n&quot;, n);
+    char* findp;
+    while(strcmp(&quot;\r\n&quot;, buf) !&#x3D; 0 &amp;&amp; n !&#x3D; 0)&#123;
+        strcat(clientRequest, buf);
+        printf(&quot;receive buf %s\n&quot;, buf);
+
+        if( (findp &#x3D; strstr(buf, &quot;User-Agent:&quot;)) !&#x3D; NULL)&#123;
+            UserAgent &#x3D; 1;
+        &#125;else if( (findp &#x3D; strstr(buf, &quot;Proxy-Connection:&quot;)) !&#x3D; NULL)&#123;
+            ProxyConnection &#x3D; 1;
+        &#125;else if( (findp &#x3D; strstr(buf, &quot;Connection:&quot;)) !&#x3D; NULL)&#123;
+            Connection &#x3D; 1;
+        &#125;else if( (findp &#x3D; strstr(buf, &quot;Host:&quot;)) !&#x3D; NULL)&#123;
+            HostInfo &#x3D; 1;
+        &#125;
+
+        n &#x3D; Rio_readlineb(rio, buf, MAXLINE);
+    &#125;
+
+    if(n &#x3D;&#x3D; 0)&#123;
+        return 0;
+    &#125;
+    if(HostInfo &#x3D;&#x3D; 0)&#123;
+        sprintf(buf, &quot;Host: %s\r\n&quot;, Host);
+        strcat(clientRequest, buf);
+    &#125;
+    &#x2F;** append User-Agent *&#x2F;
+    if(UserAgent &#x3D;&#x3D; 0)&#123;
+        strcat(clientRequest, user_agent_hdr);
+    &#125;    
+    &#x2F;** append Connection *&#x2F;
+    if(Connection &#x3D;&#x3D; 0)&#123;
+        sprintf(buf, &quot;Connection: close\r\n&quot;);
+        strcat(clientRequest, buf);
+    &#125;    
+    &#x2F;** append Proxy-Connection *&#x2F;
+    if(ProxyConnection &#x3D;&#x3D; 0)&#123;
+        sprintf(buf, &quot;Proxy-Connection: close\r\n&quot;);
+        strcat(clientRequest, buf);
+    &#125;
+    &#x2F;* add terminator for request *&#x2F;
+    strcat(clientRequest, &quot;\r\n&quot;);
+    return 1;
+&#125;
+void replaceHTTPVersion(char *buf)&#123;
+    char *pos &#x3D;NULL;
+    if((pos&#x3D;strstr(buf,&quot;HTTP&#x2F;1.1&quot;))!&#x3D;NULL)&#123;
+        buf[pos-buf+strlen(&quot;HTTP&#x2F;1.1&quot;)-1]&#x3D;&#39;0&#39;;
+    &#125;
+&#125;
+void parseLine(char* buf, char* host, char* port, char* method, char* uri, char* version, char* filename)&#123;
+    sscanf(buf, &quot;%s %s %s&quot;,method,uri,version);
+    &#x2F;&#x2F;method &#x3D; &quot;GET&quot;, uri &#x3D; &quot;http:&#x2F;&#x2F;localhost:15213&#x2F;home.html&quot;, version &#x3D; &quot;HTTP1.0&quot;
+    char* hostp &#x3D; strstr(uri, WEB_PREFIX) + strlen(WEB_PREFIX);
+    char* slash &#x3D; strstr(hostp, &quot;&#x2F;&quot;);
+    char* colon &#x3D; strstr(hostp, &quot;:&quot;);
+    &#x2F;&#x2F;get host name
+    strncpy(host, hostp, slash - hostp);  
+    &#x2F;&#x2F;get port number
+    strncpy(port, colon + 1, slash - colon - 1);
+    &#x2F;&#x2F;get file name
+    strcpy(filename, slash);
+    &#x2F;*
+    host : localhost:15214
+    filename: &#x2F;home.html
+    *&#x2F;
+&#125;
+&#x2F;&#x2F; html headers and response body
+void Clienterror(int fd,char *cause,char *errnum, char *shortmsg, char *longmsg)
+&#123;
+    char buf[MAXLINE];
+    &#x2F;* Print the HTTP response headers *&#x2F;
+    sprintf(buf, &quot;HTTP&#x2F;1.0 %s %s\r\n&quot;, errnum, shortmsg);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;Content-type: text&#x2F;html\r\n\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+
+    &#x2F;* Print the HTTP response body *&#x2F;
+    sprintf(buf, &quot;&lt;html&gt;&lt;title&gt;Tiny Error&lt;&#x2F;title&gt;&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;&lt;body bgcolor&#x3D;&quot;&quot;ffffff&quot;&quot;&gt;\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;%s: %s\r\n&quot;, errnum, shortmsg);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;&lt;p&gt;%s: %s\r\n&quot;, longmsg, cause);
+    Rio_writen(fd, buf, strlen(buf));
+    sprintf(buf, &quot;&lt;hr&gt;&lt;em&gt;The Tiny Web server&lt;&#x2F;em&gt;\r\n&quot;);
+    Rio_writen(fd, buf, strlen(buf));
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Part-III"><a href="#Part-III" class="headerlink" title="Part III"></a>Part III</h3><p>添加了一些cache即可</p>
+<h4 id="代码重点："><a href="#代码重点：" class="headerlink" title="代码重点："></a>代码重点：</h4><p>读写cache其实就是给cache建立了一个数组，但是多线程读取写入的时候每次要记得上锁解锁。</p>
+<h5 id="cache结构体"><a href="#cache结构体" class="headerlink" title="cache结构体"></a>cache结构体</h5><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">struct Cache&#123;
+    int used;
+    char key[MAXLINE];
+    char value[MAX_OBJECT_SIZE];
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="write-cache"><a href="#write-cache" class="headerlink" title="write_cache"></a>write_cache</h5><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void writecache(char * buf,char *key)&#123;
+    sem_wait(&amp;rw-&gt;writelock);
+    int index;
+    while(cache[nowpointer].used!&#x3D;0)&#123;
+        cache[nowpointer].used&#x3D;0;
+        nowpointer&#x3D;(nowpointer+1)%MAX_CACHE;
+
+    &#125;
+    index &#x3D;nowpointer;
+    cache[index].used&#x3D;1;
+    strcpy(cache[index].key,key);
+    strcpy(cache[index].value,buf);
+    sem_post(&amp;rw-&gt;writelock);
+    return;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="read-cache"><a href="#read-cache" class="headerlink" title="read_cache"></a>read_cache</h5><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int readcache(int fd,char *uri)&#123;
+    sem_wait(&amp;rw-&gt;lock);
+    if(rw-&gt;readers&#x3D;&#x3D;0)sem_wait(&amp;rw-&gt;writelock);
+    rw-&gt;readers++;
+    sem_post(&amp;rw-&gt;lock);
+    int i;
+    int flag&#x3D;0;
+    for(i&#x3D;0;i&lt;MAX_CACHE;i++)&#123;
+        if(strcmp(uri,cache[i].key)&#x3D;&#x3D;0)&#123;
+            Rio_writen(fd,cache[i].value,strlen(cache[i].value));
+        &#x2F;&#x2F;    printf(&quot;proxy send %d bytes to client\n&quot;, strlen(cache[i].value));
+            cache[i].used&#x3D;1;
+            flag&#x3D;1;
+            break;
+
+        &#125;
+    &#125;
+    sem_wait(&amp;rw-&gt;lock);
+    rw-&gt;readers--;
+    if(rw-&gt;readers&#x3D;&#x3D;0)
+    sem_post(&amp;rw-&gt;writelock);
+    sem_post(&amp;rw-&gt;lock);
+    return flag;
+
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h4><pre class="line-numbers language-d" data-language="d"><code class="language-d">#include <span class="token string">"csapp.h"</span>
+#define MAX_CACHE <span class="token number">10</span>
+<span class="token comment">/* Recommended max cache and object sizes */</span>
+#define MAX_CACHE_SIZE <span class="token number">1049000</span>
+#define MAX_OBJECT_SIZE <span class="token number">102400</span>
+#define WEB_PREFIX <span class="token string">"http://"</span>
+<span class="token comment">/* You won't lose style points for including this long line in your code */</span>
+<span class="token keyword">static</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>user_agent_hdr <span class="token operator">=</span> <span class="token string">"User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:10.0.3) Gecko/20120305 Firefox/10.0.3\r\n"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">handlerequest</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Clienterror</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">MakeClientRequest</span><span class="token punctuation">(</span>rio_t<span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">checkGetMethod</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">replaceHTTPVersion</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">parseLine</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">thread</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">rwlock_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">readcache</span><span class="token punctuation">(</span><span class="token keyword">int</span> fd<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">writecache</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>buf<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">struct</span> rwlock_t<span class="token punctuation">&#123;</span>
+    sem_t lock<span class="token punctuation">;</span>
+    sem_t writelock<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> readers<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> Cache<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> used<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> key<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> value<span class="token punctuation">[</span>MAX_OBJECT_SIZE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> nowpointer<span class="token punctuation">;</span>
+<span class="token keyword">struct</span> Cache cache<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">struct</span> rwlock_t <span class="token operator">*</span>rw<span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    rw<span class="token operator">=</span> <span class="token function">Malloc</span><span class="token punctuation">(</span><span class="token function">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> rwlock_t<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    pthread_t tid<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> listenfd<span class="token punctuation">,</span>connfd<span class="token punctuation">;</span>
+    <span class="token function">rwlock_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> hostname<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">,</span>port<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    socklen_t clientlen<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> sockaddr_storage clientaddr<span class="token punctuation">;</span>
+    <span class="token comment">//判断是否是两个命令</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>argc<span class="token operator">!=</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span>stderr<span class="token punctuation">,</span><span class="token string">"usage: Fuck ,can you input only two string ?\nsuch as%s &lt;port>\n"</span><span class="token punctuation">,</span> argv<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token comment">// printf("Fuck ,input right message \n");</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    listenfd <span class="token operator">=</span><span class="token function">Open_listenfd</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//listen a port</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        clientlen <span class="token operator">=</span>sizeof <span class="token punctuation">(</span>clientaddr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        connfd <span class="token operator">=</span> <span class="token function">Accept</span><span class="token punctuation">(</span>listenfd <span class="token punctuation">,</span><span class="token punctuation">(</span>SA <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>clientaddr<span class="token punctuation">,</span> <span class="token operator">&amp;</span>clientlen<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">Getnameinfo</span><span class="token punctuation">(</span><span class="token punctuation">(</span>SA <span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>clientaddr <span class="token punctuation">,</span>clientlen<span class="token punctuation">,</span>hostname <span class="token punctuation">,</span>MAXLINE<span class="token punctuation">,</span>port<span class="token punctuation">,</span>MAXLINE<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Accepted connection from (%s , %s)\n"</span><span class="token punctuation">,</span> hostname <span class="token punctuation">,</span>port<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// accept了</span>
+
+        <span class="token comment">//Connection Succeed</span>
+       <span class="token function">Pthread_create</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>tid<span class="token punctuation">,</span>NULL<span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span> thread<span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>connfd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">rwlock_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    rw<span class="token operator">-</span><span class="token operator">></span>readers<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token function">sem_init</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>lock<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">/*
+    sem_init 是一个用于初始化信号量的函数。这里初始化了 rw->lock 信号量。
+    0 表示信号量用于线程间同步（而非进程间同步）。
+    1 表示信号量的初始值为 1，即该信号量是一个二值信号量，用于互斥访问。
+    */</span>
+    <span class="token function">sem_init</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>writelock<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">thread</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>v<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> fd<span class="token operator">=</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span><span class="token punctuation">)</span>v<span class="token punctuation">;</span>
+    <span class="token function">Pthread_detach</span><span class="token punctuation">(</span><span class="token function">pthread_self</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">handlerequest</span><span class="token punctuation">(</span>fd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token comment">// Free(v);</span>
+    <span class="token function">Close</span><span class="token punctuation">(</span>fd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">handlerequest</span><span class="token punctuation">(</span><span class="token keyword">int</span> fd<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> buf<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">,</span>method<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">,</span>uri<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">version</span><span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment">// buf </span>
+    <span class="token keyword">char</span> filename<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment">//request header</span>
+    <span class="token keyword">char</span> host<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">,</span>port<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> clientRequest<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment">// IO for proxy--client ,proxy--server</span>
+    rio_t rio<span class="token punctuation">,</span>riotiny<span class="token punctuation">;</span>
+    <span class="token comment">// Read request line and headers</span>
+
+    <span class="token comment">// step1: read request from client</span>
+    <span class="token function">Rio_readinitb</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rio<span class="token punctuation">,</span>fd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">Rio_readlineb</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rio <span class="token punctuation">,</span>buf<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment">//把输入的命令给到buf缓冲区</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"empty request \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">;</span><span class="token comment">// empty-> close</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// # HTTP/1.1 --> HTTp/1.0</span>
+    <span class="token function">replaceHTTPVersion</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token function">parseLine</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span>host<span class="token punctuation">,</span>port<span class="token punctuation">,</span>method<span class="token punctuation">,</span>uri<span class="token punctuation">,</span><span class="token keyword">version</span><span class="token punctuation">,</span>filename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">strcasecmp</span><span class="token punctuation">(</span>method<span class="token punctuation">,</span> <span class="token string">"GET"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">Clienterror</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> method<span class="token punctuation">,</span> <span class="token string">"501"</span><span class="token punctuation">,</span> <span class="token string">"Not Implemented"</span><span class="token punctuation">,</span>
+                    <span class="token string">"Tiny does not implement this method"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// parse uri from GET request </span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">readcache</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span>uri<span class="token punctuation">)</span><span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token keyword">return</span> <span class="token punctuation">;</span>
+
+    <span class="token keyword">int</span> rv<span class="token operator">=</span><span class="token function">MakeClientRequest</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rio<span class="token punctuation">,</span> clientRequest<span class="token punctuation">,</span>host<span class="token punctuation">,</span>port<span class="token punctuation">,</span>method<span class="token punctuation">,</span>uri<span class="token punctuation">,</span><span class="token keyword">version</span><span class="token punctuation">,</span>filename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>rv<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token keyword">return</span> <span class="token punctuation">;</span>
+
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"========= we have formatted the reqeust into ---------\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s"</span><span class="token punctuation">,</span>clientRequest<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">char</span> hostName<span class="token punctuation">[</span><span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span><span class="token operator">*</span> colon <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> <span class="token string">":"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">strncpy</span><span class="token punctuation">(</span>hostName<span class="token punctuation">,</span> host<span class="token punctuation">,</span> colon <span class="token operator">-</span> host<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"host is %s\n"</span><span class="token punctuation">,</span> hostName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"port is %s\n"</span><span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//模拟一个clientfd</span>
+    <span class="token keyword">int</span> clientfd <span class="token operator">=</span> <span class="token function">Open_clientfd</span><span class="token punctuation">(</span>hostName<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">Rio_readinitb</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>riotiny<span class="token punctuation">,</span> clientfd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Rio_writen</span><span class="token punctuation">(</span>riotiny<span class="token punctuation">.</span>rio_fd<span class="token punctuation">,</span> clientRequest<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/** step4: read the response from tiny and send it to the client */</span>
+    <span class="token keyword">char</span> cache<span class="token punctuation">[</span>MAX_OBJECT_SIZE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> sum<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"---prepare to get the response---- \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> tinyResponse<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">int</span> n<span class="token punctuation">;</span>
+    
+    <span class="token keyword">while</span><span class="token punctuation">(</span> <span class="token punctuation">(</span>n <span class="token operator">=</span> <span class="token function">Rio_readlineb</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>riotiny<span class="token punctuation">,</span> tinyResponse<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> tinyResponse<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        sum<span class="token operator">+=</span>n<span class="token punctuation">;</span>
+        <span class="token function">strcat</span><span class="token punctuation">(</span>cache<span class="token punctuation">,</span>tinyResponse<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"proxy send %d bytes to client\n"</span><span class="token punctuation">,</span>sum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>sum<span class="token operator">&lt;</span>MAX_OBJECT_SIZE<span class="token punctuation">)</span>
+     <span class="token function">writecache</span><span class="token punctuation">(</span>cache<span class="token punctuation">,</span>uri<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">close</span><span class="token punctuation">(</span>clientfd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">;</span>
+
+    
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">writecache</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span> buf<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>key<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token function">sem_wait</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>writelock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> index<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>cache<span class="token punctuation">[</span>nowpointer<span class="token punctuation">]</span><span class="token punctuation">.</span>used<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        cache<span class="token punctuation">[</span>nowpointer<span class="token punctuation">]</span><span class="token punctuation">.</span>used<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        nowpointer<span class="token operator">=</span><span class="token punctuation">(</span>nowpointer<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">%</span>MAX_CACHE<span class="token punctuation">;</span>
+
+    <span class="token punctuation">&#125;</span>
+    index <span class="token operator">=</span>nowpointer<span class="token punctuation">;</span>
+    cache<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>used<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token function">strcpy</span><span class="token punctuation">(</span>cache<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>key<span class="token punctuation">,</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">strcpy</span><span class="token punctuation">(</span>cache<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>value<span class="token punctuation">,</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sem_post</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>writelock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">readcache</span><span class="token punctuation">(</span><span class="token keyword">int</span> fd<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>uri<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token function">sem_wait</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>lock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>rw<span class="token operator">-</span><span class="token operator">></span>readers<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token function">sem_wait</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>writelock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    rw<span class="token operator">-</span><span class="token operator">></span>readers<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token function">sem_post</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>lock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> flag<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>MAX_CACHE<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">strcmp</span><span class="token punctuation">(</span>uri<span class="token punctuation">,</span>cache<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span>cache<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>value<span class="token punctuation">,</span><span class="token function">strlen</span><span class="token punctuation">(</span>cache<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//    printf("proxy send %d bytes to client\n", strlen(cache[i].value));</span>
+            cache<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>used<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+            flag<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">sem_wait</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>lock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    rw<span class="token operator">-</span><span class="token operator">></span>readers<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>rw<span class="token operator">-</span><span class="token operator">></span>readers<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token function">sem_post</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>writelock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sem_post</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>rw<span class="token operator">-</span><span class="token operator">></span>lock<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> flag<span class="token punctuation">;</span>
+
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">MakeClientRequest</span><span class="token punctuation">(</span>rio_t<span class="token operator">*</span> rio<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> clientRequest<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> Host<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> port<span class="token punctuation">,</span>
+                        <span class="token keyword">char</span><span class="token operator">*</span> method<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> uri<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token keyword">version</span><span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> fileName<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> UserAgent <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> Connection <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> ProxyConnection <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> HostInfo <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> buf<span class="token punctuation">[</span>MAXLINE <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> n<span class="token punctuation">;</span>
+
+    <span class="token comment">/* 1. add GET HOSTNAME HTTP/1.0 to header &amp;&amp; Host Info */</span>
+    <span class="token function">sprintf</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> <span class="token string">"GET %s HTTP/1.0\r\n"</span><span class="token punctuation">,</span> fileName<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    n <span class="token operator">=</span> <span class="token function">Rio_readlineb</span><span class="token punctuation">(</span>rio<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// n是读取的字节数</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"receive buf %s\n"</span><span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"n == %d\n"</span><span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span><span class="token operator">*</span> findp<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token function">strcmp</span><span class="token punctuation">(</span><span class="token string">"\r\n"</span><span class="token punctuation">,</span> buf<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> n <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"receive buf %s\n"</span><span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span><span class="token punctuation">(</span> <span class="token punctuation">(</span>findp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"User-Agent:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> NULL<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            UserAgent <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span> <span class="token punctuation">(</span>findp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Proxy-Connection:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> NULL<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            ProxyConnection <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span> <span class="token punctuation">(</span>findp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Connection:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> NULL<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            Connection <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span> <span class="token punctuation">(</span>findp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Host:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> NULL<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            HostInfo <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        n <span class="token operator">=</span> <span class="token function">Rio_readlineb</span><span class="token punctuation">(</span>rio<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> MAXLINE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span>n <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">if</span><span class="token punctuation">(</span>HostInfo <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Host: %s\r\n"</span><span class="token punctuation">,</span> Host<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">/** append User-Agent */</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>UserAgent <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> user_agent_hdr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token comment">/** append Connection */</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>Connection <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Connection: close\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token comment">/** append Proxy-Connection */</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>ProxyConnection <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Proxy-Connection: close\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">/* add terminator for request */</span>
+    <span class="token function">strcat</span><span class="token punctuation">(</span>clientRequest<span class="token punctuation">,</span> <span class="token string">"\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">replaceHTTPVersion</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span>buf<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> <span class="token operator">*</span>pos <span class="token operator">=</span>NULL<span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>pos<span class="token operator">=</span><span class="token function">strstr</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span><span class="token string">"HTTP/1.1"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">!=</span>NULL<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        buf<span class="token punctuation">[</span>pos<span class="token operator">-</span>buf<span class="token operator">+</span><span class="token function">strlen</span><span class="token punctuation">(</span><span class="token string">"HTTP/1.1"</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token char">'0'</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">parseLine</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token operator">*</span> buf<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> host<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> port<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> method<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> uri<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token keyword">version</span><span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> filename<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token function">sscanf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"%s %s %s"</span><span class="token punctuation">,</span>method<span class="token punctuation">,</span>uri<span class="token punctuation">,</span><span class="token keyword">version</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//method = "GET", uri = "http://localhost:15213/home.html", version = "HTTP1.0"</span>
+    <span class="token keyword">char</span><span class="token operator">*</span> hostp <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>uri<span class="token punctuation">,</span> WEB_PREFIX<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">strlen</span><span class="token punctuation">(</span>WEB_PREFIX<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span><span class="token operator">*</span> slash <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>hostp<span class="token punctuation">,</span> <span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span><span class="token operator">*</span> colon <span class="token operator">=</span> <span class="token function">strstr</span><span class="token punctuation">(</span>hostp<span class="token punctuation">,</span> <span class="token string">":"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//get host name</span>
+    <span class="token function">strncpy</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> hostp<span class="token punctuation">,</span> slash <span class="token operator">-</span> hostp<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token comment">//get port number</span>
+    <span class="token function">strncpy</span><span class="token punctuation">(</span>port<span class="token punctuation">,</span> colon <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> slash <span class="token operator">-</span> colon <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//get file name</span>
+    <span class="token function">strcpy</span><span class="token punctuation">(</span>filename<span class="token punctuation">,</span> slash<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">/*
+    host : localhost:15214
+    filename: /home.html
+    */</span>
+
+<span class="token punctuation">&#125;</span>
+<span class="token comment">// html headers and response body</span>
+<span class="token keyword">void</span> <span class="token function">Clienterror</span><span class="token punctuation">(</span><span class="token keyword">int</span> fd<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>cause<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span>errnum<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>shortmsg<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>longmsg<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> buf<span class="token punctuation">[</span>MAXLINE<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment">/* Print the HTTP response headers */</span>
+    <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"HTTP/1.0 %s %s\r\n"</span><span class="token punctuation">,</span> errnum<span class="token punctuation">,</span> shortmsg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"Content-type: text/html\r\n\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/* Print the HTTP response body */</span>
+    <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"&lt;html>&lt;title>Tiny Error&lt;/title>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"&lt;body bgcolor="</span><span class="token string">"ffffff"</span><span class="token string">">\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"%s: %s\r\n"</span><span class="token punctuation">,</span> errnum<span class="token punctuation">,</span> shortmsg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"&lt;p>%s: %s\r\n"</span><span class="token punctuation">,</span> longmsg<span class="token punctuation">,</span> cause<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sprintf</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token string">"&lt;hr>&lt;em>The Tiny Web server&lt;/em>\r\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">Rio_writen</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token function">strlen</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202408180455756.png" alt="image-20240818045547484"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这是一场旷日持久的斗争！</p>
+<p>但是我学到了很多！</p>
+<p>感谢CMU 15-213 CSAPP!</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Vitus Apollo</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://vitus213.github.io/2024/03/10/lab8/">http://vitus213.github.io/2024/03/10/lab8/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Vitus Apollo</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                    <span class="chip bg-color">学习笔记</span>
+                                </a>
+                            
+                                <a href="/tags/CSAPP/">
+                                    <span class="chip bg-color">CSAPP</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/03/10/lab5/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="CSAPP的lab5-cachelab">
+                        
+                        <span class="card-title">CSAPP的lab5-cachelab</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-03-10
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CS/" class="post-category">
+                                    CS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/CSAPP/">
+                        <span class="chip bg-color">CSAPP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/02/27/lab0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="CSAPP自学指北">
+                        
+                        <span class="card-title">CSAPP自学指北</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-02-27
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CS/" class="post-category">
+                                    CS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/CSAPP/">
+                        <span class="chip bg-color">CSAPP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024-2025</span>
+            
+            <a href="/about" target="_blank">Vitus Apollo</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">89k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2024";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Vitus213" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:zhzvitus@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2811215248" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2811215248" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

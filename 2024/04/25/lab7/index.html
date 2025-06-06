@@ -1,0 +1,1625 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="CSAPP的lab6-shlab, Apollo-213">
+    <meta name="description" content="
+异常控制流(Exceptional Control Flow)
+网上的各种各样的辅助资料真的是太多太多太繁杂了，从学链接装载库的时候就感觉到了一点点，兴许也可能有我先看了一些书，然后又去看小土刀的解读，又去看别人的解读，又去看教授的讲解，">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>CSAPP的lab6-shlab | Apollo-213</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Apollo-213</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Apollo-213</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">CSAPP的lab6-shlab</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                <span class="chip bg-color">学习笔记</span>
+                            </a>
+                        
+                            <a href="/tags/CSAPP/">
+                                <span class="chip bg-color">CSAPP</span>
+                            </a>
+                        
+                            <a href="/tags/ECF/">
+                                <span class="chip bg-color">ECF</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/CS/" class="post-category">
+                                CS
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-04-25
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2024-05-11
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    18 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p><strong>异常控制流(Exceptional Control Flow)</strong></p>
+<p>网上的各种各样的辅助资料真的是太多太多太繁杂了，从学链接装载库的时候就感觉到了一点点，兴许也可能有我先看了一些书，然后又去看小土刀的解读，又去看别人的解读，又去看教授的讲解，很多不懂得还是不懂，懂得也开始变得不懂，而书本反倒没看，重心要进行调整，着重关注对书本的阅读，不去理会什么中文版英文版，那个看得懂就看哪一个，至于其他的资料，应该是要辅助书本的学习，书上不懂的再去查资料辅助学习，这样子才能系统学习。</p>
+<p>4.26：这个课本是真的又长又臭，看了一天多才看了20多面，难死我脑袋了！</p>
+<p>4.27:看完了一整章，做家庭作业的时候，前面的作业都很简单，部分的三星和所有的四星的比较困难，部分作业都看不懂题目，索性直接跳过，感觉难度曲线比较陡峭，这几天，五一前完成shlab。</p>
+</blockquote>
+<p>家庭作业：难点题目，8.20，8.22，8.24，8.25,<strong>8.26</strong>，<a target="_blank" rel="noopener" href="https://dreamanddead.github.io/CSAPP-3e-Solutions/">作业答案</a></p>
+<p>会在复盘知识框架的过程中添加自己不懂得&#x2F;认为重要的点，辅助深刻理解shlab的知识点。</p>
+<h1 id="知识框架"><a href="#知识框架" class="headerlink" title="知识框架"></a>知识框架</h1><h2 id="8-1Exception"><a href="#8-1Exception" class="headerlink" title="8.1Exception"></a>8.1Exception</h2><p>Exception的分类</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>原因</th>
+<th>异步&#x2F;同步</th>
+<th>返回行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>interrupt（中断）</td>
+<td>来自I&#x2F;O设备信号</td>
+<td>异步</td>
+<td>下一条</td>
+</tr>
+<tr>
+<td>trap（陷阱）</td>
+<td>有意的异常</td>
+<td>同步</td>
+<td>下一条</td>
+</tr>
+<tr>
+<td>fault（故障）</td>
+<td>潜在可恢复错误</td>
+<td>同步</td>
+<td>可能返回当前</td>
+</tr>
+<tr>
+<td>abort（终止）</td>
+<td>不可恢复</td>
+<td>同步</td>
+<td>不会返回</td>
+</tr>
+</tbody></table>
+<p>异步异常:由处理器外部的I&#x2F;O设备中事件产生</p>
+<p>中断处理（Interrupt）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202404261326743.png" alt="image-20240425132916409"></p>
+<p>陷阱处理（Trap)：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202404261358886.png" alt="image-20240425144208070"></p>
+<p>故障处理（Fault）：<img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202404261358907.png" alt="image-20240425144245925"></p>
+<p>所有的printf，exit（0),这些系统调用函数都可以使用syscall标准的调用进行实现</p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202404261358919.png" alt="image-20240425150737672"></p>
+<h2 id="8-3系统调用错误处理"><a href="#8-3系统调用错误处理" class="headerlink" title="8.3系统调用错误处理"></a>8.3系统调用错误处理</h2><h2 id="8-4进程控制"><a href="#8-4进程控制" class="headerlink" title="8.4进程控制"></a>8.4进程控制</h2><h2 id="8-5信号"><a href="#8-5信号" class="headerlink" title="8.5信号"></a>8.5信号</h2><p>习题8.8</p>
+<p>猜测输出：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">volatile long counter &#x3D; 2;
+
+void handler1(int sig)
+&#123;
+    sigset_t mask, prev_mask;
+
+    Sigfillset(&amp;mask);
+    Sigprocmask(SIG_BLOCK, &amp;mask, &amp;prev_mask);  &#x2F;* Block sigs *&#x2F;
+    Sio_putl(--counter);
+    Sigprocmask(SIG_SETMASK, &amp;prev_mask, NULL); &#x2F;* Restore sigs *&#x2F;
+
+    _exit(0);
+&#125;
+int main()
+&#123;
+    pid_t pid;
+    sigset_t mask, prev_mask;
+
+    printf(&quot;%ld&quot;, counter);
+    fflush(stdout);
+
+    signal(SIGUSR1, handler1);
+    if ((pid &#x3D; Fork()) &#x3D;&#x3D; 0) &#123;
+        while(1) &#123;&#125;;
+    &#125;
+    Kill(pid, SIGUSR1);
+    Waitpid(-1, NULL, 0);
+
+    Sigfillset(&amp;mask);
+    Sigprocmask(SIG_BLOCK, &amp;mask, &amp;prev_mask);  &#x2F;* Block sigs *&#x2F;
+    printf(&quot;%ld&quot;, ++counter);
+    Sigprocmask(SIG_SETMASK, &amp;prev_mask, NULL); &#x2F;* Restore sigs *&#x2F;
+
+    exit(0);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>并发错误避免</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">&#x2F;*WARNING :This code is buggy !*&#x2F;
+void handler(int sig) 
+&#123;
+     int olderrno &#x3D; errno;
+     sigset_ t mask_all, prev _all;
+     pid_t pid;
+     Sigfillset(&amp;mask_all);&#x2F;&#x2F;添加所有信号
+     while ((pid &#x3D; waitpid(-1, NULL, 0)) &gt; 0) &#x2F;*Reap a zombie child *&#x2F;
+     &#123;
+         Sigprocmask(SIG_BLOCK, &amp;mask_all, &amp;prev_all);
+         deletejob(pid);&#x2F;*Delete the child from the job list *&#x2F;
+         Sigprocmask(SIG_SETMASK, &amp;prev _all, NULL);
+    &#125;
+     if (errno !&#x3D; ECHILD) Sio_error(&quot;waitpid error&quot;);
+     errno &#x3D; olderrno;
+    
+&#125;
+int main(int argc, char **argv) 
+&#123;
+    int pid;
+    sigset_t mask_all, prev_all;
+    Sigfillset(&amp;mask_all);
+    Signal(SIGCHLD, handler);
+    initjobs();&#x2F;*Initialize the job list *&#x2F;
+     while (1)
+    &#123;
+        if ((pid &#x3D; Fork()) &#x3D;&#x3D; 0) &#x2F;*Child process*&#x2F;
+        &#123;
+            Execve(&quot;&#x2F;bin&#x2F;date&quot;, argv, NULL);
+        &#125;
+         Sigprocmask(SIG_BLOCK, &amp;mask_all, &amp;prev_all);&#x2F;*Parent process *&#x2F; 
+        addjob(pid);&#x2F;*Add the child to the job list *&#x2F;
+         Sigprocmask(SIG_SETMASK, &amp;prev _all, NULL);
+        
+    &#125;
+     exit(0);    
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在子进程中，程序执行 <code>Execve(&quot;/bin/date&quot;, argv, NULL);</code> 来替换当前进程的映像为 <code>/bin/date</code>，并执行 <code>date</code> 命令。如果 <code>Execve</code> 成功，子进程将不会返回执行 <code>while (1)</code> 循环，因为它已经被 <code>date</code> 命令替换了。</p>
+<p>在父进程中，<code>Fork()</code> 返回子进程的PID，随后父进程会阻塞所有信号（通过 <code>Sigprocmask(SIG_BLOCK, &amp;mask_all, &amp;prev_all);</code>），将子进程PID添加到作业列表（通过调用 <code>addjob(pid);</code>），然后恢复之前的信号掩码（通过 <code>Sigprocmask(SIG_SETMASK, &amp;prev_all, NULL);</code>）。</p>
+<h2 id="8-6-nonlocal-jump"><a href="#8-6-nonlocal-jump" class="headerlink" title="8.6 nonlocal jump"></a>8.6 nonlocal jump</h2><p>setjmp:调用一次，返回多次。</p>
+<p>longjmp：调用一次，从不返回。（execve也是调用一次，从不返回，习题8.10）</p>
+<p>能够从深层的函数嵌套中返回，不用一层一层的解开调用栈，所以他不是很安全，有点像goto类型语句</p>
+<h2 id="8-7-Some-Tools"><a href="#8-7-Some-Tools" class="headerlink" title="8.7 Some Tools"></a>8.7 Some Tools</h2><p>STRACE: 打印一个正在运行的程序和它的子进程调用的每个系统调用的轨迹。对于好奇的学生而言，这是一个令人着迷的工具。用 -static 编译你的程序，能得到一个更干净的、不带有大量与共享库相关的输出的轨迹。<br>PS: 列出当前系统中的进程（包括僵死进程）。<br>TOP: 打印出关千当前进程资源使用的信息。<br>PMAP: 显示进程的内存映射。</p>
+<h1 id="辅助资料"><a href="#辅助资料" class="headerlink" title="辅助资料"></a>辅助资料</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iW411d7hd">Lecture 14 Exceptional Control Flow Exceptions and Processes</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iW411d7hd">Lecture 15 Exceptional Control Flow Signals and Nonlocal Jumps</a></p>
+<p><a target="_blank" rel="noopener" href="https://wdxtub.com/csapp/thin-csapp-5/2016/04/16/">【读薄 CSAPP】伍 异常控制流</a></p>
+<p><a target="_blank" rel="noopener" href="https://fengmuzi2003.gitbook.io/csapp3e/di-08-zhang-yi-chang-kong-zhi-liu">第08章：异常控制流 | CSAPP重点解读 (gitbook.io)</a></p>
+<p><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/shlab.pdf">shlab.dvi (cmu.edu)</a></p>
+<h1 id="Lab前瞻"><a href="#Lab前瞻" class="headerlink" title="Lab前瞻"></a>Lab前瞻</h1><h2 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h2><blockquote>
+<p>• eval: Main routine that parses and interprets the command line. [70 lines]</p>
+<p>• builtin cmd: Recognizes and interprets the built-in commands: quit, fg, bg, and jobs. [25 lines]</p>
+<p>• do bgfg: Implements the bg and fg built-in commands. [50 lines]</p>
+<p>• waitfg: Waits for a foreground job to complete. [20 lines]</p>
+<p>• sigchld handler: Catches SIGCHILD signals. 80 lines]</p>
+<p>• sigint handler: Catches SIGINT (ctrl-c) signals. [15 lines]</p>
+<p>• sigtstp handler: Catches SIGTSTP (ctrl-z) signals. [15 lines]</p>
+</blockquote>
+<p>补全上面的函数，括号中的lines表示预计lines，补全完后make就行</p>
+<h2 id="The-tsh-Speciﬁcation"><a href="#The-tsh-Speciﬁcation" class="headerlink" title="The tsh Speciﬁcation"></a>The tsh Speciﬁcation</h2><blockquote>
+<p>Your tsh shell should have the following features:</p>
+<p>• The prompt should be the string “tsh&gt; ”.</p>
+<p>• The command line typed by the user should consist of a name and zero or more arguments, all separated by one or more spaces. If name is a built-in command, then tsh should handle it immediately and wait for the next command line. Otherwise, tsh should assume that name is the path of an executable ﬁle, which it loads and runs in the context of an initial child process (In this context, the term job refers to this initial child process).</p>
+<p>• tsh need not support pipes (|) or I&#x2F;O redirection (&lt; and &gt;).</p>
+<p>• Typing ctrl-c (ctrl-z) should cause a SIGINT (SIGTSTP) signal to be sent to the current foreground job, as well as any descendents of that job (e.g., any child processes that it forked). If there is no foreground job, then the signal should have no effect.</p>
+<p>• If the command line ends with an ampersand &amp;, then tsh should run the job in the background.</p>
+<p>Otherwise, it should run the job in the foreground.</p>
+<p>• Each job can be identiﬁed by either a process ID (PID) or a job ID (JID), which is a positive integer assigned by tsh. JIDs should be denoted on the command line by the preﬁx ’%’. For example, “%5” denotes JID 5, and “5” denotes PID 5. (We have provided you with all of the routines you need for manipulating the job list.)</p>
+<p>• tsh should support the following built-in commands:</p>
+<p>– The quit command terminates the shell.</p>
+<p>– The jobs command lists all background jobs.</p>
+<p>– The bg <job> command restarts <job> by sending it a SIGCONT signal, and then runs it in the background. The <job> argument can be either a PID or a JID.</p>
+<p>– The fg <job> command restarts <job> by sending it a SIGCONT signal, and then runs it in the foreground. The <job> argument can be either a PID or a JID.</p>
+<p>• tsh should reap all of its zombie children. If any job terminates because it receives a signal that it didn’t catch, then tsh should recognize this event and print a message with the job’s PID and a description of the offending signal.</p>
+</blockquote>
+<p>用人话讲就是：</p>
+<ul>
+<li>每次要以<code>tsh&gt;</code>开始,这个prompt他会提前提供给你</li>
+<li>每次命令行只有两种类别可能性，一种是内置命令要运行builtin_cmd函数处理quit，jobs，bg和fg命令，同时不用处理单独的<code>&amp;</code>命令，一种是运行程序，使用exevc函数+参数</li>
+<li>不需要管道和I&#x2F;O</li>
+<li>ctrl-c和ctrl-z只对前台进程fg管用，分别是对前台进程进行终止和挂起，即为stoped和terminaled</li>
+<li>如果命令以<code>&amp;</code>结尾，则默认是后台进程</li>
+<li>要有JID和PID的区分，jid为一个组的id，而pid则是每个进程的id</li>
+<li>需要支持以下内置命令<ol>
+<li>quit：关闭结束shell</li>
+<li>jobs：列出所有后台任务</li>
+<li>bg</li>
+<li>fg</li>
+</ol>
+</li>
+<li>tsh 应该回收所有的僵尸进程，如果任何 job 因为接收了没有 catch 的信号而终止，tsh 应该识别出这个时间并且打印出 JID 和相关信号的信息</li>
+</ul>
+<blockquote>
+<p>做这个lab的时候已经离读完本章过了七八天了，好像又忘得差不多了，真的很烦拉锯战。现在已经很多代码都看不懂了</p>
+</blockquote>
+<h1 id="Lab摸索"><a href="#Lab摸索" class="headerlink" title="Lab摸索"></a>Lab摸索</h1><p>我们归根结底是要对<code>tsh.c</code>这个文件进行修改，让他起到一个shell的作用，我们只用不全eval那几个函数，一开始我们运行下tsh，输入<code>./tsh</code>会进入死循环，每次键入没有反应，阅读代码得知<code>ctrl-d</code>能结束程序。而tshref便是模范程序，tshref.out便是模范输出，我们照着trace文件序号从小到大一个一个实现就可以了，开工！</p>
+<h2 id="错误处理包装函数"><a href="#错误处理包装函数" class="headerlink" title="错误处理包装函数"></a>错误处理包装函数</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token class-name">pid_t</span> <span class="token function">Fork</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Execve</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>filename<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token keyword">const</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token keyword">const</span> environ<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Kill</span><span class="token punctuation">(</span><span class="token class-name">pid_t</span> pid<span class="token punctuation">,</span> <span class="token keyword">int</span> signum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Sigemptyset</span><span class="token punctuation">(</span><span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Sigaddset</span><span class="token punctuation">(</span><span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">,</span> <span class="token keyword">int</span> signum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Sigfillset</span><span class="token punctuation">(</span><span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Setpgid</span><span class="token punctuation">(</span><span class="token class-name">pid_t</span> pid<span class="token punctuation">,</span> <span class="token class-name">pid_t</span> pgid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">Sigprocmask</span><span class="token punctuation">(</span><span class="token keyword">int</span> how<span class="token punctuation">,</span> <span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">,</span> <span class="token class-name">sigset_t</span> <span class="token operator">*</span>oldset<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">Sigsuspend</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">pid_t</span> <span class="token function">Fork</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token class-name">pid_t</span> pid<span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token punctuation">(</span>pid <span class="token operator">=</span> <span class="token function">fork</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">unix_error</span><span class="token punctuation">(</span><span class="token string">"Fork error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> pid<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">Execve</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>filename<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token keyword">const</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token keyword">const</span> environ<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">execve</span><span class="token punctuation">(</span>filename<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> environ<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> 
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%s: Command not found.\n"</span><span class="token punctuation">,</span> argv<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">Kill</span><span class="token punctuation">(</span><span class="token class-name">pid_t</span> pid<span class="token punctuation">,</span> <span class="token keyword">int</span> signum<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">kill</span><span class="token punctuation">(</span>pid<span class="token punctuation">,</span> signum<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">unix_error</span><span class="token punctuation">(</span><span class="token string">"Kill error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">Sigemptyset</span><span class="token punctuation">(</span><span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">sigemptyset</span><span class="token punctuation">(</span>set<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">unix_error</span><span class="token punctuation">(</span><span class="token string">"Sigemptyset error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">Sigaddset</span><span class="token punctuation">(</span><span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">,</span> <span class="token keyword">int</span> sign<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">sigaddset</span><span class="token punctuation">(</span>set<span class="token punctuation">,</span> sign<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">unix_error</span><span class="token punctuation">(</span><span class="token string">"Sigaddset error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">Sigprocmask</span><span class="token punctuation">(</span><span class="token keyword">int</span> how<span class="token punctuation">,</span> <span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">,</span> <span class="token class-name">sigset_t</span> <span class="token operator">*</span>oldset<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">sigprocmask</span><span class="token punctuation">(</span>how<span class="token punctuation">,</span> set<span class="token punctuation">,</span> oldset<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">unix_error</span><span class="token punctuation">(</span><span class="token string">"Sigprocmask error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">Sigfillset</span><span class="token punctuation">(</span><span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">sigfillset</span><span class="token punctuation">(</span>set<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">unix_error</span><span class="token punctuation">(</span><span class="token string">"Sigfillset error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">Setpgid</span><span class="token punctuation">(</span><span class="token class-name">pid_t</span> pid<span class="token punctuation">,</span> <span class="token class-name">pid_t</span> pgid<span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">setpgid</span><span class="token punctuation">(</span>pid<span class="token punctuation">,</span> pgid<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token function">unix_error</span><span class="token punctuation">(</span><span class="token string">"Setpgid error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">Sigsuspend</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token class-name">sigset_t</span> <span class="token operator">*</span>set<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> rc <span class="token operator">=</span> <span class="token function">sigsuspend</span><span class="token punctuation">(</span>set<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">/* always returns -1 */</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>errno <span class="token operator">!=</span> EINTR<span class="token punctuation">)</span>
+        <span class="token function">unix_error</span><span class="token punctuation">(</span><span class="token string">"Sigsuspend error"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> rc<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="信号处理"><a href="#信号处理" class="headerlink" title="信号处理"></a>信号处理</h2><h3 id="SIGCHLD-handler"><a href="#SIGCHLD-handler" class="headerlink" title="SIGCHLD_handler"></a>SIGCHLD_handler</h3><p>在这个函数里面我们要处理<code>SIGCHLD</code>这个信号</p>
+<blockquote>
+<p>sigchld_handler - 每当子作业终止（变成僵尸）或因收到 SIGSTOP 或 SIGTSTP 信号而停止时，内核都会向 shell 发送 SIGCHLD。处理程序会获取所有可用的僵尸子级，但不会等待任何其他当前正在运行的子级终止。</p>
+</blockquote>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">sigchld_handler</span><span class="token punctuation">(</span><span class="token keyword">int</span> sig<span class="token punctuation">)</span> 
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> olderrno<span class="token operator">=</span>errno<span class="token punctuation">;</span><span class="token comment">//负责保存错误信息，errno是全局变量</span>
+    <span class="token class-name">sigset_t</span> mask_all<span class="token punctuation">,</span>prev_all<span class="token punctuation">;</span>
+    <span class="token class-name">pid_t</span> pid<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> status<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">job_t</span> <span class="token operator">*</span>job<span class="token punctuation">;</span>
+    <span class="token function">sigfillset</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>mask_all<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//阻塞所有信号</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token punctuation">(</span>pid<span class="token operator">=</span><span class="token function">waitpid</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>status<span class="token punctuation">,</span>WNOHANG<span class="token operator">|</span>WUNTRACED<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token comment">//当有进程终止/停止的时候都会获得那个进程的pid</span>
+        <span class="token function">sigprocmask</span><span class="token punctuation">(</span>SIG_BLOCK<span class="token punctuation">,</span><span class="token operator">&amp;</span>mask_all<span class="token punctuation">,</span><span class="token operator">&amp;</span>prev_all<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">//分别通过三种状态来判断是正常结束还是terminated还是stopped</span>
+       <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">WIFEXITED</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">deletejob</span><span class="token punctuation">(</span>jobs<span class="token punctuation">,</span>pid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+       <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">WIFSIGNALED</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"Job [%d] (%d) terminated by signal %d\n"</span><span class="token punctuation">,</span> <span class="token function">pid2jid</span><span class="token punctuation">(</span>pid<span class="token punctuation">)</span><span class="token punctuation">,</span> pid<span class="token punctuation">,</span> <span class="token function">WTERMSIG</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">deletejob</span><span class="token punctuation">(</span>jobs<span class="token punctuation">,</span>pid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+       <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">WIFSTOPPED</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+         <span class="token function">printf</span> <span class="token punctuation">(</span><span class="token string">"Job [%d] (%d) stoped by signal %d\n"</span><span class="token punctuation">,</span> <span class="token function">pid2jid</span><span class="token punctuation">(</span>pid<span class="token punctuation">)</span><span class="token punctuation">,</span> pid<span class="token punctuation">,</span> <span class="token function">WSTOPSIG</span><span class="token punctuation">(</span>status<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            job <span class="token operator">=</span> <span class="token function">getjobpid</span><span class="token punctuation">(</span>jobs<span class="token punctuation">,</span> pid<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            job<span class="token operator">-></span>state <span class="token operator">=</span> ST<span class="token punctuation">;</span>
+       <span class="token punctuation">&#125;</span>
+       <span class="token function">sigprocmask</span><span class="token punctuation">(</span>SIG_SETMASK<span class="token punctuation">,</span><span class="token operator">&amp;</span>prev_all<span class="token punctuation">,</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//解除所有阻塞</span>
+       
+    <span class="token punctuation">&#125;</span>
+    errno<span class="token operator">=</span>olderrno<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="SIGINT-handler"><a href="#SIGINT-handler" class="headerlink" title="SIGINT_handler"></a>SIGINT_handler</h3><p>当接收到这个信号时，需要对所有在前台运行的进程将其状态变为STOP，通过kill函数来实现,即通过fgpid函数得到当前jobs中在前台的job的pid，然后把这个进程组kill掉，write_up中告诉我们使用kill函数时要用<code>-pid</code>来kill掉一整个进程组</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void sigint_handler(int sig) 
+&#123;
+    int pid;
+
+    int olderrno&#x3D;errno;
+    sigset_t mask_all,prev_all;
+    sigfillset(&amp;mask_all);
+    sigprocmask(SIG_BLOCK,&amp;mask_all,&amp;prev_all);
+    if((pid&#x3D;(fgpid(jobs)))!&#x3D;0)&#123;
+        sigprocmask(SIG_SETMASK,&amp;prev_all,NULL);
+        kill(-pid,SIGINT);
+    &#125;
+    errno&#x3D;olderrno;
+    return;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="SIGTSTP-handler"><a href="#SIGTSTP-handler" class="headerlink" title="SIGTSTP_handler"></a>SIGTSTP_handler</h3><p>这个和接受到sigint信号的函数差别不大</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void sigtstp_handler(int sig) 
+&#123;
+    int pid;
+    int olderrno&#x3D;errno;
+    sigset_t mask_all,prev_all;
+    sigfillset(&amp;mask_all);
+    sigprocmask(SIG_BLOCK,&amp;mask_all,&amp;prev_all);
+    if((pid&#x3D;(fgpid(jobs)))&gt;0)&#123;
+        sigprocmask(SIG_SETMASK,&amp;prev_all,NULL);
+        kill(-pid,SIGTSTP);
+    &#125;
+    errno&#x3D;olderrno;
+    return;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="waitfg"><a href="#waitfg" class="headerlink" title="waitfg"></a>waitfg</h2><p>阻塞所有的进程，直到前台进程结束&#x2F;被终止&#x2F;停止</p>
+<p>用<code>sigsuspend</code>函数，这个函数相当于如下代码：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">sigprocmask</span><span class="token punctuation">(</span>SIG_SETMASK<span class="token punctuation">,</span> <span class="token operator">&amp;</span>mask<span class="token punctuation">,</span> <span class="token operator">&amp;</span>prev<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">pause</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sigprocmask</span><span class="token punctuation">(</span>SIG_SETMASK<span class="token punctuation">,</span> <span class="token operator">&amp;</span>prev<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>在调用<code>sigsuspend</code>之前阻塞 SIGCHLD 信号，调用时又通过<code>sigprocmask</code>函数，在执行<code>pause</code>函数之前解除对信号的阻塞，从而正常休眠。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void waitfg(pid_t pid)
+&#123;   
+    sigset_t mask;
+    sigemptyset(&amp;mask);
+    while(fgpid(jobs)!&#x3D;0)&#123;
+        sigsuspend(&amp;mask);
+    &#125;
+    return ;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h2><p>总函数，贯穿对cmdline命令处理的调控，安排</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void eval(char *cmdline) 
+&#123;
+    &#x2F;&#x2F;主线程，负责调控诸多函数
+    char *argv[MAXARGS];
+    char buf[MAXLINE];
+    int bg ;
+    pid_t pid;
+    sigset_t mask_all,prev_all,mask_one;
+
+    &#x2F;&#x2F;阻塞信号
+    sigfillset(&amp;mask_all);
+    sigemptyset(&amp;mask_one);
+    sigaddset(&amp;mask_one,SIGCHLD);
+
+   sigprocmask(SIG_BLOCK,&amp;mask_all,&amp;prev_all);&#x2F;&#x2F;防止出现子进程比父进程先的情况
+    &#x2F;&#x2F;在课本里有
+
+    strcpy(buf,cmdline);&#x2F;&#x2F;cmdline复制过来
+    bg&#x3D;parseline(buf,argv);&#x2F;&#x2F;负责根据空格把buf中的字符划分丢到argv的数组中
+    &#x2F;&#x2F;bg&#x3D;1 则在后台执行
+    
+    if(argv[0]&#x3D;&#x3D;NULL)return ;&#x2F;&#x2F;没有命令，不处理
+    if(!builtin_cmd(argv)) &#123;&#x2F;&#x2F;如果不是builtin_cmd，则创立新的子进程
+    
+        if((pid&#x3D;fork())&#x3D;&#x3D;0)&#123;
+            sigprocmask(SIG_SETMASK,&amp;prev_all,NULL);
+
+            setpgid(0,0);&#x2F;&#x2F;进程组
+            if(execve(argv[0],argv,environ)&lt;0)
+            &#123;
+                printf(&quot;%s: Command not found.\n&quot;, argv[0]);
+                exit(0);
+            &#125;
+        &#125;
+        &#x2F;&#x2F;注意子进程不继承父进程的局部变量，故下面的函数段在子进程中直接判定为假。
+       &#x2F;&#x2F;父进程
+        if(!bg)&#123;&#x2F;&#x2F;前台执行
+            addjob(jobs,pid,FG,cmdline);
+          sigprocmask(SIG_SETMASK,&amp;mask_one,NULL);
+            waitfg(pid);
+        &#125;
+        else &#123;&#x2F;&#x2F;后台执行
+            addjob(jobs,pid,BG,cmdline);
+            sigprocmask(SIG_SETMASK,&amp;mask_one,NULL);
+
+            printf(&quot;[%d] (%d) %s&quot;,pid2jid(pid),pid,cmdline);
+          
+        &#125;
+        sigprocmask(SIG_SETMASK,&amp;prev_all,NULL);
+   return ;
+    &#125;  
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="builtin-cmd"><a href="#builtin-cmd" class="headerlink" title="builtin_cmd"></a>builtin_cmd</h2><p>这个很简单，就判断是不是那四个内置命令，是的话就调用对应的函数</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">int builtin_cmd(char **argv) 
+&#123;
+  if(!strcmp(argv[0],&quot;quit&quot;))
+  exit(0);
+   if(!strcmp(argv[0],&quot;&amp;&quot;))
+  return 1;
+   if(!strcmp(argv[0],&quot;bg&quot;)||!strcmp(argv[0],&quot;fg&quot;))
+  &#123;
+    do_bgfg(argv);
+  return 1;
+  &#125;
+  if (!strcmp(argv[0],&quot;jobs&quot;))&#123;
+    listjobs(jobs);
+ return 1;
+  &#125;
+  else 
+     return 0;     &#x2F;* not a builtin command *&#x2F;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="do-bgfg"><a href="#do-bgfg" class="headerlink" title="do_bgfg"></a>do_bgfg</h2><ul>
+<li><p>The bg <job> command restarts <job> by sending it a SIGCONT signal,<br>and then runs it in the background.<br>The <job> argument can be either a PID or a JID.</p>
+</li>
+<li><p>The fg <job> command restarts <job> by sending it a SIGCONT signal,<br>and then runs it in the foreground. </p>
+</li>
+<li><p>The <job> argument can be either a PID or a JID.</p>
+<p>这个函数主要是根据test14案例进行修改补充</p>
+</li>
+</ul>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">void do_bgfg(char **argv) 
+&#123;
+    &#x2F;&#x2F;后台执行
+    struct job_t *job&#x3D;NULL;
+    int state;
+    int id;
+    if(!strcmp(argv[0],&quot;bg&quot;))state&#x3D;BG;
+    else state &#x3D;FG;
+
+   if(argv[1]&#x3D;&#x3D;NULL)&#123;
+        printf(&quot;%s command requires PID or %%jobid argument\n&quot;,argv[0]);
+        return ;
+    &#125;&#x2F;&#x2F;判断是不是只有fg&#x2F;bg这种命令
+    if(argv[1][0]&#x3D;&#x3D;&#39;%&#39;)&#123;&#x2F;&#x2F;jid的情况
+        if(sscanf(&amp;argv[1][1],&quot;%d&quot;,&amp;id)&gt;0)&#123;
+            job&#x3D;getjobjid(jobs,id);
+            if(job&#x3D;&#x3D;NULL)&#123;
+                printf(&quot;%s: No such job\n&quot;,argv[1]);
+                return ;
+            &#125;
+        &#125;
+    &#125; 
+     else if(!isdigit(argv[1][0])) &#123;  &#x2F;&#x2F;其它符号，非法输入，不是数字的情况
+        printf(&quot;%s: argument must be a PID or %%jobid\n&quot;, argv[0]);
+        return;
+    &#125;
+    else &#123;&#x2F;&#x2F;pid的情况，直接把字符串转化成数字床，通过atoi函数
+        id&#x3D;atoi(argv[1]);
+        job&#x3D;getjobpid(jobs,id);
+        if(job&#x3D;&#x3D;NULL)&#123;
+            printf(&quot;(%d): No such process\n&quot;,id);
+            return;
+        &#125;
+        
+    &#125;
+    kill(-(job-&gt;pid),SIGCONT);&#x2F;&#x2F;统一把他们的状态都定义成SIGCONT
+    job-&gt;state&#x3D;state;
+    if(state&#x3D;&#x3D;BG)&#x2F;&#x2F;根据状态的不同调整输出
+        printf(&quot;[%d] (%d) %s&quot;,job-&gt;jid,job-&gt;pid,job-&gt;cmdline);
+    else 
+        waitfg(job-&gt;pid);
+    
+    return;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个shell lab没有具体的评分系统，每次都是通过以下两个命令</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">make test01
+make rtest01<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这种类似的命令来比对1-16个trace文件，而且这个shell是模拟一个shell，故不能通过对拍来判断程序是否正确，因为进程号都不一样，而且这个lab是我学习完课本后放了一个超级长的五一假期然后磨磨蹭蹭做完的，而且抄了大量的别人的代码，只能说这个lab做的有点失败，而且没有进行错误处理包装，错误处理函数是直接复制的，但是还是学到了很多东西。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/492645370">CSAPP | Lab7-Shell Lab 深入解析 - 知乎 (zhihu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/667470667">CSAPP shelllab解析 - 知乎 (zhihu.com)</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Vitus Apollo</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://vitus213.github.io/2024/04/25/lab7/">http://vitus213.github.io/2024/04/25/lab7/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Vitus Apollo</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                    <span class="chip bg-color">学习笔记</span>
+                                </a>
+                            
+                                <a href="/tags/CSAPP/">
+                                    <span class="chip bg-color">CSAPP</span>
+                                </a>
+                            
+                                <a href="/tags/ECF/">
+                                    <span class="chip bg-color">ECF</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/05/24/lab7/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="CSAPP的lab7-malloclab">
+                        
+                        <span class="card-title">CSAPP的lab7-malloclab</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-05-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CS/" class="post-category">
+                                    CS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/CSAPP/">
+                        <span class="chip bg-color">CSAPP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/03/14/lab4/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="CSAPP的lab4-archlab">
+                        
+                        <span class="card-title">CSAPP的lab4-archlab</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-14
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CS/" class="post-category">
+                                    CS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/CSAPP/">
+                        <span class="chip bg-color">CSAPP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024-2025</span>
+            
+            <a href="/about" target="_blank">Vitus Apollo</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">89k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2024";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Vitus213" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:zhzvitus@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2811215248" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2811215248" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

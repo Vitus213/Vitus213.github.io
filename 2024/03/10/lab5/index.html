@@ -1,0 +1,1928 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="CSAPP的lab5-cachelab, Apollo-213">
+    <meta name="description" content="
+前前后后看了一个星期的关于optimization programmer 和cache 方面的知识,虽然没有打开课本,但想直接做做,课本属实有点厚,主要是想快刀斩乱麻
+太难啦!!!!
+
+预备知识Rules and Tips
+WriteUp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>CSAPP的lab5-cachelab | Apollo-213</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Apollo-213</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Apollo-213</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">CSAPP的lab5-cachelab</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                <span class="chip bg-color">学习笔记</span>
+                            </a>
+                        
+                            <a href="/tags/CSAPP/">
+                                <span class="chip bg-color">CSAPP</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/CS/" class="post-category">
+                                CS
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-03-10
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2024-03-12
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    7.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    33 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p>前前后后看了一个星期的关于optimization programmer 和cache 方面的知识,虽然没有打开课本,但想直接做做,课本属实有点厚,主要是想快刀斩乱麻</p>
+<p>太难啦!!!!</p>
+</blockquote>
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><h2 id="Rules-and-Tips"><a href="#Rules-and-Tips" class="headerlink" title="Rules and Tips"></a>Rules and Tips</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/cachelab.pdf">WriteUp</a>，本lab的规则与评分标准。<br><a target="_blank" rel="noopener" href="https://www.cs.cmu.edu/afs/cs/academic/class/15213-f15/www/recitations/rec07.pdf">书本内容及实验</a>，这个ppt其实非常好，回顾了书本上的内容，对实验部分也给予了一定的引导作用。<br><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/public/waside/waside-blocking.pdf">分块技术</a>，CMU早年的一篇文章，配合Lab食用体验更佳。</p>
+</blockquote>
+<h2 id="小函数"><a href="#小函数" class="headerlink" title="小函数"></a>小函数</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/afei__/article/details/81261879">getopt用法</a>,能在给定的命令参数中挑出选项,识别不同种类的参数</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yaya12138/p/11329319.html">fscanf用法</a>,能在包含大量相同格式的文件中,分别读出每一个字符</p>
+</li>
+</ul>
+<p>函数原型：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">Copyint <span class="token function">fscanf</span><span class="token punctuation">(</span>FILE <span class="token operator">*</span> fp<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span> format<span class="token punctuation">,</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>其中fp为文件指针，format为C字符串，…为参数列表，返回值为成功写入的字符的个数。</p>
+<p>fscanf函数会从文件输入流中读入数据，存储到format中，<strong>遇到空格和换行时结束</strong>。</p>
+<p>例如本文</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token function">fscanf</span><span class="token punctuation">(</span>fp<span class="token punctuation">,</span> <span class="token string">"%c %xu,%d\n"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>operation<span class="token punctuation">,</span> <span class="token operator">&amp;</span>address<span class="token punctuation">,</span> <span class="token operator">&amp;</span>size<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>能从fp对应的文件中每一行读取一个字符存到operation,读取一个16进制无符号整数存到Address,读取一个整数存到Size</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-function-malloc.html">malloc用法</a>,能开辟空间</li>
+</ul>
+<p>函数声明</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token operator">*</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token class-name">size_t</span> size<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>返回值:</p>
+<p>该函数返回一个指针,指向已分配大小的内存。如果请求失败,则返回NULL。</p>
+<p>例如本文:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">cache_ <span class="token operator">=</span> <span class="token punctuation">(</span>cache<span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>cache_f<span class="token punctuation">)</span> <span class="token operator">*</span> S<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>返回的指针无类型,需要自己规定类型.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/cprogramming/c-function-fopen.html">fopen用法</a>: 定位文件(通过路径),以指针的形式访问文件</li>
+</ul>
+<p>函数声明</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">FILE <span class="token operator">*</span><span class="token function">fopen</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>filename<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>mode<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>例如本文</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">FILE <span class="token operator">*</span>fp <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    fp <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>fp <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Fuck you Open error!!!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="Cache寻址"><a href="#Cache寻址" class="headerlink" title="Cache寻址"></a>Cache寻址</h2><p>缓存长什么样?</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023552.png" alt="image-20240312163438221"></p>
+<p>故缓存中的每个Cache_line由Valid_bits和Tag和Block构成,每个Set由有多个E,每个E有多个line.具体可以看视频,要是看不懂的话,可以看<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iW411d7hd?p=12">课程视频</a>.</p>
+<p>相信你现在懂了,那我们再看看怎么寻址吧!</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023597.png" alt="image-20240312163819510"></p>
+<p>每一个内存对缓存的映射大都符合这种情况,有一个tag,有一个set index,有一个Block offset.了解了解就可以开始做题了!</p>
+<p><strong>希望上面的每个链接你都能细致的看完,不然的话就要像我一样没有完备的知识架构体系而不断的上网查资料了,这就是精华!!!</strong></p>
+<h1 id="Part-1-LRU-Cache"><a href="#Part-1-LRU-Cache" class="headerlink" title="Part 1 LRU Cache"></a>Part 1 LRU Cache</h1><p>目的:在给定的csim.c文件中编写填充,实现一个基于LRU策略的Cache simulator,该模拟器可以模拟在一系列的数据访问中cache的hit、miss与eviction的情况，其中，需要eviction行时，用LRU替换策略进行替换。</p>
+<p>cache模拟器需要能处理一系列如下的命令：</p>
+<pre><code>Usage: ./csim-ref [-hv] -s &lt;s&gt; -E &lt;E&gt; -b &lt;b&gt; -t &lt;tracefile&gt;
+</code></pre>
+<p>​    其中各参数意义如下：</p>
+<ol>
+<li><p>-h：输出帮助信息的选项；</p>
+</li>
+<li><p>-v：输出详细运行过程信息的选项；</p>
+</li>
+<li><p>-s：组索引的位数(意味着组数S&#x3D;2^s^)；</p>
+</li>
+<li><p>-E：每一组包含的行数；</p>
+</li>
+<li><p>-b：偏移位的宽度(意味着块的大小为B&#x3D;2^b^);</p>
+</li>
+<li><p>-t：输入数据文件的路径(测试数据从该文件里面读取)。</p>
+</li>
+</ol>
+<p>———————————————</p>
+<p><strong>接下来分别讲解每个函数的思路和代码实现:</strong></p>
+<h2 id="sf"><a href="#sf" class="headerlink" title="sf"></a>sf</h2><p>在这个函数里面我要做的是把输入的,在命令行中的参数全部提取出来,这里采取的是getopt函数(注意加上他的头文件),要是你学会了他的用法那就不难了,opt会依次获取每一个选项<code>h,v,s,E,b,t</code>要是有就会读入,要是有冒号的话还会读入后面的参数,存在optarg中,通过atoi函数可以直接将字符串转换成整数!完美解决第一个小函数</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">sf</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span> argv<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    h <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    v <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> opt<span class="token punctuation">;</span>
+    <span class="token comment">// 拆分输入的规定</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span> <span class="token operator">!=</span> <span class="token punctuation">(</span>opt <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">getopt</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"hvs:E:b:t:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>opt<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">case</span> <span class="token char">'h'</span><span class="token operator">:</span>
+                h <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token function">printUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token char">'v'</span><span class="token operator">:</span>
+                v <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token function">printUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token char">'s'</span><span class="token operator">:</span>
+                s <span class="token operator">=</span> <span class="token function">atoi</span><span class="token punctuation">(</span>optarg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token char">'E'</span><span class="token operator">:</span>
+                E <span class="token operator">=</span> <span class="token function">atoi</span><span class="token punctuation">(</span>optarg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token char">'b'</span><span class="token operator">:</span>
+                b <span class="token operator">=</span> <span class="token function">atoi</span><span class="token punctuation">(</span>optarg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">case</span> <span class="token char">'t'</span><span class="token operator">:</span>
+                <span class="token function">strcpy</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> optarg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token operator">:</span>
+                <span class="token function">printUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> E <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> b <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> t <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    S <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> s<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="PrintUsage"><a href="#PrintUsage" class="headerlink" title="PrintUsage"></a>PrintUsage</h2><p>这个函数可要可不要,我随便写的</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">printUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Fuck you Vite ,Do it quickly ,Don't play game! OK?\n"</span>
+           <span class="token string">"Usage: ./csim-ref [-hv] -s &lt;num> -E &lt;num> -b &lt;num> -t &lt;file>\n"</span>
+           <span class="token string">"Options:\n"</span>
+           <span class="token string">"  -h         Print this help message.\n"</span>
+           <span class="token string">"  -v         Optional verbose flag.\n"</span>
+           <span class="token string">"  -s &lt;num>   Number of set index bits.\n"</span>
+           <span class="token string">"  -E &lt;num>   Number of lines per set.\n"</span>
+           <span class="token string">"  -b &lt;num>   Number of block offset bits.\n"</span>
+           <span class="token string">"  -t &lt;file>  Trace file.\n\n"</span>
+           <span class="token string">"Examples:\n"</span>
+           <span class="token string">"  linux>  ./csim-ref -s 4 -E 1 -b 4 -t traces/yi.trace\n"</span>
+           <span class="token string">"  linux>  ./csim-ref -v -s 8 -E 2 -b 4 -t traces/yi.trace\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="init-Cache"><a href="#init-Cache" class="headerlink" title="init_Cache"></a>init_Cache</h2><p>接下来,开始给Cache分配空间,我们要使用lru策略,所以每一个cache的组成部分都要有valid_bits和tag和stamp(时间戳),三部分构成,考虑到其就像一个二维数组,故我们用一个结构体二维数组来模拟</p>
+<p>先创建结构体,同时创建了一级指针和二级指针</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> valid_bits<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> tag<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> stamp<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> cache_line<span class="token punctuation">,</span> <span class="token operator">*</span>cache_f<span class="token punctuation">,</span> <span class="token operator">*</span><span class="token operator">*</span>cache<span class="token punctuation">;</span>
+cache cache_ <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后开始初始化结构体</p>
+<p>先给一级指针开辟空间,再分别给每一个结构体开辟空间,以访问数组的方式初始化每个struct内的三个小玩意,便算是整个初始化完毕了.</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">init_cache</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    cache_ <span class="token operator">=</span> <span class="token punctuation">(</span>cache<span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>cache_f<span class="token punctuation">)</span> <span class="token operator">*</span> S<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> S<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>cache_f<span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>cache_line<span class="token punctuation">)</span> <span class="token operator">*</span> E<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>valid_bits <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>tag <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="simulate-cache"><a href="#simulate-cache" class="headerlink" title="simulate_cache"></a>simulate_cache</h2><p>模拟cache,首先检验我们得到的t路径能不能用,若fp是一个空指针,则该文件不存在,输出错误信息.然后就要通过while循环和fscanf函数来读取给定的trace文件夹中的指令</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023645.png" alt="image-20240312190510123"></p>
+<p>显然,里面的指令都是一个operation+address+size,由给定的write up中说到,不用统计I这个指令,所以我们只用考虑Load,Store和Modify三个指令,Modify可以理解为L+S,所以我们通过fscanf得到指令选项后,’L’,’S’都只要更新一次,’M’要更新两次,同时每次读取文件的其中一行我们都要模拟缓存的LRU策略,更新时间戳.</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">simulate_cache</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    FILE <span class="token operator">*</span>fp <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    fp <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>fp <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Fuck you Open error!!!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">char</span> operation<span class="token punctuation">;</span>
+    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> address<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> size<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">fscanf</span><span class="token punctuation">(</span>fp<span class="token punctuation">,</span> <span class="token string">"%c %xu,%d\n"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>operation<span class="token punctuation">,</span> <span class="token operator">&amp;</span>address<span class="token punctuation">,</span> <span class="token operator">&amp;</span>size<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>operation<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token char">'L'</span><span class="token operator">:</span>
+            <span class="token function">update</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token char">'M'</span><span class="token operator">:</span>
+            <span class="token function">update</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token char">'S'</span><span class="token operator">:</span>
+            <span class="token function">update</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">update_stamp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">fclose</span><span class="token punctuation">(</span>fp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> S<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token function">free</span><span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">free</span><span class="token punctuation">(</span>cache_<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>当然在遍历完trace文件后,我们要记得关闭文件夹指针,同时挨个挨个释放malloc分配的空间.毕竟有借有还,再借不难!</p>
+<h2 id="update"><a href="#update" class="headerlink" title="update"></a>update</h2><p>这里我们这样模拟:对于传进来的地址,我们先要拆出他的set_index,拆出他的tag,Block Offset的位数由给定的-b参数决定,set_index由-s的参数决定,故我们通过进制位移得到如下:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">unsigned</span> set_address <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>address <span class="token operator">>></span> b<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1U</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token punctuation">(</span><span class="token number">64</span> <span class="token operator">-</span> s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">int</span> cache_tag <span class="token operator">=</span> address <span class="token operator">>></span> <span class="token punctuation">(</span>s <span class="token operator">+</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>然后我们取到了这几个地址后就要分别判断是hit,还是miss,还是miss+eviction,所以我们要分别判断在对应的set里面,遍历一次.</p>
+<ol>
+<li>第一个循环判断的是能否hit</li>
+<li>第二个循环判断的是是否有空行能够使用</li>
+<li>第三个循环把使用时间最久的行驱逐换上新的行,复位时间戳.</li>
+</ol>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> address<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">unsigned</span> set_address <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>address <span class="token operator">>></span> b<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1U</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token punctuation">(</span><span class="token number">64</span> <span class="token operator">-</span> s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> cache_tag <span class="token operator">=</span> address <span class="token operator">>></span> <span class="token punctuation">(</span>s <span class="token operator">+</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>tag <span class="token operator">==</span> cache_tag<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            hit_count<span class="token operator">++</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>valid_bits <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            miss_count<span class="token operator">++</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>valid_bits <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>tag <span class="token operator">=</span> cache_tag<span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">int</span> max_stamp <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> waste <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    miss_count<span class="token operator">++</span><span class="token punctuation">;</span>
+    eviction_count<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">></span> max_stamp<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            max_stamp <span class="token operator">=</span> cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp<span class="token punctuation">;</span>
+            waste <span class="token operator">=</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>waste<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>waste<span class="token punctuation">]</span><span class="token punctuation">.</span>tag <span class="token operator">=</span> cache_tag<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="update-stamp"><a href="#update-stamp" class="headerlink" title="update_stamp"></a>update_stamp</h2><p>更新时间戳很简单,就是把合法情况全遍历一遍,时间戳都加一</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">update_stamp</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> S<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>valid_bits <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span>
+                <span class="token operator">++</span>cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="总体代码"><a href="#总体代码" class="headerlink" title="总体代码:"></a>总体代码:</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"cachelab.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;getopt.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token keyword">int</span> h<span class="token punctuation">,</span> v<span class="token punctuation">,</span> s<span class="token punctuation">,</span> E<span class="token punctuation">,</span> b<span class="token punctuation">,</span> S<span class="token punctuation">;</span>
+<span class="token keyword">int</span> hit_count<span class="token punctuation">,</span> miss_count<span class="token punctuation">,</span> eviction_count<span class="token punctuation">;</span>
+<span class="token keyword">char</span> t<span class="token punctuation">[</span><span class="token number">1000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> valid_bits<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> tag<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> stamp<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> cache_line<span class="token punctuation">,</span> <span class="token operator">*</span>cache_f<span class="token punctuation">,</span> <span class="token operator">*</span><span class="token operator">*</span>cache<span class="token punctuation">;</span>
+cache cache_ <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">printUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Fuck you Vite ,Do it quickly ,Don't play game! OK?\n"</span>
+           <span class="token string">"Usage: ./csim-ref [-hv] -s &lt;num> -E &lt;num> -b &lt;num> -t &lt;file>\n"</span>
+           <span class="token string">"Options:\n"</span>
+           <span class="token string">"  -h         Print this help message.\n"</span>
+           <span class="token string">"  -v         Optional verbose flag.\n"</span>
+           <span class="token string">"  -s &lt;num>   Number of set index bits.\n"</span>
+           <span class="token string">"  -E &lt;num>   Number of lines per set.\n"</span>
+           <span class="token string">"  -b &lt;num>   Number of block offset bits.\n"</span>
+           <span class="token string">"  -t &lt;file>  Trace file.\n\n"</span>
+           <span class="token string">"Examples:\n"</span>
+           <span class="token string">"  linux>  ./csim-ref -s 4 -E 1 -b 4 -t traces/yi.trace\n"</span>
+           <span class="token string">"  linux>  ./csim-ref -v -s 8 -E 2 -b 4 -t traces/yi.trace\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">init_cache</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    cache_ <span class="token operator">=</span> <span class="token punctuation">(</span>cache<span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>cache_f<span class="token punctuation">)</span> <span class="token operator">*</span> S<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> S<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>cache_f<span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>cache_line<span class="token punctuation">)</span> <span class="token operator">*</span> E<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>valid_bits <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>tag <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> address<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">unsigned</span> set_address <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>address <span class="token operator">>></span> b<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1U</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token punctuation">(</span><span class="token number">64</span> <span class="token operator">-</span> s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> cache_tag <span class="token operator">=</span> address <span class="token operator">>></span> <span class="token punctuation">(</span>s <span class="token operator">+</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>tag <span class="token operator">==</span> cache_tag<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            hit_count<span class="token operator">++</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">//</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>valid_bits <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            miss_count<span class="token operator">++</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>valid_bits <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>tag <span class="token operator">=</span> cache_tag<span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">//</span>
+    <span class="token keyword">int</span> max_stamp <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> waste <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    miss_count<span class="token operator">++</span><span class="token punctuation">;</span>
+    eviction_count<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">></span> max_stamp<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+            max_stamp <span class="token operator">=</span> cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp<span class="token punctuation">;</span>
+            waste <span class="token operator">=</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>waste<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    cache_<span class="token punctuation">[</span>set_address<span class="token punctuation">]</span><span class="token punctuation">[</span>waste<span class="token punctuation">]</span><span class="token punctuation">.</span>tag <span class="token operator">=</span> cache_tag<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">update_stamp</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> S<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> E<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>valid_bits <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span>
+                <span class="token operator">++</span>cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">.</span>stamp<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">simulate_cache</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    FILE <span class="token operator">*</span>fp <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    fp <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>fp <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Fuck you Open error!!!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">char</span> operation<span class="token punctuation">;</span>
+    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> address<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> size<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token function">fscanf</span><span class="token punctuation">(</span>fp<span class="token punctuation">,</span> <span class="token string">"%c %xu,%d\n"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>operation<span class="token punctuation">,</span> <span class="token operator">&amp;</span>address<span class="token punctuation">,</span> <span class="token operator">&amp;</span>size<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>operation<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token char">'L'</span><span class="token operator">:</span>
+            <span class="token function">update</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token char">'M'</span><span class="token operator">:</span>
+            <span class="token function">update</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token char">'S'</span><span class="token operator">:</span>
+            <span class="token function">update</span><span class="token punctuation">(</span>address<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token function">update_stamp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">fclose</span><span class="token punctuation">(</span>fp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> S<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token function">free</span><span class="token punctuation">(</span>cache_<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">free</span><span class="token punctuation">(</span>cache_<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">void</span> <span class="token function">sf</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span> argv<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    h <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    v <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> opt<span class="token punctuation">;</span>
+    <span class="token comment">// 拆分输入的规定</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span> <span class="token operator">!=</span> <span class="token punctuation">(</span>opt <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">getopt</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"hvs:E:b:t:"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>opt<span class="token punctuation">)</span>
+        <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token char">'h'</span><span class="token operator">:</span>
+            h <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token function">printUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token char">'v'</span><span class="token operator">:</span>
+            v <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token function">printUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token char">'s'</span><span class="token operator">:</span>
+            s <span class="token operator">=</span> <span class="token function">atoi</span><span class="token punctuation">(</span>optarg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token char">'E'</span><span class="token operator">:</span>
+            E <span class="token operator">=</span> <span class="token function">atoi</span><span class="token punctuation">(</span>optarg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token char">'b'</span><span class="token operator">:</span>
+            b <span class="token operator">=</span> <span class="token function">atoi</span><span class="token punctuation">(</span>optarg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token char">'t'</span><span class="token operator">:</span>
+            <span class="token function">strcpy</span><span class="token punctuation">(</span>t<span class="token punctuation">,</span> optarg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">default</span><span class="token operator">:</span>
+            <span class="token function">printUsage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>s <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> E <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> b <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> t <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+        <span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    S <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">&lt;&lt;</span> s<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">sf</span> <span class="token punctuation">(</span>argc<span class="token punctuation">,</span>argv<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">init_cache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">simulate_cache</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">printSummary</span><span class="token punctuation">(</span>hit_count<span class="token punctuation">,</span> miss_count<span class="token punctuation">,</span> eviction_count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="Part-2-Block"><a href="#Part-2-Block" class="headerlink" title="Part_2 Block"></a>Part_2 Block</h1><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><h3 id="限制条件"><a href="#限制条件" class="headerlink" title="限制条件"></a>限制条件</h3><p>给定的是s&#x3D;5,E&#x3D;1,b&#x3D;5;故S&#x3D;1&lt;&lt;s  &#x3D;&#x3D;&gt;  S&#x3D;32</p>
+<p>故一共有32组set,每组1line,每line有32Bytes,由tran.c内的函数可知,矩阵中存的是int类型的数组 故每个cache_line能存8个int 变量</p>
+<h3 id="Rules"><a href="#Rules" class="headerlink" title="Rules"></a>Rules</h3><blockquote>
+<p>• Your code in trans.c must compile without warnings to receive credit.</p>
+<p>• You are allowed to deﬁne at most 12 local variables of type int per transpose function.1 </p>
+<p>• You are not allowed to side-step the previous rule by using any variables of type long or by using any bit tricks to store more than one value to a single variable.</p>
+<p>• Your transpose function may not use recursion.</p>
+<p>• If you choose to use helper functions, you may not have more than 12 local variables on the stack at a time between your helper functions and your top level transpose function. For example, if your transpose declares 8 variables, and then you call a function which uses 4 variables, which calls another function which uses 2, you will have 14 variables on the stack, and you will be in violation of the rule.</p>
+<p>• Your transpose function may not modify array A. You may, however, do whatever you want with the contents of array B.</p>
+<p>• You are NOT allowed to deﬁne any arrays in your code or to use any variant of malloc.</p>
+</blockquote>
+<h2 id="Eg-4-4"><a href="#Eg-4-4" class="headerlink" title="Eg:4*4"></a>Eg:4*4</h2><blockquote>
+<p>因为题目条件,一个set只有一个line,一个line里面只有一个block,所以我们说的line和block在part_2里面几乎可以划为等价符号.</p>
+</blockquote>
+<p>以4*4分块为例子分析,以文章的限定条件,一个cache_line能存放8个int类型的数据,我们同样知道要是存到缓存中A的第一二行都会在同一个line里面而三四行在第二个line里面.</p>
+<p>我们分别用朴素代码跑一遍</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023684.png" alt="image-20240312100228129"></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"># 朴素代码
+<span class="token keyword">void</span> <span class="token function">trans</span><span class="token punctuation">(</span><span class="token keyword">int</span> M<span class="token punctuation">,</span> <span class="token keyword">int</span> N<span class="token punctuation">,</span> <span class="token keyword">int</span> A<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> B<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">,</span> j<span class="token punctuation">,</span> tmp<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> N<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> M<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            tmp <span class="token operator">=</span> A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            B<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> tmp<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>    
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们测试一下原始代码</p>
+<pre class="line-numbers language-none"><code class="language-none">make &amp;&amp; .&#x2F;test-trans -M 4 -N 4<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>结果如下</p>
+<pre class="line-numbers language-(空)" data-language="(空)"><code class="language-(空)">hits:15, misses:22, evictions:19<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>重点分析原始代码,即自带的朴素转置造成多miss的原因</p>
+<p>我们在终端输入以下命令来跟踪输出(命令能在文首的write up链接的pdf中看见,请仔细看!!!)</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token punctuation">.</span><span class="token operator">/</span>csim<span class="token operator">-</span>ref <span class="token operator">-</span>v <span class="token operator">-</span>s <span class="token number">5</span> <span class="token operator">-</span>E <span class="token number">1</span> <span class="token operator">-</span>b <span class="token number">5</span> <span class="token operator">-</span>t <span class="token function">f</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token function">trace</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">.</span>txt<span class="token comment">//f(i)为函数顺序输出的文件 fi要看你是第几个函数,会输出对应的fi(1,2,3,4...)的跟踪文件,然后用csim-ref模拟跑一遍</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这个是朴素代码的跟踪结果,我们观察分析</p>
+<pre class="line-numbers language-none"><code class="language-none">S 18d0cc,1 miss 
+L 18d100,8 miss 
+L 18d0c4,4 hit 
+L 18d0c0,4 hit   
+&#x2F;&#x2F;Valgrind 模拟,函数,等等的系统性开支
+-------
+L 10d0c0,4 miss eviction  A数组访问A[0][0]，冷不命中，将块11装入cache
+S 14d0c0,4 miss eviction  虽然B[0][0]所映射的块11在cache中，但是标记位不同，造成冲突不命中，重新将数组B对应的块11装入cache
+L 10d0c4,4 miss eviction  A数组访问A[0][1]，虽然A[0][1] 所映射的块11在cache中，但是标记位不同，造成冲突不命中，重新将数组A对应的块11装入cache。
+S 14d0d0,4 miss eviction  虽然B[1][0]所映射的块11在cache中，但是标记位不同，造成冲突不命中，重新将数组B对应的块11装入cache
+L 10d0c8,4 miss eviction  虽然A[0][2]所映射的块11在cache中，但是标记位不同，造成冲突不命中，重新将数组A对应的块11装入cache。
+
+S 14d0e0,4 miss               B数组访问B[2][0]，B[2][0] 所映射的块12不在cache中，冷不命中，将数组B对应的块12装入cache
+L 10d0cc,4 hit                   A[0][3]所映射的块11在cache中，且标记位相同，故命中。
+S 14d0f0,4 hit                   Bhit
+L 10d0d0,4 hit                  A[1][0]所映射的块11在cache中，且标记位相同，故命中。
+S 14d0c4,4 miss eviction  虽然B[0][1] 所映射的块11在cache中，但是标记位不同，造成冲突不命中，重新将数组B对应的块11装入cache。
+......<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们能发现,他之所以冲突就是因为在朴素代码中,由于A,B两个数组下标相同时,或者是因为其在缓存上的排列,当两个块在缓存中的映射位置相同时,例如A[0,0]已经加载到缓存中了,为了个B[0,0]赋值,只能把A[0,0]驱逐,但是写完B[0,0]后又要读入A[1,0],其映射的块又是在11(这个是由地址算出来的),所以B[0,0]又要被驱逐,重复很多次的冲突所以就会导致miss数量维持较高.</p>
+<p>所以我们有什么办法呢?我们知道:<br>要先读入A数组再读入B数组,有没有办法能一次性读完A进入到缓存的部分呢?有的!,由上图我们知道A进入缓存的部分11块中有8个int,所以我们可以创建8个局部变量,把这8个int都存起来,然后再把b读进来,这样读过的A就不用再读了!就可以减少很多冲突!</p>
+<p>代码如下:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">#优化代码
+<span class="token keyword">void</span> <span class="token function">trans_test</span><span class="token punctuation">(</span><span class="token keyword">int</span> M<span class="token punctuation">,</span><span class="token keyword">int</span> N<span class="token punctuation">,</span><span class="token keyword">int</span> A<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">int</span> B<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> x1<span class="token punctuation">,</span>x2<span class="token punctuation">,</span>x3<span class="token punctuation">,</span>x4<span class="token punctuation">,</span>x5<span class="token punctuation">,</span>x6<span class="token punctuation">,</span>x7<span class="token punctuation">,</span>x8<span class="token punctuation">,</span>i<span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span><span class="token number">3</span><span class="token punctuation">;</span>i<span class="token operator">+=</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+     x1<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x2<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x3<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> x4<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x5<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x6<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x7<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> x8<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+     B<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>x1<span class="token punctuation">;</span><span class="token punctuation">,</span>B<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>x2<span class="token punctuation">,</span>B<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>x3<span class="token punctuation">,</span> B<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>x4<span class="token punctuation">,</span>B<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span>x5<span class="token punctuation">,</span>B<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span>x6<span class="token punctuation">,</span>B<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span>x7<span class="token punctuation">,</span>B<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span>x8<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>测试结果如下:</p>
+<pre class="line-numbers language-(空)" data-language="(空)"><code class="language-(空)">hits:29, misses:8, evictions:5<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>miss数大量减少,所以要是可以理解的话,我们就继续往下看趴!</p>
+<h2 id="Phase-1-32-32"><a href="#Phase-1-32-32" class="headerlink" title="Phase_1:32*32"></a>Phase_1:32*32</h2><h3 id="通关思路"><a href="#通关思路" class="headerlink" title="通关思路"></a>通关思路</h3><p>依据ppt的内容,我们往分块方向上去讨论,8*8分块,因为一个cache_line只能存8个int,所以我们使用8*8的分块形式能恰好利用到前八行由下面的图可以看出,除却对角线上的元素,对应色块的转置采用8*8几乎是互不干扰的,因为其映射的地址不一样,所以我们将cache划分成从上往下共四份是有用的.所以我们在每个分块里单独进行转置,能减少很多次因为冲突而导致的Miss.</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> trans_1_desc<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"直接进行8*8的分块,不做任何优化"</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">trans_1</span><span class="token punctuation">(</span><span class="token keyword">int</span> M<span class="token punctuation">,</span><span class="token keyword">int</span> N<span class="token punctuation">,</span><span class="token keyword">int</span> A<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">int</span> B<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>M<span class="token operator">==</span><span class="token number">32</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>M<span class="token punctuation">;</span>i<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> m<span class="token operator">=</span>i<span class="token punctuation">;</span>m<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">+</span>i<span class="token punctuation">;</span>m<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token operator">=</span>j<span class="token punctuation">;</span>n<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">+</span>j<span class="token punctuation">;</span>n<span class="token operator">++</span><span class="token punctuation">)</span>
+        B<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后便会得到以下结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023722.png" alt="image-20240312103414780"></p>
+<p>对角线图示:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023761.png" alt="image-20240312110516371"></p>
+<p>Miss:343离满分差了一点,我们发现色块之间的转置其实已经优化到上限了,现在要优化的就是对角线,因为对角线上的快存在原地转置的问题,比如A[0,0]和B[0,0]对应的位置其实是一样的,在这里面要是不特殊操作那发生的情况就类似于4*4的情况.要是你对4*4的例子理解透彻的话,那很简单,我们只用把A一整行的8个int全部都取出来,存在8个局部变量中,再转置到b,这样就能大大简化eviction的数量了.</p>
+<p>优化一下对角线代码,即对内层进行展开.</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> trans_2_desc<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"进行8*8的分块,并且优化对角线"</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">trans_2</span><span class="token punctuation">(</span><span class="token keyword">int</span> M<span class="token punctuation">,</span><span class="token keyword">int</span> N <span class="token punctuation">,</span><span class="token keyword">int</span> A<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">int</span> B<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span><span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>m<span class="token punctuation">,</span>n<span class="token punctuation">,</span>x1<span class="token punctuation">,</span>x2<span class="token punctuation">,</span>x3<span class="token punctuation">,</span>x4<span class="token punctuation">,</span>x5<span class="token punctuation">,</span>x6<span class="token punctuation">,</span>x7<span class="token punctuation">,</span>x8<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>M<span class="token punctuation">;</span>i<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">==</span>j<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token keyword">for</span><span class="token punctuation">(</span>m<span class="token operator">=</span>i<span class="token punctuation">;</span>m<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">+</span>i<span class="token punctuation">;</span>m<span class="token operator">++</span><span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                   x1<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                   x2<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                   x3<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                   x4<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                   x5<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                   x6<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                   x7<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                   x8<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                   B<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>x1<span class="token punctuation">;</span>
+                   B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>x2<span class="token punctuation">;</span>
+                   B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>x3<span class="token punctuation">;</span>
+                   B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>x4<span class="token punctuation">;</span>
+                   B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>x5<span class="token punctuation">;</span>
+                   B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>x6<span class="token punctuation">;</span>
+                   B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>x7<span class="token punctuation">;</span>
+                   B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>x8<span class="token punctuation">;</span>               
+                <span class="token punctuation">&#125;</span>   
+            <span class="token punctuation">&#125;</span>
+             <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    <span class="token keyword">for</span><span class="token punctuation">(</span> m<span class="token operator">=</span>i<span class="token punctuation">;</span>m<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">+</span>i<span class="token punctuation">;</span>m<span class="token operator">++</span><span class="token punctuation">)</span>
+                    <span class="token keyword">for</span><span class="token punctuation">(</span> n<span class="token operator">=</span>j<span class="token punctuation">;</span>n<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">+</span>j<span class="token punctuation">;</span>n<span class="token operator">++</span><span class="token punctuation">)</span>
+                    B<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Miss数为287个,达到满分标准</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023797.png" alt="image-20240312103528506"></p>
+<h3 id="最简优化思路"><a href="#最简优化思路" class="headerlink" title="最简优化思路"></a>最简优化思路</h3><p>但是理论值256?(32*4*2&#x3D;256不包括Valgrind模拟产生的开销),可以考虑再优化.</p>
+<p>我们想想,还有哪里会消耗呢?色块已经到上限了,那还是继续考虑对角线上的块.我们考虑到,每次我们都是这样做的,模拟下流程:</p>
+<p>Load A[1]</p>
+<p>Load B[1-8]—&gt;evict A[1]</p>
+<p>Load A[2]  —&gt;evict B[2]</p>
+<p>Load B[2]  —&gt;evict A[2]</p>
+<p>…</p>
+<p>Load A[7]  —&gt;evict B[7]</p>
+<p>Load B[7]  —&gt;evict A[7]</p>
+<p>Load A[8]  —&gt;evict B[8]</p>
+<p>Load B[8]  —&gt;evict A[8]</p>
+<p>有没有什么办法可以减少evict的次数呢?有两种可能</p>
+<ul>
+<li>Load A[i] 前 Load B[i]</li>
+<li>Load B[i] 前 Load A[i]</li>
+</ul>
+<p>第一种pass,毕竟a是原数组,所以有没有办法把A[i]的值先放起来,再之后再Load对应的B[i]呢,我们发现,A的每一行只会load一遍,所以啊我们只用把A的那一行都用寄存器存起来后再把B对应的那一行load进去,相当于一行一行的把A复制到B中,最后所有的B都加载到缓存中了,再借助一个中间变量转置就好了,简单易懂!</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> trans_3_desc<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"进行8*8的分块,并且优化对角线,逼近极限"</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">trans_3</span><span class="token punctuation">(</span><span class="token keyword">int</span> M<span class="token punctuation">,</span><span class="token keyword">int</span> N <span class="token punctuation">,</span><span class="token keyword">int</span> A<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">int</span> B<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>m<span class="token punctuation">,</span>n<span class="token punctuation">,</span>x1<span class="token punctuation">,</span>x2<span class="token punctuation">,</span>x3<span class="token punctuation">,</span>x4<span class="token punctuation">,</span>x5<span class="token punctuation">,</span>x6<span class="token punctuation">,</span>x7<span class="token punctuation">,</span>x8<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>M<span class="token punctuation">;</span>i<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">==</span>j<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token keyword">for</span><span class="token punctuation">(</span>m<span class="token operator">=</span>i<span class="token punctuation">;</span>m<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">+</span>i<span class="token punctuation">;</span>m<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                    x1<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>x2<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x3<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x4<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x5<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x6<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x7<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x8<span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>x1<span class="token punctuation">,</span>B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span>x2<span class="token punctuation">,</span>B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span>x3<span class="token punctuation">,</span>B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token operator">=</span>x4<span class="token punctuation">,</span>B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token operator">=</span>x5<span class="token punctuation">,</span>B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token operator">=</span>x6<span class="token punctuation">,</span>B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token operator">=</span>x7<span class="token punctuation">,</span>B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token operator">=</span>x8<span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span><span class="token comment">//复制</span>
+                <span class="token keyword">for</span><span class="token punctuation">(</span>m<span class="token operator">=</span>i<span class="token punctuation">;</span>m<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">+</span>i<span class="token punctuation">;</span>m<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                    <span class="token keyword">for</span><span class="token punctuation">(</span>n<span class="token operator">=</span>j<span class="token punctuation">;</span>n<span class="token operator">&lt;</span>j<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">;</span>n<span class="token operator">++</span><span class="token punctuation">)</span>
+                    <span class="token keyword">if</span><span class="token punctuation">(</span>m<span class="token operator">+</span><span class="token number">1</span><span class="token operator">&lt;=</span>n<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                    x1<span class="token operator">=</span>B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token operator">=</span>B<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    B<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>x1<span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>           <span class="token comment">//原地转置</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+             <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                    <span class="token keyword">for</span><span class="token punctuation">(</span> m<span class="token operator">=</span>i<span class="token punctuation">;</span>m<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">+</span>i<span class="token punctuation">;</span>m<span class="token operator">++</span><span class="token punctuation">)</span>
+                    <span class="token keyword">for</span><span class="token punctuation">(</span> n<span class="token operator">=</span>j<span class="token punctuation">;</span>n<span class="token operator">&lt;</span><span class="token number">8</span><span class="token operator">+</span>j<span class="token punctuation">;</span>n<span class="token operator">++</span><span class="token punctuation">)</span>
+                    B<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token operator">=</span>A<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>测试结果如下:</p>
+<pre class="line-numbers language-none"><code class="language-none">hits:2242, misses:259, evictions:227<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="Phase-2-64-64"><a href="#Phase-2-64-64" class="headerlink" title="Phase_2:64*64"></a>Phase_2:64*64</h2><h3 id="正常解法"><a href="#正常解法" class="headerlink" title="正常解法"></a>正常解法</h3><p>矩阵长宽各变成32*32的一倍,那简单,我们直接把之前做的矩阵优化丢进去一测试,完蛋!</p>
+<pre class="line-numbers language-none"><code class="language-none">func 0 (Simple row-wise scan transpose): hits:3474, misses:4723, evictions:4691
+func 2 (进行8*8的分块,并且优化对角线): hits:3586, misses:4611, evictions:4579<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>相较于给定的朴素函数竟然只有这么点提升,怎么回事呢?我们直接将把路径跟踪一下,不得了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023839.png" alt="image-20240312112124338"></p>
+<p>怎么会有这么多个miss eviction呢?一看地址,发现A load是没问题的,但是B Store就出现了问题,每次的后四个块地址就映射到前四个块的地址了,这小陷阱竟然被我发现了(逃,所以我们初步想一想是不是该进行8*4的分块来进行操作呢,说办就办</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> trans_4_desc<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"64*64的矩阵,思考分块8*4"</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">trans_4</span><span class="token punctuation">(</span><span class="token keyword">int</span> M<span class="token punctuation">,</span><span class="token keyword">int</span> N<span class="token punctuation">,</span><span class="token keyword">int</span> A<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">int</span> B<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>m<span class="token punctuation">,</span>n<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>M<span class="token punctuation">;</span>i<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">+=</span><span class="token number">4</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>m<span class="token operator">=</span>i<span class="token punctuation">;</span>m<span class="token operator">&lt;</span>i<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">;</span>m<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>n<span class="token operator">=</span>j<span class="token punctuation">;</span>n<span class="token operator">&lt;</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">;</span>n<span class="token operator">++</span><span class="token punctuation">)</span>
+    B<span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token operator">=</span>A<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">[</span>m<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>很快的得到了miss为</p>
+<pre class="line-numbers language-(空)" data-language="(空)"><code class="language-(空)">hits:6354, misses:1843, evictions:1811<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>那是不是还要再优化一下对角线呢?这不太好优化,先想想满分是1300miss,我们采取8*4的块,这样子有点抽象,存在后四位数字用不到的情况,所以我们采取4*4试一试</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> trans_5_desc<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"64*64的矩阵,思考分块4*4"</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">trans_5</span><span class="token punctuation">(</span><span class="token keyword">int</span> M<span class="token punctuation">,</span><span class="token keyword">int</span> N<span class="token punctuation">,</span><span class="token keyword">int</span> A<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">int</span> B<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>x<span class="token punctuation">,</span>x1<span class="token punctuation">,</span>x2<span class="token punctuation">,</span>x3<span class="token punctuation">,</span>x4<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>M<span class="token punctuation">;</span>i<span class="token operator">+=</span><span class="token number">4</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">+=</span><span class="token number">4</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>x<span class="token operator">=</span>i<span class="token punctuation">;</span>x<span class="token operator">&lt;</span>i<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">;</span>x<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#123;</span>
+        x1<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>x2<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x3<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x4<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        B<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x1<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x2<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x3<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x4<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以得到以下结果</p>
+<pre class="line-numbers language-(空)" data-language="(空)"><code class="language-(空)">hits:6498, misses:1699, evictions:1667<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>1699miss,看来想单纯考分块是不能过关的,所以只好继续思考8*4分块的优化方式,因为采取4*4分块的话,每一次Load A 在8*4分块中只需要一次,但在4*4中要两次,44分块的不足之处还是太严重了,所以只能继续思考8*4的分块方式,看能不能想象办法优化一下.</p>
+<p>再想一想B的Store的顺序分别为:</p>
+<p>前四行前四列–&gt;后四行前四列—&gt;前四行后四列—&gt;后四行后四列,所以得想个办法让B先不跳转到后四行,👍</p>
+<p>在这里要引用这个<a target="_blank" rel="noopener" href="https://blog.csdn.net/xbb224007/article/details/81103995">链接</a>,他讲的真心不错,图文并茂.</p>
+<p>这是我们要转置的区域,虽然我们想8*4的转置,但还是建立在8*8的区域上面去转置的,画图真的能帮助分析理解,为了尽量减少冲突造成的miss,毕竟考虑到对角线的各种映射冲突导致的miss,我们尽量在读完一行后不再读它,所以每次用8个x来最大可能地保存值,从而让miss数尽可能的低</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023885.png" alt="image-20240312121524725"></p>
+<p>所以为了不再访问前四行,我们把那些元素都取出来,顺便把元素提前转置了,之后直接平移就可以了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023933.png" alt="image-20240312121624903"></p>
+<p>有八个局部变量,所以我们先把{1}位置四个值存起来,然后把{2}位置的值丢进去,然后就可以不读这一行了,读第五行然后把存下来的关于{1}的值平移下去,重复四遍这种行为就好了.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023975.png" alt="image-20240312201713022"></p>
+<p>最后再转置后四行的后四列,这就是常规转置了,合理利用8个局部变量.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023019.png" alt="image-20240312121719152"></p>
+<p>当然我们在这里还是可以考虑对角线原地转置导致的miss,但对于一个8*4的块来说还是比较复杂的,等我以后牛逼了再来讨论(2024.3.12)</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> trans_6_desc<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"64*64的矩阵,思考分块8*8下以8*4为小块进行转置"</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">trans_6</span><span class="token punctuation">(</span><span class="token keyword">int</span> M<span class="token punctuation">,</span><span class="token keyword">int</span> N<span class="token punctuation">,</span><span class="token keyword">int</span> A<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">int</span> B<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>x<span class="token punctuation">,</span>y<span class="token punctuation">,</span>x1<span class="token punctuation">,</span>x2<span class="token punctuation">,</span>x3<span class="token punctuation">,</span>x4<span class="token punctuation">,</span>x5<span class="token punctuation">,</span>x6<span class="token punctuation">,</span>x7<span class="token punctuation">,</span>x8<span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>M<span class="token punctuation">;</span>i<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">+=</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token comment">//开始讨论一个8*8的分块,先把前8*4中的4*4先转置,然后再把后4*4挪到转置</span>
+                <span class="token comment">//块里的前8*4的后4*4分块中</span>
+                <span class="token keyword">for</span><span class="token punctuation">(</span>x<span class="token operator">=</span>i<span class="token punctuation">;</span>x<span class="token operator">&lt;</span>i<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">;</span>x<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                 <span class="token comment">//x1-x4负责正常的转置即前四行前四列</span>
+                    <span class="token comment">//x5-x8负责前四行后四列的提前转置</span>
+                    x1<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span>x2<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x3<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x4<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    x5<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x6<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x7<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x8<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    B<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x1<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x2<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x3<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x4<span class="token punctuation">;</span>
+                    B<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token operator">=</span>x5<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token operator">=</span>x6<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token operator">=</span>x7<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token operator">=</span>x8<span class="token punctuation">;</span>
+                    
+                <span class="token punctuation">&#125;</span>
+                <span class="token comment">//把后四行前四列转置,同时把提前转置的平移过去</span>
+                <span class="token keyword">for</span><span class="token punctuation">(</span>y<span class="token operator">=</span>j<span class="token punctuation">;</span>y<span class="token operator">&lt;</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">;</span>y<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                    x1<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">,</span>x2<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">,</span>x3<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">,</span>x4<span class="token operator">=</span>A<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    x5<span class="token operator">=</span>B<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x6<span class="token operator">=</span>B<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x7<span class="token operator">=</span>B<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x8<span class="token operator">=</span>B<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+                    B<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token operator">=</span>x1<span class="token punctuation">,</span>B<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token operator">=</span>x2<span class="token punctuation">,</span>B<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token operator">=</span>x3<span class="token punctuation">,</span>B<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token operator">=</span>x4<span class="token punctuation">;</span>
+                    <span class="token comment">//把存在B中的右上角的数字往左下角挪,注意偏移量</span>
+                    B<span class="token punctuation">[</span>y<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>x5<span class="token punctuation">,</span>B<span class="token punctuation">[</span>y<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span>x6<span class="token punctuation">,</span>B<span class="token punctuation">[</span>y<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span>x7<span class="token punctuation">,</span>B<span class="token punctuation">[</span>y<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token operator">=</span>x8<span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token comment">//最后面的常规转置</span>
+                <span class="token keyword">for</span><span class="token punctuation">(</span>x<span class="token operator">=</span>i<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">;</span>x<span class="token operator">&lt;</span>i<span class="token operator">+</span><span class="token number">8</span><span class="token punctuation">;</span>x<span class="token operator">++</span><span class="token punctuation">)</span>
+                <span class="token punctuation">&#123;</span>
+                    x1<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x2<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x3<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>x4<span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x1<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x2<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x3<span class="token punctuation">,</span>B<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>x4<span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>得到的miss数量为</p>
+<pre class="line-numbers language-(空)" data-language="(空)"><code class="language-(空)">hits:9066, misses:1179, evictions:1147<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="最优解法"><a href="#最优解法" class="headerlink" title="最优解法"></a>最优解法</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/387662272">最优解法逼近理论最优1024</a>,这是别人写的,我没尝试,累了.</p>
+<h2 id="Phase-3-61-67"><a href="#Phase-3-61-67" class="headerlink" title="Phase_3:61*67"></a>Phase_3:61*67</h2><p>尝试不同的分块方式</p>
+<p>4*4(以此为例子,在这种方式下测试出不同分块情况下的miss数量,枚举)</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">char</span> trans_7_desc<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token string">"对于61*67在这里尝试各种各样的分块4*4"</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">trans_7</span><span class="token punctuation">(</span><span class="token keyword">int</span> M<span class="token punctuation">,</span> <span class="token keyword">int</span> N<span class="token punctuation">,</span> <span class="token keyword">int</span> A<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> B<span class="token punctuation">[</span>M<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>x<span class="token punctuation">,</span>y<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>i<span class="token operator">+=</span><span class="token number">4</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>M<span class="token punctuation">;</span>j<span class="token operator">+=</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span>x<span class="token operator">=</span>i<span class="token punctuation">;</span>x<span class="token operator">&lt;</span>i<span class="token operator">+</span><span class="token number">4</span><span class="token operator">&amp;&amp;</span>x<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>x<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span>y<span class="token operator">=</span>j<span class="token punctuation">;</span>y<span class="token operator">&lt;</span>j<span class="token operator">+</span><span class="token number">4</span><span class="token operator">&amp;&amp;</span>y<span class="token operator">&lt;</span>M<span class="token punctuation">;</span>y<span class="token operator">++</span><span class="token punctuation">)</span>
+            B<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">=</span>A<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>miss数量:</p>
+<table>
+<thead>
+<tr>
+<th align="center">分块规模</th>
+<th align="center">Miss数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">4×4</td>
+<td align="center">2425</td>
+</tr>
+<tr>
+<td align="center">8×8</td>
+<td align="center">2118</td>
+</tr>
+<tr>
+<td align="center">14×14</td>
+<td align="center">1996</td>
+</tr>
+<tr>
+<td align="center">15×15</td>
+<td align="center">2021</td>
+</tr>
+<tr>
+<td align="center">16×16</td>
+<td align="center">1992</td>
+</tr>
+<tr>
+<td align="center">17×17</td>
+<td align="center">1950</td>
+</tr>
+<tr>
+<td align="center">18×18</td>
+<td align="center">1961</td>
+</tr>
+<tr>
+<td align="center">19×19</td>
+<td align="center">1979</td>
+</tr>
+<tr>
+<td align="center">20×20</td>
+<td align="center">2002</td>
+</tr>
+<tr>
+<td align="center">21×21</td>
+<td align="center">1957</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>61 × 67: 10 points if m &lt; 2, 000, 0 points if m &gt; 3, 000</p>
+</blockquote>
+<p>所以我们选择17*17分块上交答案,用几个if else 函数编辑submission函数,使用<code>.driver.py</code>脚本运行测试分数就此通关,</p>
+<p>如图:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403122023057.png" alt="image-20240312155938912"></p>
+<p>完美收官,并且miss数尽量达到最小!</p>
+<h1 id="Lab小结"><a href="#Lab小结" class="headerlink" title="Lab小结"></a>Lab小结</h1><h2 id="Part-1"><a href="#Part-1" class="headerlink" title="Part_1"></a>Part_1</h2><p>这次的lab真的是比之前的难太多了,part_1还是好的,偷偷看了看别人的参考答案就码出来了,分情况讨论下几种miss,hit,eviction,主要能学习到以下几个函数的用法,分别是</p>
+<ul>
+<li><p>getopt</p>
+</li>
+<li><p>fscanf</p>
+</li>
+<li><p>malloc</p>
+</li>
+<li><p>fopen</p>
+<p>第一次体会到如何从大量数据中快速读取所需要的信息,也才知道原来main函数是有默认参数的,并且默认参数是这样的意思<code>int argc char ** argv</code>,确实有意思,美中不足的是这个lab不用考虑Block太小了导致存放数据要横跨两个Block的这种情况(可能有这种情况吧?)所以我们不用考虑B的大小对miss与否的影响,降低了部分难度</p>
+</li>
+</ul>
+<h2 id="Part-2"><a href="#Part-2" class="headerlink" title="Part_2"></a>Part_2</h2><p>Part_2确实是把我恶心坏了,坏透了的那种,从4*4开始就开始困惑,大脑在这几天一直在模拟cache的运行,各种冲突对撞,又因为有好多不知道的,网上的解析也没有说明的小东西,故而越发困惑,当然也在不断的实操中了解加深了Cache的运行(超简单版本),明白了其基本理念,虽然啊,鼠鼠我还是没有写作业(csapp课本上的),也没有看课本,只是听完了教授的课程,对着ppt和pdf和网上的一大堆教程开始硬抗着这恶心的lab.</p>
+<p>不管之后会忘记多少,现在先做了再说,再把这教程敲完,把自己不会的全部补上,供后来人学习.便是鼠鼠我的价值.</p>
+<h2 id="参考链接Part-2"><a href="#参考链接Part-2" class="headerlink" title="参考链接Part_2"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42241839/article/details/122984159">参考链接Part_2</a></h2>
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Vitus Apollo</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://vitus213.github.io/2024/03/10/lab5/">http://vitus213.github.io/2024/03/10/lab5/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Vitus Apollo</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                    <span class="chip bg-color">学习笔记</span>
+                                </a>
+                            
+                                <a href="/tags/CSAPP/">
+                                    <span class="chip bg-color">CSAPP</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/03/14/lab4/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="CSAPP的lab4-archlab">
+                        
+                        <span class="card-title">CSAPP的lab4-archlab</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-03-14
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CS/" class="post-category">
+                                    CS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/CSAPP/">
+                        <span class="chip bg-color">CSAPP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/03/10/lab8/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="CSAPP的lab8-proxylab">
+                        
+                        <span class="card-title">CSAPP的lab8-proxylab</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CS/" class="post-category">
+                                    CS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/CSAPP/">
+                        <span class="chip bg-color">CSAPP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024-2025</span>
+            
+            <a href="/about" target="_blank">Vitus Apollo</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">89k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2024";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Vitus213" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:zhzvitus@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2811215248" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2811215248" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

@@ -1,0 +1,2141 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="CSAPP的lab4-archlab, Apollo-213">
+    <meta name="description" content="
+是个屁的邂逅.
+为什么这个lab做的时间比cachelab要晚呢?主要是我看小土刀只做了7个lab,然后我又不想看chapter4,导读也说不用看我直接就跳了.谁知道做完cachelab后我把做好的lab一上传,发现我库里有8个lab,然">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>CSAPP的lab4-archlab | Apollo-213</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Apollo-213</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Apollo-213</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">CSAPP的lab4-archlab</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                <span class="chip bg-color">学习笔记</span>
+                            </a>
+                        
+                            <a href="/tags/CSAPP/">
+                                <span class="chip bg-color">CSAPP</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/CS/" class="post-category">
+                                CS
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-03-14
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2024-03-29
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    30 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <blockquote>
+<p><strong><del>是个屁的邂逅</del></strong>.</p>
+<p>为什么这个lab做的时间比cachelab要晚呢?主要是我看小土刀只做了7个lab,然后我又不想看chapter4,导读也说不用看我直接就跳了.谁知道做完cachelab后我把做好的lab一上传,发现我库里有8个lab,然后找到了<a target="_blank" rel="noopener" href="https://csapp.cs.cmu.edu/3e/labs.html">lab assignment</a>,原来我直接把这个lab给忽略了,所以呀,现在要掉头回来干这个lab.</p>
+</blockquote>
+<p>照例给出一些链接,减少大家搜资料的时间成本.(来源于cmu)</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/README-archlab">ReadMe</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/buflab32.pdf">Writeup</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://csapp.cs.cmu.edu/3e/buflab32-handout.tar">Selfstudy handout</a></p>
+</li>
+</ul>
+<h1 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h1><p>我们要做Part A,B,C,其中A和B是C的基础,pdf里面说A和B比较简单,C比较难</p>
+<p>Y86_64常用指令集</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004832.png" alt="image-20240314230447240"></p>
+<ul>
+<li>irmovq指令表示将一个<strong>立即数</strong>存进一个<strong>寄存器</strong>中 </li>
+<li>rrmovq指令表示将一个<strong>寄存器中的值</strong>存进一个<strong>寄存器</strong>中</li>
+<li>rmmovq指令表示将一个<strong>寄存器中的值</strong>存进一个<strong>内存地址所对应的内存</strong>中</li>
+<li>mrmovq指令表示将一个<strong>内存中的值</strong>存进一个<strong>寄存器</strong>中</li>
+</ul>
+<p>所以我们要注意，没有mmmovq，不能将内存中的值和内存中的值进行直接转移，需要拿寄存器存起来。</p>
+<h1 id="Part-A"><a href="#Part-A" class="headerlink" title="Part A"></a>Part A</h1><blockquote>
+<p>一开始还在纳闷为啥part_A没有教程，自己一做，发现确实简单，就是一些指令的运用热身罢了。坚持坚持，都能做出来的啦！</p>
+</blockquote>
+<h2 id="Sum-ys"><a href="#Sum-ys" class="headerlink" title="Sum.ys"></a>Sum.ys</h2><blockquote>
+<p>RULES:</p>
+<p>Write a Y86-64 program sum.ys that iteratively sums the elements of a linked list. Your program should consist of some code that sets up the stack structure, invokes a function, and then halts.<br>In this case,the function should be Y86-64 code for a function (sum list) that is functionally equivalent to the C sum list function in Figure 1.</p>
+<p>写一个Y86-64程序sum.ys，迭代地对链表的元素求和。你的程序应该由一些代码组成，这些代码设置堆栈结构，调用函数，然后停止。在这种情况下，该函数应该是Y86-64代码，用于在功能上等同于图1中的C sum list函数的函数（sum list）。使用以下三元素列表测试程序：</p>
+</blockquote>
+<p>sum list</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">long</span> <span class="token function">sum_list</span><span class="token punctuation">(</span>list_ptr ls<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">long</span> val <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>ls<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	val <span class="token operator">+=</span> ls<span class="token operator">-></span>val<span class="token punctuation">;</span>
+	ls <span class="token operator">=</span> ls<span class="token operator">-></span>next<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> val<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>所以我们就是仿照CSAPP课本中文版p252页的完整Y86-64汇编代码流程翻译Sum_List函数,汇编代码如下</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly"># Execution begins at address 0
+        .pos 0
+        irmovq stack, %rsp
+        call main
+        halt 
+# Sample linked list 
+.align 8
+ele1: 
+        .quad 0x00a
+        .quad ele2
+ele2:
+        .quad 0x0b0
+        .quad ele3
+ele3:    
+        .quad 0xc00
+        .quad 0
+
+# get main
+main:
+        irmovq ele1, %rdi
+        call sum_list       # sum(list_ptr ls)
+        ret
+# long sum_list(list_ptr ls)
+# start in %rdi
+sum_list:
+        xorq %rax,%rax   #rax--&gt;sum_list&#x3D;0
+        andq %rdi ,%rdi   # test 
+        jmp test
+
+loop: 
+        mrmovq (%rdi),%rsi
+        addq %rsi,%rax        
+        mrmovq 8(%rdi),%rdi  # rdi---&gt;next
+        andq %rdi,%rdi          # test rdi
+test: 
+        jne loop # rdi&#x3D;&#x3D;0 ret
+        ret
+
+        .pos 0x200
+stack:<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后使用yas和yis进行测试,若%rax&#x3D;&#x3D;0xcba则成功!</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004858.png" alt="image-20240314223820052"></p>
+<h2 id="rsum-ys"><a href="#rsum-ys" class="headerlink" title="rsum.ys"></a>rsum.ys</h2><blockquote>
+<p><strong>rsum.ys: Recursively sum linked list elements</strong><br>Write a Y86-64 program rsum.ys that recursively sums the elements of a linked list. This code should be similar to the code in sum.ys, except that it should use a function rsum list that recursively sums a<br>list of numbers, as shown with the C function rsum list in Figure 1. Test your program using the same three-element list you used for testing list.ys.</p>
+<p>编写一个Y86-64程序rsum.ys，递归地对链表的元素求和。这段代码应该与sum.ys中的代码类似，只是它应该使用一个函数rsum list来递归地对一个数字列表求和，如图1中的C函数rsum list所示。</p>
+</blockquote>
+<p>rsum_list</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">long</span> <span class="token function">rsum_list</span><span class="token punctuation">(</span>list_ptr ls<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>ls<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">long</span> val <span class="token operator">=</span> ls<span class="token operator">-></span>val<span class="token punctuation">;</span>
+	<span class="token keyword">long</span> rest <span class="token operator">=</span> <span class="token function">rsum_list</span><span class="token punctuation">(</span>ls<span class="token operator">-></span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">return</span> val <span class="token operator">+</span> rest<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>递归操作由Bomblab的经验可以知道,肯定需要使用pushq和popq操作,递归调用即可,判断一下地址为0就是递归尽头就好了,简单!~~</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly"># rsum.ys: Recursively sum linked list elements
+# author Vite
+
+# Execution begins at address 0
+        .pos 0
+        irmovq stack, %rsp
+        call main
+        halt 
+
+# Sample linked list 
+.align 8
+ele1: 
+        .quad 0x00a
+        .quad ele2
+ele2:
+        .quad 0x0b0
+        .quad ele3
+ele3:    
+        .quad 0xc00
+        .quad 0
+
+# get main
+main:
+        irmovq ele1, %rdi
+        call rsum_list
+        ret
+        
+ rsum_list:
+        andq %rdi ,%rdi
+        je return
+        mrmovq (%rdi),%rsi
+        mrmovq 8(%rdi),%rdi
+        pushq %rsi
+        call rsum_list
+        popq %rsi
+        addq %rsi,%rax
+        ret
+return:
+        irmovq $0x0, %rax
+        ret
+        .pos 0x200
+stack:
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>写完后测试提交,$rax的值正确!</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004890.png" alt="image-20240314232113865"></p>
+<h2 id="copy-ys"><a href="#copy-ys" class="headerlink" title="copy.ys"></a>copy.ys</h2><blockquote>
+<p><strong>copy.ys: Copy a source block to a destination block</strong><br>Write a program (copy.ys) that copies a block of words from one part of memory to another (non-overlapping area) area of memory, computing the checksum (Xor) of all the words copied. Your program should consist of code that sets up a stack frame, invokes a function copy block, and then halts. The function should be functionally equivalent to the C function copy block shown in Figure 1. Test your program using the following three-element source and destination blocks:</p>
+<p>编写一个程序（copy.ys），将一个字块从内存的一部分复制到内存的另一个（非重叠区域）区域，计算所有复制的字的校验和（Xor）。你的程序应该由建立堆栈框架、调用函数复制块、然后停止的代码组成。该函数在功能上应等同于图1所示的C函数复制块。</p>
+</blockquote>
+<p>copy_block</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">long</span> <span class="token function">copy_block</span><span class="token punctuation">(</span><span class="token keyword">long</span> <span class="token operator">*</span>src<span class="token punctuation">,</span> <span class="token keyword">long</span> <span class="token operator">*</span>dest<span class="token punctuation">,</span> <span class="token keyword">long</span> len<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">long</span> result <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>len <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">long</span> val <span class="token operator">=</span> <span class="token operator">*</span>src<span class="token operator">++</span><span class="token punctuation">;</span>
+	<span class="token operator">*</span>dest<span class="token operator">++</span> <span class="token operator">=</span> val<span class="token punctuation">;</span>
+	result <span class="token operator">^=</span> val<span class="token punctuation">;</span>
+	len<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>大致思路：</p>
+<p>取出src[0]的值,丢到dest[0]中,把%rax的值xor val,然后把len–,每次进入循环要记得判断len,要是len&#x3D;0就退出循环</p>
+<p>然后开始仿照前两个函数构建汇编代码，注意语句，<del>反正写的错了他也会告诉你错了，再改就是了</del></p>
+<p>故最终的汇编代码为：</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly"># copy.ys: Copy a source block to a destination block
+# autor Vite
+# exe begins in address 0
+        .pos 0
+        irmovq stack , %rsp
+        call main
+        halt 
+#Sample linked 
+        .align 8
+# Source block
+src:
+        .quad 0x00a
+        .quad 0x0b0
+        .quad 0xc00
+# Destination block
+dest:
+        .quad 0x111
+        .quad 0x222
+        .quad 0x333
+
+# make main
+main:
+        irmovq src , %rdi
+        irmovq dest, %rsi
+        irmovq $3 , %rdx
+        xorq %rax,%rax 
+        call copy_block
+        ret
+        
+copy_block:
+        andq %rdx,%rdx
+        je return 
+        mrmovq (%rdi), %r8
+        rmmovq %r8, (%rsi)
+        xorq %r8, %rax
+        irmovq $8 ,%r8
+        addq %r8,%rdi
+        addq %r8,%rsi
+        irmovq $1, %r8
+        subq %r8 ,%rdx
+        call copy_block
+return :
+        ret
+    .pos 0x200
+ stack: 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>简单教一下，看下%rax中存的返回值，再看下memory中的改变值，类似于下图，完成题目要求，通关Part_A!</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004934.png" alt="image-20240316191316678"></p>
+<h1 id="Part-B"><a href="#Part-B" class="headerlink" title="Part B"></a>Part B</h1><h2 id="前置知识："><a href="#前置知识：" class="headerlink" title="前置知识："></a>前置知识：</h2><blockquote>
+<p>概要：SEQ课本中文版P278 4.3SEQ的实现，图4-27往后。</p>
+<p>直接对着SEQ的流程图进行模仿，挨个把IADDQ这个关键字丢进去。然后编译运行</p>
+</blockquote>
+<blockquote>
+<p>Your task in Part B is to extend the SEQ processor to support the iaddq, described in Homework problems 4.51 and 4.52. To add this instructions, you will modify the file seq-full.hcl, which implements the version of SEQ described in the CS:APP3e textbook. In addition, it contains declarations of some constants that you will need for your solution.</p>
+<p>您在B部分的任务是扩展SEQ处理器以支持iaddq，如作业问题4.51和4.52所述。要添加此说明，您需要修改seq-full.hcl文件，该文件实现了CS：APP 3e教科书中描述的SEQ版本。此外，它还包含解决方案所需的一些常数的声明。</p>
+</blockquote>
+<p>4.51:练习题4.3介绍了iaddq 指令，即将立即数与寄存器相加。描述实现该指令所执行的计算。参考irmovq 和 OPq 指令的计算（图 4-18)</p>
+<p>4.52:文件seq-full.hcl包含SEQ的HCL描述,并将常数IIADDQ声明为十六进制值C,也就是 iad­dq的指令代码.修改实现iaddq指令的控制逻辑块的HCL描述,就像练习题4.3和家庭作业4.51中描述的那样.可以参考实验资料获得如何为你的解答生成模拟器以及如何测试模拟器的指导。</p>
+<p>图 4-18 给出了对 OPq( 整数和逻辑运算）、rrmovq( 寄存器－寄存器传送）和 irmovq( 立即数－寄存器传送）类型的指令所需的处理。让我们先来考虑一下整数操作。回顾图4-2,可以看到我们小心地选择了指令编码，这样四个整数操作 (addq 、subq 、andq 和 xorq) 都有相同的 icode 值.我们可以以相同的步骤顺序来处理它们，除了 ALU 计算必须根据ifun中编码的具体的指令操作来设定。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004965.png" alt="image-20240316230352428"></p>
+<p>iaddq指令如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004996.png" alt="image-20240316230542567"></p>
+<p>取指阶段：从PC中取</p>
+<ol>
+<li>取icode:ifun &lt;—M<del>1</del>[PC]</li>
+<li>取rA：rB&lt;—M<del>1</del>[PC+1]</li>
+<li>取ValC&lt;—M<del>8</del>[PC+2]</li>
+<li>更新Valp&lt;–PC+10</li>
+</ol>
+<p>译码阶段：ValB&lt;—R[rB]</p>
+<p>执行阶段：ValE &lt;– ValB-ValC</p>
+<p>写回阶段：R[rB]&lt;—ValE</p>
+<p>更新PC： PC&lt;—Valp</p>
+<p>寄存器 ID dstE 表明写端口E 的目的寄存器，计算出来的值 valE 将放在那里。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>需要更新的部分有以下几部分:</p>
+<h3 id="Fetch-Stage"><a href="#Fetch-Stage" class="headerlink" title="Fetch Stage"></a>Fetch Stage</h3><ul>
+<li>instr_valid&#x3D;icode in</li>
+</ul>
+<p>该信号判断是否为合法指令</p>
+<ul>
+<li>need——regids</li>
+</ul>
+<p>需要读取寄存器rb</p>
+<ul>
+<li>need_valc</li>
+</ul>
+<p>需要立即数valC</p>
+<pre class="line-numbers language-none"><code class="language-none">################ Fetch Stage     ###################################
+
+bool instr_valid &#x3D; icode in 
+	&#123; INOP, IHALT, IRRMOVQ, IIRMOVQ, IRMMOVQ, IMRMOVQ,
+	       IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ, IIADDQ &#125;;
+
+# Does fetched instruction require a regid byte?获取的指令是否需要regid字节？
+bool need_regids &#x3D;
+	icode in &#123; IRRMOVQ, IOPQ, IPUSHQ, IPOPQ, 
+		     IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ&#125;;
+
+# Does fetched instruction require a constant word?
+bool need_valC &#x3D;
+	icode in &#123; IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX, ICALL,IIADDQ &#125;;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Decode-Stage"><a href="#Decode-Stage" class="headerlink" title="Decode Stage"></a>Decode Stage</h3><ul>
+<li>srcB:rB</li>
+<li>dstE</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">
+## What register should be used as the B source?
+word srcB &#x3D; [
+	icode in &#123; IOPQ, IRMMOVQ, IMRMOVQ,IIADDQ  &#125; : rB;
+	icode in &#123; IPUSHQ, IPOPQ, ICALL, IRET &#125; : RRSP;
+	1 : RNONE;  # Don&#39;t need register
+];
+
+## What register should be used as the E destination?
+word dstE &#x3D; [
+	icode in &#123; IRRMOVQ &#125; &amp;&amp; Cnd : rB;
+	icode in &#123; IIRMOVQ, IOPQ,IIADDQ&#125; : rB;
+	icode in &#123; IPUSHQ, IPOPQ, ICALL, IRET &#125; : RRSP;
+	1 : RNONE;  # Don&#39;t write any register
+];
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Execute-Stage"><a href="#Execute-Stage" class="headerlink" title="Execute Stage"></a>Execute Stage</h3><ul>
+<li>aluA:valC</li>
+<li>aluB:valB</li>
+<li>set_cc</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">################ Execute Stage   ###################################
+
+## Select input A to ALU
+word aluA &#x3D; [
+	icode in &#123; IRRMOVQ, IOPQ &#125; : valA;
+	icode in &#123; IIRMOVQ, IRMMOVQ, IMRMOVQ,IIADDQ &#125; : valC;
+	icode in &#123; ICALL, IPUSHQ &#125; : -8;
+	icode in &#123; IRET, IPOPQ &#125; : 8;
+	# Other instructions don&#39;t need ALU
+];
+
+## Select input B to ALU
+word aluB &#x3D; [
+	icode in &#123; IRMMOVQ, IMRMOVQ, IOPQ, ICALL, 
+		      IPUSHQ, IRET, IPOPQ,IIADDQ &#125; : valB;
+	icode in &#123; IRRMOVQ, IIRMOVQ &#125; : 0;
+	# Other instructions don&#39;t need ALU
+];
+
+## Should the condition codes be updated?
+bool set_cc &#x3D; icode in &#123; IOPQ, IIADDQ&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Memory-Stage-PC-update"><a href="#Memory-Stage-PC-update" class="headerlink" title="Memory Stage &amp;&amp; PC update"></a>Memory Stage &amp;&amp; PC update</h3><p>&#x3D;&#x3D;none&#x3D;&#x3D;</p>
+<h3 id="标程"><a href="#标程" class="headerlink" title="标程"></a>标程</h3><p>以下是完整代码：</p>
+<pre class="line-numbers language-(空)" data-language="(空)"><code class="language-(空)">#&#x2F;* $begin seq-all-hcl *&#x2F;
+####################################################################
+#  HCL Description of Control for Single Cycle Y86-64 Processor SEQ   #
+#  Copyright (C) Randal E. Bryant, David R. O&#39;Hallaron, 2010       #
+####################################################################
+
+## Your task is to implement the iaddq instruction
+## The file contains a declaration of the icodes
+## for iaddq (IIADDQ)
+## Your job is to add the rest of the logic to make it work
+
+####################################################################
+#    C Include&#39;s.  Don&#39;t alter these    #不要改变这些                           #
+####################################################################
+
+quote &#39;#include &lt;stdio.h&gt;&#39;
+quote &#39;#include &quot;isa.h&quot;&#39;
+quote &#39;#include &quot;sim.h&quot;&#39;
+quote &#39;int sim_main(int argc, char *argv[]);&#39;
+quote &#39;word_t gen_pc()&#123;return 0;&#125;&#39;
+quote &#39;int main(int argc, char *argv[])&#39;
+quote &#39;  &#123;plusmode&#x3D;0;return sim_main(argc,argv);&#125;&#39;
+
+####################################################################
+#    Declarations.  Do not change&#x2F;remove&#x2F;delete any of these       #
+####################################################################
+
+##### Symbolic representation of Y86-64 Instruction Codes Y86-64指令码的符号表示 #############
+wordsig INOP 	&#39;I_NOP&#39;
+wordsig IHALT	&#39;I_HALT&#39;
+wordsig IRRMOVQ	&#39;I_RRMOVQ&#39;
+wordsig IIRMOVQ	&#39;I_IRMOVQ&#39;
+wordsig IRMMOVQ	&#39;I_RMMOVQ&#39;
+wordsig IMRMOVQ	&#39;I_MRMOVQ&#39;
+wordsig IOPQ	&#39;I_ALU&#39;
+wordsig IJXX	&#39;I_JMP&#39;
+wordsig ICALL	&#39;I_CALL&#39;
+wordsig IRET	&#39;I_RET&#39;
+wordsig IPUSHQ	&#39;I_PUSHQ&#39;
+wordsig IPOPQ	&#39;I_POPQ&#39;
+# Instruction code for iaddq instruction
+wordsig IIADDQ	&#39;I_IADDQ&#39;
+
+##### Symbolic represenations of Y86-64 function codes Y86-64函数代码的符号表示                 #####
+wordsig FNONE    &#39;F_NONE&#39;        # Default function code
+
+##### Symbolic representation of Y86-64 Registers referenced explicitly明确引用的Y86-64寄存器的符号表示 #####
+wordsig RRSP     &#39;REG_RSP&#39;    	# Stack Pointer
+wordsig RNONE    &#39;REG_NONE&#39;   	# Special value indicating &quot;no register&quot;
+
+##### ALU Functions referenced explicitly    ALU函数显式引用                        #####
+wordsig ALUADD	&#39;A_ADD&#39;		# ALU should add its arguments
+
+##### Possible instruction status values   可能的指令状态值                    #####
+wordsig SAOK	&#39;STAT_AOK&#39;	# Normal execution
+wordsig SADR	&#39;STAT_ADR&#39;	# Invalid memory address
+wordsig SINS	&#39;STAT_INS&#39;	# Invalid instruction
+wordsig SHLT	&#39;STAT_HLT&#39;	# Halt instruction encountered
+
+##### Signals that can be referenced by control logic控制逻辑可参考的信号 ####################
+
+##### Fetch stage inputs		#####
+wordsig pc &#39;pc&#39;				# Program counter
+##### Fetch stage computations	获取阶段计算	#####
+wordsig imem_icode &#39;imem_icode&#39;		# icode field from instruction memory 来自指令存储器的icode字段
+wordsig imem_ifun  &#39;imem_ifun&#39; 		# ifun field from instruction memory来自指令存储器的ifun字段
+wordsig icode	  &#39;icode&#39;		# Instruction control code指令控制码
+wordsig ifun	  &#39;ifun&#39;		# Instruction function指导作用
+wordsig rA	  &#39;ra&#39;			# rA field from instruction指令中的rA字段
+wordsig rB	  &#39;rb&#39;			# rB field from instruction
+wordsig valC	  &#39;valc&#39;		# Constant from instruction指令中常数
+wordsig valP	  &#39;valp&#39;		# Address of following instruction
+boolsig imem_error &#39;imem_error&#39;		# Error signal from instruction memory
+boolsig instr_valid &#39;instr_valid&#39;	# Is fetched instruction valid?
+
+##### Decode stage computations		#####
+wordsig valA	&#39;vala&#39;			# Value from register A port
+wordsig valB	&#39;valb&#39;			# Value from register B port
+
+##### Execute stage computations	#####
+wordsig valE	&#39;vale&#39;			# Value computed by ALU
+boolsig Cnd	&#39;cond&#39;			# Branch test
+
+##### Memory stage computations		#####
+wordsig valM	&#39;valm&#39;			# Value read from memory
+boolsig dmem_error &#39;dmem_error&#39;		# Error signal from data memory
+
+
+####################################################################
+#    Control Signal Definitions.   控制信号定义                      #
+####################################################################
+
+################ Fetch Stage     ###################################
+
+# Determine instruction code
+word icode &#x3D; [
+	imem_error: INOP;
+	1: imem_icode;		# Default: get from instruction memory
+];
+
+# Determine instruction function
+word ifun &#x3D; [
+	imem_error: FNONE;
+	1: imem_ifun;		# Default: get from instruction memory
+];
+
+bool instr_valid &#x3D; icode in 
+	&#123; INOP, IHALT, IRRMOVQ, IIRMOVQ, IRMMOVQ, IMRMOVQ,
+	       IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ, IIADDQ &#125;;
+
+# Does fetched instruction require a regid byte?获取的指令是否需要regid字节？
+bool need_regids &#x3D;
+	icode in &#123; IRRMOVQ, IOPQ, IPUSHQ, IPOPQ, 
+		     IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ&#125;;
+
+# Does fetched instruction require a constant word?
+bool need_valC &#x3D;
+	icode in &#123; IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX, ICALL,IIADDQ &#125;;
+
+################ Decode Stage    ###################################
+
+## What register should be used as the A source?哪个寄存器应该用作A源
+word srcA &#x3D; [
+	icode in &#123; IRRMOVQ, IRMMOVQ, IOPQ, IPUSHQ  &#125; : rA;
+	icode in &#123; IPOPQ, IRET &#125; : RRSP;
+	1 : RNONE; # Don&#39;t need register
+];
+
+## What register should be used as the B source?
+word srcB &#x3D; [
+	icode in &#123; IOPQ, IRMMOVQ, IMRMOVQ,IIADDQ  &#125; : rB;
+	icode in &#123; IPUSHQ, IPOPQ, ICALL, IRET &#125; : RRSP;
+	1 : RNONE;  # Don&#39;t need register
+];
+
+## What register should be used as the E destination?
+word dstE &#x3D; [
+	icode in &#123; IRRMOVQ &#125; &amp;&amp; Cnd : rB;
+	icode in &#123; IIRMOVQ, IOPQ,IIADDQ&#125; : rB;
+	icode in &#123; IPUSHQ, IPOPQ, ICALL, IRET &#125; : RRSP;
+	1 : RNONE;  # Don&#39;t write any register
+];
+
+## What register should be used as the M destination?
+word dstM &#x3D; [
+	icode in &#123; IMRMOVQ, IPOPQ &#125; : rA;
+	1 : RNONE;  # Don&#39;t write any register
+];
+
+################ Execute Stage   ###################################
+
+## Select input A to ALU
+word aluA &#x3D; [
+	icode in &#123; IRRMOVQ, IOPQ &#125; : valA;
+	icode in &#123; IIRMOVQ, IRMMOVQ, IMRMOVQ,IIADDQ &#125; : valC;
+	icode in &#123; ICALL, IPUSHQ &#125; : -8;
+	icode in &#123; IRET, IPOPQ &#125; : 8;
+	# Other instructions don&#39;t need ALU
+];
+
+## Select input B to ALU
+word aluB &#x3D; [
+	icode in &#123; IRMMOVQ, IMRMOVQ, IOPQ, ICALL, 
+		      IPUSHQ, IRET, IPOPQ,IIADDQ &#125; : valB;
+	icode in &#123; IRRMOVQ, IIRMOVQ &#125; : 0;
+	# Other instructions don&#39;t need ALU
+];
+
+## Set the ALU function
+word alufun &#x3D; [
+	icode &#x3D;&#x3D; IOPQ : ifun;
+	1 : ALUADD;
+];
+
+## Should the condition codes be updated?
+bool set_cc &#x3D; icode in &#123; IOPQ, IIADDQ&#125;;
+
+################ Memory Stage    ###################################
+
+## Set read control signal
+bool mem_read &#x3D; icode in &#123; IMRMOVQ, IPOPQ, IRET &#125;;
+
+## Set write control signal
+bool mem_write &#x3D; icode in &#123; IRMMOVQ, IPUSHQ, ICALL&#125;;
+
+## Select memory address
+word mem_addr &#x3D; [
+	icode in &#123; IRMMOVQ, IPUSHQ, ICALL, IMRMOVQ&#125; : valE;
+	icode in &#123; IPOPQ, IRET &#125; : valA;
+	# Other instructions don&#39;t need address
+];
+
+## Select memory input data
+word mem_data &#x3D; [
+	# Value from register
+	icode in &#123; IRMMOVQ, IPUSHQ &#125; : valA;
+	# Return PC
+	icode &#x3D;&#x3D; ICALL : valP;
+	# Default: Don&#39;t write anything
+];
+
+## Determine instruction status确定指令状态
+word Stat &#x3D; [
+	imem_error || dmem_error : SADR;
+	!instr_valid: SINS;
+	icode &#x3D;&#x3D; IHALT : SHLT;
+	1 : SAOK;
+];
+
+################ Program Counter Update ############################
+
+## What address should instruction be fetched at
+
+word new_pc &#x3D; [
+	# Call.  Use instruction constant
+	icode &#x3D;&#x3D; ICALL : valC;
+	# Taken branch.  Use instruction constant
+	icode &#x3D;&#x3D; IJXX &amp;&amp; Cnd : valC;
+	# Completion of RET instruction.  Use value from stack
+	icode &#x3D;&#x3D; IRET : valM;
+	# Default: Use incremented PC
+	1 : valP;
+];
+#&#x2F;* $end seq-all-hcl *&#x2F;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>修改完后需要通过该HCL文件构建SEQ仿真器（ssim）的新实例，然后对其进行测试：</p>
+<ol>
+<li>根据<code>seq-full.hcl</code>文件构建新的仿真器</li>
+</ol>
+<p>cd到seq文件夹中输入以下命令：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">make VERSION=full<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>**注意：**如果你不含有<code>Tcl/Tk</code>，需要在<code>Makefile</code>中将对应行注释掉</p>
+<p>**注意：**若出现以下问题：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004054.png" alt="image-20240317235047306"></p>
+<p>解决方法：在seq文件夹中打开ssim.c，ctrl+f查询matherr，将相关两行代码注释掉，继续执行<code>make VERSION=full</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004087.png" alt="image-20240317235212547"></p>
+<ol start="2">
+<li>在小的Y86-64程序中测试你的方法</li>
+</ol>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">./ssim -t ../y86-code/asumi.yo<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果失败了，还要重新修改你的实现，若成功则类似于下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004118.png" alt="image-20240318000003947"></p>
+<ol start="3">
+<li>使用基准程序来测试你的方法</li>
+</ol>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">cd ../y86-code; make testssim<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这将在基准程序上运行ssim，并通过将结果处理器状态与高级ISA仿真中的状态进行比较来检查正确性。注意，这些程序均未测试添加的指令，只是确保你的方法没有为原始说明注入错误。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004151.png" alt="image-20240318000047663"></p>
+<ol start="4">
+<li>一旦可以正确执行基准测试程序，则应在<code>../ptest</code>中运行大量的回归测试</li>
+</ol>
+<ul>
+<li>测试除了<code>iaddq</code>以外的所有指令</li>
+</ul>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">cd ../ptest; make SIM=../seq/ssim<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>出现了大量的warning不用担心，关注结果即可！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004185.png" alt="image-20240318000131353"></p>
+<ul>
+<li>测试我们实现的<code>iaddq</code>指令</li>
+</ul>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">cd ../ptest; make SIM=../seq/ssim TFLAGS=-i<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403180004223.png" alt="image-20240318000223494"></p>
+<p>若关键信息都Succeed那么就代表这个对于IADDQ的描述是正确的，Part_B通关！</p>
+<blockquote>
+<p>这个warning烦了我两天，乱搞之中不知道搞了什么，连make都失败了，索性重头解压tar做了一遍</p>
+</blockquote>
+<h1 id="Part-C"><a href="#Part-C" class="headerlink" title="Part C"></a>Part C</h1><p>总览：</p>
+<blockquote>
+<p>这部分工作目录在 <code>sim/pipe</code> 下，题目给定了 ncopy 函数的 C 代码，这个函数和 Part A 的第三题差不多，将 src 数组复制到 dest 数组，并返回数组中的正数的总数。题目还给定了这个函数的 Y86-64 代码，并在文件 <code>pipe-full.hcl</code> 中实现了一个包含 <code>IIADDQ</code> 常量的 PIPE 。题目要求修改 [ncopy.ys]和 [pipe-full.hcl] ，使得 <code>ncopy.ys</code> 运行得尽可能快。</p>
+</blockquote>
+<p>测试命令(参考官方文档第八页)：</p>
+<p>1、保证代码正确：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">./correctness.pl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>2、保证模拟器正确</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">cd ../y86-code; make testpsim
+cd ../ptest; make SIM=../pipe/psim TFLAGS=-i<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>3、保证二者结合正确</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">./correctness.pl -p<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>通过了上面的测试，才能保证代码和模拟器都OK。</p>
+<p>使用<code>../misc/yas ncopy.ys</code> 生成ncopy.yo</p>
+<p>使用<code>./check-len.pl &lt; ncopy.yo </code> 检测长度</p>
+<p>使用 <code>unix&gt; make VERSION=full</code> 重建测试环境；</p>
+<p>使用<code>make drivers</code> 生成ncopy.ys的测试程序</p>
+<p>使用 <code>unix&gt; ./psim -t sdriver.yo</code> 和 <code>unix&gt; ./psim -t ldriver.yo</code> 分别测试small 4-element array和larger 63-element array<br>使用 <code>unix&gt; ./correctness.pl</code> 测试 <code>ncopy.ys</code> 代码是否正确；<br>使用 <code>unix&gt; ./benchmark.pl</code> 自动测试得到平均 CPE 。</p>
+<p>最初用给定的代码测试得到平均 CPE 约为 15.18 。这里要拿满分平均 CPE 应在 7.5 以下。</p>
+<h2 id="IADDQ优化"><a href="#IADDQ优化" class="headerlink" title="IADDQ优化"></a>IADDQ优化</h2><p>在hcl中仿照part B增加IADDQ指令，然后再ncopy.ys中把addq都改成IADDQ指令，删除不必要的将立即数放入寄存器的指令，得到CPE为12.7.</p>
+<p>代码大致如下</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly"># You can modify this portion
+	# Loop header
+	xorq %rax,%rax		# count &#x3D; 0;
+	andq %rdx,%rdx		# len &lt;&#x3D; 0?
+	jle Done		# if so, goto Done:
+
+Loop:	
+	mrmovq (%rdi), %r10	# read val from src...
+	rmmovq %r10, (%rsi)	# ...and store it to dst
+	andq %r10, %r10		# val &lt;&#x3D; 0?
+	jle Npos		# if so, goto Npos:
+	iaddq $1, %rax		# count++
+Npos:	
+	iaddq $-1, %rdx		# len--
+	iaddq $8, %rdi		# src++
+	iaddq $8, %rsi		# dst++
+	andq %rdx,%rdx		# len &gt; 0?
+	jg Loop			# if so, goto Loop:<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="偷工减料"><a href="#偷工减料" class="headerlink" title="偷工减料"></a>偷工减料</h2><p>我们知道iaddq指令会顺便set_cc，所以可以省掉一个<code>andq %rdx,%rdx</code>指令，把<code>iaddq $-1, %rdx</code>指令移动到<code>jg loop</code>上面。然后跑一遍！</p>
+<p><strong>60opts!!!</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403291338326.png" alt="image-20240329120506890"></p>
+<p>但这是虚假的！用sdrivers测一下就会得到以下结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403291338450.png" alt="image-20240329120853674"></p>
+<p>大脑瞬间宕机，思考好一会，发现自己在hcl里面没有对IADDQ改set_cc。</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly">bool set_cc &#x3D; (E_icode &#x3D;&#x3D; IOPQ	|| E_icode&#x3D;&#x3D; IIADDQ) &amp;&amp; <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>改完后再次运行。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/zhzvite/picgoroom@img/img/202403291338505.png" alt="image-20240329121102637"></p>
+<p>喜提零分！</p>
+<blockquote>
+<p>pipe-full.hcl要能过..&#x2F;y86-code 和 ..&#x2F;ptest的测试，尤其是这点，benchmark不检查对错，如果psim有问题，benchmark可能会得到很低的CPE，误以为自己得了满分。</p>
+</blockquote>
+<h2 id="循环展开"><a href="#循环展开" class="headerlink" title="循环展开"></a>循环展开</h2><h3 id="二路展开"><a href="#二路展开" class="headerlink" title="二路展开"></a>二路展开</h3><pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly"># You can modify this portion
+	# Loop header
+	iaddq $-2,%rdx
+	jl L0R1
+Loop1 :
+		mrmovq (%rdi),%r8
+		rmmovq %r8,(%rsi)
+		andq %r8,%r8
+		jle Loop2
+		iaddq $1,%rax
+Loop2:
+		mrmovq 0x8(%rdi),%r8
+		rmmovq %r8,0x8(%rsi)
+		andq %r8,%r8
+		jle step
+		iaddq $1,%rax
+step:
+		iaddq $0x10,%rdi
+		iaddq $0x10,%rsi
+		iaddq $-2,%rdx
+		jge Loop1
+L0R1:
+	iaddq $1,%rdx
+	je REM1 
+	ret
+REM1:
+	mrmovq (%rdi),%r8
+	rmmovq %r8,(%rsi)
+	andq %r8,%r8
+	jle Done 
+	iaddq $1,%rax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Average CPE 9.69</p>
+<p>Score 16.3&#x2F;60.0</p>
+<p>所以我们尝试多路展开，关于对余数的处理，我们可以采取多叉搜索树。</p>
+<h3 id="十路展开"><a href="#十路展开" class="headerlink" title="十路展开"></a>十路展开</h3><p>对于余数[0~9]采取三叉搜索树，即L0R9分为L0R2和3和L4R9,L0R2又分为0，1，2，L4R9又分为L4R6,7,L8R9.</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly"># You can modify this portion
+	# Loop header
+	iaddq $-10,%rdx
+	jl L0R9
+Loop1 :
+		mrmovq (%rdi),%r8
+		rmmovq %r8,(%rsi)
+		andq %r8,%r8
+		jle Loop2
+		iaddq $1,%rax
+Loop2:
+		mrmovq 0x8(%rdi),%r8
+		rmmovq %r8,0x8(%rsi)
+		andq %r8,%r8
+		jle Loop3
+		iaddq $1,%rax
+Loop3:
+		mrmovq 0x10(%rdi),%r8
+		rmmovq %r8,0x10(%rsi)
+		andq %r8,%r8
+		jle Loop4
+		iaddq $1,%rax
+Loop4:
+		mrmovq 0x18(%rdi),%r8
+		rmmovq %r8,0x18(%rsi)
+		andq %r8,%r8
+		jle Loop5
+		iaddq $1,%rax
+Loop5:
+		mrmovq 0x20(%rdi),%r8
+		rmmovq %r8,0x20(%rsi)
+		andq %r8,%r8
+		jle Loop6
+		iaddq $1,%rax
+Loop6:
+		mrmovq 0x28(%rdi),%r8
+		rmmovq %r8,0x28(%rsi)
+		andq %r8,%r8
+		jle Loop7
+		iaddq $1,%rax
+Loop7:
+		mrmovq 0x30(%rdi),%r8
+		rmmovq %r8,0x30(%rsi)
+		andq %r8,%r8
+		jle Loop8
+		iaddq $1,%rax
+Loop8:
+		mrmovq 0x38(%rdi),%r8
+		rmmovq %r8,0x38(%rsi)
+		andq %r8,%r8
+		jle Loop9
+		iaddq $1,%rax
+Loop9:
+		mrmovq 0x40(%rdi),%r8
+		rmmovq %r8,0x40(%rsi)
+		andq %r8,%r8
+		jle Loop10
+		iaddq $1,%rax
+Loop10:
+		mrmovq 0x48(%rdi),%r8
+		rmmovq %r8,0x48(%rsi)
+		andq %r8,%r8
+		jle step
+		iaddq $1,%rax
+step:
+		iaddq $0x50,%rdi
+		iaddq $0x50,%rsi
+		iaddq $-10,%rdx
+		jge Loop1
+# applying range checks to remainders
+L0R9:
+        iaddq   $7,%rdx         # Compare with 3 (len + 10 - 3)
+        jl      L0R2            # len &lt; 3
+        jg      L4R9            # len &gt; 3
+        je      Rem3            # len &#x3D;&#x3D; 3
+L0R2:
+        iaddq   $2,%rdx         # Compare with 1 (len + 3 - 1)
+        je      Rem1            # len &#x3D;&#x3D; 1
+        jg      Rem2            # len &#x3D;&#x3D; 2
+        ret                     # len &#x3D;&#x3D; 0
+L4R6:
+        iaddq   $2,%rdx         # Compare with 5 (len + 7 - 5)
+        jl      Rem4            # len &#x3D;&#x3D; 4
+        je      Rem5            # len &#x3D;&#x3D; 5
+        jg      Rem6            # len &#x3D;&#x3D; 6
+L4R9:
+        iaddq   $-4,%rdx        # Compare with 7 (len + 3 - 7)
+        jl      L4R6            # len &lt; 7
+        je      Rem7            # len &#x3D;&#x3D; 7
+L8R9:
+        iaddq   $-1,%rdx        # Compare with 8 (len + 7 - 8)
+        je      Rem8            # len &#x3D;&#x3D; 8
+
+# dealing with remainders
+Rem9:
+        mrmovq 0x40(%rdi), %r8
+        rmmovq %r8, 0x40(%rsi)
+        andq %r8, %r8
+        jle Rem8
+        iaddq $1, %rax
+Rem8:
+        mrmovq 0x38(%rdi), %r8
+        rmmovq %r8, 0x38(%rsi)
+        andq %r8, %r8
+        jle Rem7
+        iaddq $1, %rax
+Rem7:
+        mrmovq 0x30(%rdi), %r8
+        rmmovq %r8, 0x30(%rsi)
+        andq %r8, %r8
+        jle Rem6
+        iaddq $1, %rax
+Rem6:
+        mrmovq 0x28(%rdi), %r8
+        rmmovq %r8, 0x28(%rsi)
+        andq %r8, %r8
+        jle Rem5
+        iaddq $1, %rax
+Rem5:
+        mrmovq 0x20(%rdi), %r8
+        rmmovq %r8, 0x20(%rsi)
+        andq %r8, %r8
+        jle Rem4
+        iaddq $1, %rax
+Rem4:
+        mrmovq 0x18(%rdi), %r8
+        rmmovq %r8, 0x18(%rsi)
+        andq %r8, %r8
+        jle Rem3
+        iaddq $1, %rax
+Rem3:
+        mrmovq 0x10(%rdi), %r8
+        rmmovq %r8, 0x10(%rsi)
+        andq %r8, %r8
+        jle Rem2
+        iaddq $1, %rax
+Rem2:
+        mrmovq 0x8(%rdi), %r8
+        rmmovq %r8, 0x8(%rsi)
+        andq %r8, %r8
+        jle Rem1
+        iaddq $1, %rax
+Rem1:
+        mrmovq (%rdi), %r8
+        rmmovq %r8, (%rsi)
+        andq %r8, %r8
+        jle Done
+        iaddq $1, %rax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>ncopy length &#x3D; 988 bytes</strong></p>
+<p><strong>Average CPE 8.39</strong></p>
+<p><strong>Score 42.3&#x2F;60.0</strong></p>
+<h2 id="戳气泡"><a href="#戳气泡" class="headerlink" title="戳气泡"></a>戳气泡</h2><p><code>Y86-64</code>处理器的流水线有 F(取指)、D(译码)、E(执行)、M(访存)、W(写回) 五个阶段，D 阶段才读取寄存器，M 阶段才读取对应内存值，注意我们在十路展开里面有大量的mr和rm对同一个寄存器进行操作，在中间有空余bubble，可以考虑用多个寄存器来存，来利用其中的bubble空余时间，代码如下</p>
+<pre class="line-numbers language-assembly" data-language="assembly"><code class="language-assembly"># You can modify this portion
+	# Loop header
+	iaddq $-10,%rdx
+	jl L0R9
+Loop10:
+                #取值
+		mrmovq (%rdi),%r8
+                mrmovq 0x8(%rdi),%r9
+                mrmovq 0x10(%rdi),%r10
+                mrmovq 0x18(%rdi),%r11
+                mrmovq 0x20(%rdi),%r12
+                mrmovq 0x28(%rdi),%r13
+                mrmovq 0x30(%rdi),%r14
+                mrmovq 0x38(%rdi),%rcx
+                mrmovq 0x40(%rdi),%rbx
+                mrmovq 0x48(%rdi),%rbp
+                #写值
+		rmmovq %r8,(%rsi)
+                rmmovq %r9,0x8(%rsi)
+                rmmovq %r10,0x10(%rsi)
+                rmmovq %r11,0x18(%rsi)
+                rmmovq %r12,0x20(%rsi)
+                rmmovq %r13,0x28(%rsi)
+                rmmovq %r14,0x30(%rsi)
+                rmmovq %rcx,0x38(%rsi)
+                rmmovq %rbx,0x40(%rsi)
+                rmmovq %rbp,0x48(%rsi)
+                #先判断一下
+		andq %r8,%r8
+		jle judge0
+		iaddq $1,%rax
+judge0:		
+		andq %r9,%r9
+		jle judge1
+		iaddq $1,%rax
+judge1:		
+		andq %r10,%r10
+		jle judge2
+		iaddq $1,%rax
+judge2:		
+		andq %r11,%r11
+		jle judge3
+		iaddq $1,%rax
+judge3:		
+		andq %r12,%r12
+		jle judge4
+		iaddq $1,%rax
+judge4:		
+		andq %r13,%r13
+		jle judge5
+		iaddq $1,%rax
+judge5:		
+		andq %r14,%r14
+		jle judge6
+		iaddq $1,%rax
+judge6:		
+		andq %rcx,%rcx
+		jle judge7
+		iaddq $1,%rax
+judge7:		
+		andq %rbx,%rbx
+		jle judge8
+		iaddq $1,%rax
+judge8:				
+		andq %rbp,%rbp
+		jle step
+		iaddq $1,%rax
+step:
+		iaddq $0x50,%rdi
+		iaddq $0x50,%rsi
+		iaddq $-10,%rdx
+		jge Loop10
+# applying range checks to remainders
+L0R9:
+        iaddq   $7,%rdx         # Compare with 3 (len + 10 - 3)
+        jl      L0R2            # len &lt; 3
+        jg      L4R9            # len &gt; 3
+        je      Rem3            # len &#x3D;&#x3D; 3
+L0R2:
+        iaddq   $2,%rdx         # Compare with 1 (len + 3 - 1)
+        je      Rem1            # len &#x3D;&#x3D; 1
+        jg      Rem2            # len &#x3D;&#x3D; 2
+        ret                     # len &#x3D;&#x3D; 0
+L4R6:
+        iaddq   $2,%rdx         # Compare with 5 (len + 7 - 5)
+        jl      Rem4            # len &#x3D;&#x3D; 4
+        je      Rem5            # len &#x3D;&#x3D; 5
+        jg      Rem6            # len &#x3D;&#x3D; 6
+L4R9:
+        iaddq   $-4,%rdx        # Compare with 7 (len + 3 - 7)
+        jl      L4R6            # len &lt; 7
+        je      Rem7            # len &#x3D;&#x3D; 7
+L8R9:
+        iaddq   $-1,%rdx        # Compare with 8 (len + 7 - 8)
+        je      Rem8            # len &#x3D;&#x3D; 8
+# dealing with remainders
+Rem9:
+        mrmovq 0x40(%rdi), %r8
+        rmmovq %r8, 0x40(%rsi)
+        andq %r8, %r8
+        jle Rem8
+        iaddq $1, %rax
+Rem8:
+        mrmovq 0x38(%rdi), %r8
+        rmmovq %r8, 0x38(%rsi)
+        andq %r8, %r8
+        jle Rem7
+        iaddq $1, %rax
+Rem7:
+        mrmovq 0x30(%rdi), %r8
+        rmmovq %r8, 0x30(%rsi)
+        andq %r8, %r8
+        jle Rem6
+        iaddq $1, %rax
+Rem6:
+        mrmovq 0x28(%rdi), %r8
+        rmmovq %r8, 0x28(%rsi)
+        andq %r8, %r8
+        jle Rem5
+        iaddq $1, %rax
+Rem5:
+        mrmovq 0x20(%rdi), %r8
+        rmmovq %r8, 0x20(%rsi)
+        andq %r8, %r8
+        jle Rem4
+        iaddq $1, %rax
+Rem4:
+        mrmovq 0x18(%rdi), %r8
+        rmmovq %r8, 0x18(%rsi)
+        andq %r8, %r8
+        jle Rem3
+        iaddq $1, %rax
+Rem3:
+        mrmovq 0x10(%rdi), %r8
+        rmmovq %r8, 0x10(%rsi)
+        andq %r8, %r8
+        jle Rem2
+        iaddq $1, %rax
+Rem2:
+        mrmovq 0x8(%rdi), %r8
+        rmmovq %r8, 0x8(%rsi)
+        andq %r8, %r8
+        jle Rem1
+        iaddq $1, %rax
+Rem1:
+        mrmovq (%rdi), %r8
+        rmmovq %r8, (%rsi)
+        andq %r8, %r8
+        jle Done
+        iaddq $1, %rax<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>ncopy length &#x3D; 988 bytes</p>
+<p>Average CPE     7.65<br>Score   57.1&#x2F;60.0</p>
+<p>最后得分:<strong>57.1</strong>差不多就这样吧.</p>
+<h1 id="小记"><a href="#小记" class="headerlink" title="小记"></a>小记</h1><p>这个lab做的挺草率的，书都没怎么看，几乎算是面向题目的学习，lab的难度也确实不高，最后partc就以57.1分收尾了，以后想折腾以后的事，感觉还是有不少能戳气泡，调整的空间，但现在3月29号，要去做字符串，图论，备战校赛了，lab先搁浅搁浅。累的时候再做做emmmm</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Vitus Apollo</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://vitus213.github.io/2024/03/14/lab4/">http://vitus213.github.io/2024/03/14/lab4/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Vitus Apollo</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                    <span class="chip bg-color">学习笔记</span>
+                                </a>
+                            
+                                <a href="/tags/CSAPP/">
+                                    <span class="chip bg-color">CSAPP</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/04/25/lab7/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="CSAPP的lab6-shlab">
+                        
+                        <span class="card-title">CSAPP的lab6-shlab</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-04-25
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CS/" class="post-category">
+                                    CS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/CSAPP/">
+                        <span class="chip bg-color">CSAPP</span>
+                    </a>
+                    
+                    <a href="/tags/ECF/">
+                        <span class="chip bg-color">ECF</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/03/10/lab5/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="CSAPP的lab5-cachelab">
+                        
+                        <span class="card-title">CSAPP的lab5-cachelab</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CS/" class="post-category">
+                                    CS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                        <span class="chip bg-color">学习笔记</span>
+                    </a>
+                    
+                    <a href="/tags/CSAPP/">
+                        <span class="chip bg-color">CSAPP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2024-2025</span>
+            
+            <a href="/about" target="_blank">Vitus Apollo</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">89k</span>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2024";
+                        var startMonth = "1";
+                        var startDate = "1";
+                        var startHour = "0";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Vitus213" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:zhzvitus@gmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2811215248" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2811215248" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
