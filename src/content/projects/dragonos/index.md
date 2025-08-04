@@ -7,51 +7,90 @@ repoURL: "https://github.com/DragonOS-Community/DragonOS"
 ---
 <div align="center">
   <img width="60%" src="/dragonos-logo.svg" alt="dragonos-logo"></br>
-  <h2>打造完全自主可控的数字化未来！</h2>
+  <h2>Lightweight Cloud-Native Kernel</h2>
 
-<a href="https://dragonos.org"><img alt="官网" src="https://img.shields.io/badge/%E5%AE%98%E7%BD%91-DragonOS.org-4c69e4?link=https%3A%2F%2Fbbs.dragonos.org.cn" ></a>
-<a href="https://bbs.dragonos.org.cn"><img alt="bbs" src="https://img.shields.io/badge/BBS-bbs.dragonos.org.cn-purple?link=https%3A%2F%2Fbbs.dragonos.org.cn" ></a>
+<a href="https://dragonos.org"><img alt="Home" src="https://img.shields.io/badge/Home-dragonos.org-4c69e4?link=https%3A%2F%2Fbbs.dragonos.org.cn" ></a>
+
+<a href="https://bbs.dragonos.org.cn"><img alt="Discourse" src="https://img.shields.io/badge/Discourse-bbs.dragonos.org.cn-purple?link=https%3A%2F%2Fbbs.dragonos.org.cn" ></a>
 
 </div>
 
---- 
+DragonOS is a 64-bit operating system with a completely independent kernel, designed for lightweight cloud computing scenarios, offering Linux binary compatibility. It aims to provide lightweight, high-performance solutions for containerized workloads. Developed using Rust for enhanced reliability.
 
-DragonOS龙操作系统是一个面向云计算轻量化场景的，完全自主内核的，提供Linux二进制兼容性的64位操作系统。它使用Rust语言进行开发，以提供更好的可靠性。目前在Rust操作系统领域，DragonOS在Github排行全国稳居前三位。
+The DragonOS open-source community was established in July 2022 and is entirely commercially neutral. We warmly welcome interested developers and enthusiasts to join us!
 
-DragonOS开源社区成立于2022年7月，它完全商业中立。我们的目标是，构建一个完全独立自主的、开源的、高性能及高可靠性的服务器操作系统，打造完全自主可控的数字化未来！
+DragonOS features excellent and comprehensive architectural design. Compared to other systems of similar scale, DragonOS supports eBPF and virtualization. Currently, we are actively advancing container support, cloud platform compatibility, RISC-V support, as well as porting compilers and application software. Our goal is to achieve large-scale production environment deployment within five years.
 
-DragonOS具有优秀的、完善的架构设计。相比于同体量的其他系统，DragonOS支持虚拟化，并在设备模型、调度子系统等方面具有一定优势。当前正在大力推进云平台支持、riscv支持等工作，以及编译器、应用软件的移植。力求在5年内实现生产环境大规模应用。
+DragonOS is rapidly evolving under community-driven development. Currently, DragonOS has implemented approximately 1/4 of Linux interfaces. In the future, we will provide 100% Linux compatibility along with new features.
 
-DragonOS目前在社区驱动下正在快速发展中，目前DragonOS已经实现了约1/4的Linux接口，在未来我们将提供对Linux的100%兼容性，并且提供新特性。
+## How to Run?
 
+Running DragonOS is straightforward. You can refer to the following resources to get DragonOS up and running in as little as 15 minutes!
 
-## 参与开发？
+- [Building DragonOS — DragonOS dev documentation](https://docs.dragonos.org.cn/locales/en/introduction/build_system.html)
 
-仔细阅读 [DragonOS社区介绍文档] ，能够帮助你了解社区的运作方式，以及如何参与贡献！
+## Want to Contribute?
 
-- **了解开发动态、开发任务，请访问DragonOS社区论坛**： [https://bbs.dragonos.org.cn](https://bbs.dragonos.org.cn)
-- 您也可以从项目的issue里面了解相关的开发内容。
+Read the [DragonOS Community Introduction Document] carefully to understand how the community operates and how you can contribute!
 
+If you'd like to join us, check out the issues and participate in discussions or share your ideas. You can also visit the DragonOS forum to stay updated on development progress and tasks: [https://bbs.dragonos.org.cn](https://bbs.dragonos.org.cn)
 
-如果你愿意加入我们，你可以查看issue，并在issue下发表讨论、想法，或者访问DragonOS的论坛，了解开发动态、开发任务： [https://bbs.dragonos.org.cn](https://bbs.dragonos.org.cn)
+&emsp;&emsp;You can also bring your creativity and ideas to discuss with the community and contribute new features to DragonOS.
 
-你也可以带着你的创意与想法，和社区的小伙伴一起讨论，为DragonOS创造一些新的功能。
+## Sites
 
-## 网站
+- Official Website: **[DragonOS.org](https://dragonos.org)**
+- Documentation: **[docs.dragonos.org](https://docs.dragonos.org)**
+- Community Introduction: **[community.dragonos.org](https://community.dragonos.org)**
+- QQ Group: 476358494
 
-- 项目官网  **[DragonOS.org](https://dragonos.org)**
-- 文档：**[docs.dragonos.org](https://docs.dragonos.org)**
-- 社区介绍文档： **[community.dragonos.org](https://community.dragonos.org)**
+## How to Connect with the Community?
 
+Please read the [Contributor Guide](https://community.dragonos.org/contributors/#%E7%A4%BE%E5%8C%BA)~
 
-## 如何运行？
+- You can find contact details for members of various committees in the [Community Management Team] section.
+- You can also locate the contact information for leaders of specific community groups via the [SIGs] and [WGs] pages.
 
-运行DragonOS的步骤非常简单，您可以参考以下几个资料，在最短15分钟内运行DragonOS！
+## Contributor List
+[Contributors to DragonOS-Community/DragonOS · GitHub](https://github.com/DragonOS-Community/DragonOS/graphs/contributors)
 
-- [构建DragonOS — DragonOS dev 文档](https://docs.dragonos.org/zh_CN/latest/introduction/build_system.html)
+## Sponsorship
+[![Sponsor this project](https://img.shields.io/badge/Sponsor_This_Project-DragonOS_Community-ff69b4?style=for-the-badge)](https://dragonos.org/?page_id=37)
 
+DragonOS is a non-profit open-source project, and its development relies on financial support. All sponsors will be publicly acknowledged. Every contribution you make will help advance DragonOS!
 
-[DragonOS社区介绍文档]: https://community.dragonos.org/
-[社区管理团队]: https://community.dragonos.org/governance/staff-info.html
+### Where Will Sponsorship Funds Be Used?
+
+We guarantee that all sponsorship funds and items will be used for:
+
+- Event organization, cloud service expenses, and any other purposes beneficial to the development and growth of the DragonOS community.
+
+## 🌟 Sponsor List
+**Special thanks to these generous financial supporters** (in reverse chronological order):
+
+- **[中国雅云](https://yacloud.net)** 雅安大数据产业园 - 🥇 Long-term supporter
+
+### Individual Sponsors List
+See [Supporters.md](./SUPPORTERS.md)
+
+## Open Source License Notice
+
+This project is open-sourced under the GPLv2 license. You are welcome to use the code in compliance with the open-source license!
+
+If you encounter any violations of the open-source license, we encourage you to email pmc@dragonos.org to report them. Let's work together to build a trustworthy open-source community.
+
+---
+## 👩💻 Contributors
+
+> *"Open source shines because of you!"* ✨
+
+**Thanks to all developers who submitted code, fixed issues, or reviewed PRs**:
+
+<a href="https://github.com/DragonOS-Community/dragonos/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dragonos-community/dragonos" />
+</a>
+
+[DragonOS Community Introduction Document]: https://community.dragonos.org/
+[Community Management Team]: https://community.dragonos.org/governance/staff-info.html
 [SIGs]: https://community.dragonos.org/sigs/
 [WGs]: https://community.dragonos.org/wgs/

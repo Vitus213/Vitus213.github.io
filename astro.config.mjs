@@ -4,6 +4,6 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
-  site: "https://Samuka007.github.io",
+  site: "https://www.samuka007.com",
   integrations: [mdx(), sitemap(), tailwind()],
 });
