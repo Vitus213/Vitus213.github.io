@@ -3,6 +3,9 @@ title: "In-Place Construction in Rust"
 description: "A deep dive into in-place construction techniques in Rust"
 date: "Aug 07 2025"
 ---
+
+> Try it with Godbolt: https://rust.godbolt.org/z/sr1e3P9jx
+
 ## Intro
 
 In kernel development, we meet a limited stack that requires us to use as little stack space as possible. In C++, we can easily perform in-place construction using placement new, but due to Rust's strict ownership and borrowing rules, we need to use unsafe code to achieve the same effect.
