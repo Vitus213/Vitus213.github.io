@@ -2,7 +2,7 @@ import type { Site, Metadata, Socials } from "@types";
 
 export const SITE: Site = {
   NAME: "Samuka007's Blog",
-  EMAIL: "samuka007@dragonos.org",
+  EMAIL: "me@samuka007.com",
   NUM_POSTS_ON_HOMEPAGE: 3,
   NUM_WORKS_ON_HOMEPAGE: 3,
   NUM_EDUCATIONS_ON_HOMEPAGE: 3,
