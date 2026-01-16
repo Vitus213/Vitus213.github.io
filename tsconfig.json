@@ -1,5 +1,6 @@
 {
   "extends": "astro/tsconfigs/strict",
+  "exclude": ["node_modules", "dist", "Tail", "Resume"],
   "compilerOptions": {
     "strictNullChecks": true,
     "baseUrl": ".",

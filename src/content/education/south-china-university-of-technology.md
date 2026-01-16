@@ -1,6 +1,6 @@
 ---
 institution: "South China University of Technology"
 degree: "B.Eng., Software Engineering"
-dateStart: "09/01/2022"
-dateEnd: "06/30/2026"
+dateStart: "09/01/2023"
+dateEnd: "Present"
 ---
