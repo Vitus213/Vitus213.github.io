@@ -19,7 +19,7 @@ category: "CSAPP"
 
 ## phase_1
 
-```assembly
+```asm
    0x0000000000400ee0 <+0>:     sub    $0x8,%rsp
    0x0000000000400ee4 <+4>:     mov    $0x402400,%esi
    0x0000000000400ee9 <+9>:     callq  0x401338 <strings_not_equal>
@@ -32,7 +32,7 @@ category: "CSAPP"
 
 phase_1算是热身的一关，主要就是要发现到**0x402400**这个特殊的内存地址，毕竟默认下第一个参数是%rdi，那么第二个参数就是%rsi,有充分的理由怀疑，是在<strings_not_equal>这个函数里面对%rdi和%rsi里面的内存的函数值进行了比较,然后去这个函数里面看一看,可以猜出来时相等的话返回值是0,(test %eax,%eax),所以直接连string函数都不用看了,直接把0x402400里面的值找出来就是答案
 
-```assembly
+```asm
 p(char*)0x402400
 ```
 
@@ -40,7 +40,7 @@ p(char*)0x402400
 
 <string_not_equal>
 
-```assembly
+```asm
 40135c:	0f b6 03             	movzbl (%rbx),%eax    ; 将 %rbx 指向的字节加载到 %eax 中，并进行零扩展为32位
 40135f:	84 c0                	test   %al,%al       ; 测试 %al 中的值是否为零
 401361:	74 25                	je     401388 <strings_not_equal+0x50>  ; 如果为零（字符串结束），跳转到 401388
@@ -81,7 +81,7 @@ p(char*)0x402400
 
 ## phase_2
 
-```assembly
+```asm
 0x0000000000400efc <+0>:     push   %rbp             ; 将 %rbp 寄存器的值推送到栈上
 0x0000000000400efd <+1>:     push   %rbx             ; 将 %rbx 寄存器的值推送到栈上
 0x0000000000400efe <+2>:     sub    $0x28,%rsp       ; 在栈上分配 0x28（40）字节的空间
@@ -124,7 +124,7 @@ p(char*)0x402400
 
 代码混淆解释
 
-```assembly
+```asm
 rbx=rsp+4  //lea 0x4(%rsp),%rbx
 rbx=*(rsp+4) //mov 0x4(%rsp),%rbx
 ```
@@ -133,7 +133,7 @@ rbx=*(rsp+4) //mov 0x4(%rsp),%rbx
 
 人工打了跳转标记
 
-```assembly
+```asm
 0000000000400f43 <phase_3>:
   400f43:	48 83 ec 18          	sub    $0x18,%rsp
   400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
@@ -180,7 +180,7 @@ rbx=*(rsp+4) //mov 0x4(%rsp),%rbx
 
 gpt解读
 
-```assembly
+```asm
 0000000000400f43 <phase_3>:
   400f43:	48 83 ec 18          	sub    $0x18,%rsp          ; 为局部变量分配空间
   400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx     ; 将局部变量地址加载到寄存器 rcx 中
@@ -227,7 +227,7 @@ gpt解读
 
 _isoc99_sscanf
 
-```assembly
+```asm
 其转换了含有几个整数的字符串则返回值是几
 ```
 
@@ -238,7 +238,7 @@ _isoc99_sscanf
 
 在这么多条分支里面找到一条能成立的就可以了
 
-```assembly
+```asm
 jmpq   *0x402470(,%rax,8) 
 ```
 
@@ -250,7 +250,7 @@ jmpq   *0x402470(,%rax,8)
 
 ## phase_4
 
-```assembly
+```asm
    ;设第一个数字为a,第二个数字为b
    0x000000000040100c <+0>:     sub    $0x18,%rsp
    0x0000000000401010 <+4>:     lea    0xc(%rsp),%rcx
@@ -282,7 +282,7 @@ jmpq   *0x402470(,%rax,8)
 
 补充资料
 
-```assembly
+```asm
 rdi：第一个参数
 rsi：第二个参数
 rdx：第三个参数
@@ -293,7 +293,7 @@ r9：第六个参数
 
 <func4>#目标是让rax即返回值是0
 
-```assembly
+```asm
 ;rdi=a;edx=e;esi=0
   .L3
   0x0000000000400fce <+0>:     sub    $0x8,%rsp
@@ -407,7 +407,7 @@ int main(){
 
 ## phase_5
 
-```assembly
+```asm
 0000000000401062 <phase_5>:  !# %fs:0x28 -> 3678849592732380416 这是一个保护堆栈的值
   401062:   53                      push   %rbx
   401063:   48 83 ec 20             sub    $0x20,%rsp   !# 开了32字节
@@ -459,7 +459,7 @@ int main(){
 
 把这两个地址的所含字符串输出出来
 
-```assembly
+```asm
    mov    $0x40245e,%esi 
     movzbl 0x4024b0(%rdx),%edx
 ```
@@ -470,7 +470,7 @@ int main(){
 
 转换后的串:flyers
 
-```assembly
+```asm
 40108b:   0f b6 0c 03             movzbl (%rbx,%rax,1),%ecx  !# ecx = *rbx + *rax = *rdi + *rax 即第rax个字符
   40108f:   88 0c 24                mov    %cl,(%rsp)          !# 栈顶 = cl                     即第rax个字符
   401092:   48 8b 14 24             mov    (%rsp),%rdx         !# rdx = rsp = cl                即第rax个字符
@@ -481,7 +481,7 @@ int main(){
 
 偏移公式:
 
-```assembly
+```asm
  movzbl 0x4024b0(%rdx),%edx;0x4024b0是问题串的首位置
   mov    %dl,0x10(%rsp,%rax,1);把它存起来,rax会递增,所以每个字符会一个一个存起来
 ```
@@ -501,7 +501,7 @@ int main(){
 
 设数串为a,b,c,d,e,f
 
-```assembly
+```asm
    0x00000000004010fc <+8>:     sub    $0x50,%rsp
    0x0000000000401100 <+12>:    mov    %rsp,%r13
    0x0000000000401103 <+15>:    mov    %rsp,%rsi
@@ -646,7 +646,7 @@ struct node{
 
 在网上看了看发现了,这是phase_defused的反汇编函数,然后看他有一个secret_phase的调用
 
-```assembly
+```asm
 00000000004015c4 <phase_defused>:
   4015c4:	48 83 ec 78          	sub    $0x78,%rsp
   4015c8:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
@@ -692,7 +692,7 @@ struct node{
 
 secret_phase
 
-```assembly
+```asm
 0000000000401242 <secret_phase>:
   401242:	53                   	push   %rbx
   401243:	e8 56 02 00 00       	callq  40149e <read_line>;调用函数
@@ -734,7 +734,7 @@ long int strtol(const char *str,char **endptr,int base)//分别是rdi,rsi,rdx
 
 fun_7
 
-```assembly
+```asm
 0000000000401204 <fun7>:
 ;esi=999     *(edi)=36
   401204:	48 83 ec 08          	sub    $0x8,%rsp
@@ -781,7 +781,7 @@ fun_7
 
 输入命令,发现是一个链表
 
-```assembly
+```asm
 0x6030f0 <n1>:  0x0000000000000024      0x0000000000603110
 0x603100 <n1+16>:       0x0000000000603130      0x0000000000000000
 0x603110 <n21>: 0x0000000000000008      0x0000000000603190

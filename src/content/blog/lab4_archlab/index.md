@@ -64,7 +64,7 @@ long sum_list(list_ptr ls)
 
 所以我们就是仿照CSAPP课本中文版p252页的完整Y86-64汇编代码流程翻译Sum_List函数,汇编代码如下
 
-```assembly
+```asm
 # Execution begins at address 0
         .pos 0
         irmovq stack, %rsp
@@ -138,7 +138,7 @@ long rsum_list(list_ptr ls)
 
 递归操作由Bomblab的经验可以知道,肯定需要使用pushq和popq操作,递归调用即可,判断一下地址为0就是递归尽头就好了,简单!~~
 
-```assembly
+```asm
 # rsum.ys: Recursively sum linked list elements
 # author Vite
 
@@ -221,7 +221,7 @@ long copy_block(long *src, long *dest, long len)
 
 故最终的汇编代码为：
 
-```assembly
+```asm
 # copy.ys: Copy a source block to a destination block
 # autor Vite
 # exe begins in address 0
@@ -758,7 +758,7 @@ cd ../ptest; make SIM=../pipe/psim TFLAGS=-i
 
 代码大致如下
 
-```assembly
+```asm
 # You can modify this portion
 	# Loop header
 	xorq %rax,%rax		# count = 0;
@@ -793,7 +793,7 @@ Npos:
 
 大脑瞬间宕机，思考好一会，发现自己在hcl里面没有对IADDQ改set_cc。
 
-```assembly
+```asm
 bool set_cc = (E_icode == IOPQ	|| E_icode== IIADDQ) && 
 ```
 
@@ -809,7 +809,7 @@ bool set_cc = (E_icode == IOPQ	|| E_icode== IIADDQ) &&
 
 ### 二路展开
 
-```assembly
+```asm
 # You can modify this portion
 	# Loop header
 	iaddq $-2,%rdx
@@ -853,7 +853,7 @@ Score 16.3/60.0
 
 对于余数[0\~9]采取三叉搜索树，即L0R9分为L0R2和3和L4R9,L0R2又分为0，1，2，L4R9又分为L4R6,7,L8R9.
 
-```assembly
+```asm
 # You can modify this portion
 	# Loop header
 	iaddq $-10,%rdx
@@ -1014,7 +1014,7 @@ Rem1:
 
 `Y86-64`处理器的流水线有 F(取指)、D(译码)、E(执行)、M(访存)、W(写回) 五个阶段，D 阶段才读取寄存器，M 阶段才读取对应内存值，注意我们在十路展开里面有大量的mr和rm对同一个寄存器进行操作，在中间有空余bubble，可以考虑用多个寄存器来存，来利用其中的bubble空余时间，代码如下
 
-```assembly
+```asm
 # You can modify this portion
 	# Loop header
 	iaddq $-10,%rdx

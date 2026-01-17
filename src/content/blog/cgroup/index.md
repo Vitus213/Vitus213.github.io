@@ -1,7 +1,7 @@
 ---
 title: Cgroup v2：Linux 资源控制机制详解
-published: 2026-1-12 3:05:00
-updated: 2025-1-12 3:05:00
+date: 2026-01-12
+updated: 2025-01-12 
 tags: [学习笔记,系统]
 description: 什么是cgroup？
 category: DragonOS

