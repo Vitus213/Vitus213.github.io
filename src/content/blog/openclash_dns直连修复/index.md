@@ -1,13 +1,10 @@
 ---
-title: 游戏直连规则无效？真正原因在 DNS
+title: "游戏直连规则无效？真正原因在 DNS"
 slug: openclash-game-dns-fix
 summary: OpenClash 游戏平台直连规则无效的真正原因不是配置错误，而是 DNS 解析被代理接管。配置 DNS Policy 强制使用国内 DNS，一键修复暴雪战网、Steam 等 9 大平台连接问题。
-description: OpenClash 配置了游戏平台直连规则仍然连不上？不是规则写错了，是 DNS 解析出了问题。本文详解问题根源和解决方案，涵盖暴雪战网、Steam、EA、Epic、Riot 等主流游戏平台，通过 DNS Policy 配置强制使用国内 DNS，彻底解决游戏平台连接异常。
-tags:
-  - OpenWrt
-  - OpenClash
-  - DNS
-Date: 2026-03-28
+description: "OpenClash 配置了游戏平台直连规则仍然连不上？不是规则写错了，是 DNS 解析出了问题。本文详解问题根源和解决方案，涵盖暴雪战网、Steam、EA、Epic、Riot 等主流游戏平台，通过 DNS Policy 配置强制使用国内 DNS，彻底解决游戏平台连接异常。"
+tags: ["OpenWrt","OpenClash","DNS"]
+date: "2026-03-28"
 ---
 
 # 游戏直连规则无效？真正原因在 DNS
