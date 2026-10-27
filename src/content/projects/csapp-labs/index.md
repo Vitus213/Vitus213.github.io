@@ -2,7 +2,7 @@
 title: "CSAPP Labs"
 description: "深入理解计算机系统实验实现"
 date: "Mar 25 2024"
-demoURL: "https://vituss.me"
+demoURL: "https://vitus213.xyz"
 ---
 
 深度参与 CMU 15-213 课程项目，完成 8 个实验，详细的学习笔记发布在博客上。
